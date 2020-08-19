@@ -1,0 +1,30 @@
+<mat-toolbar color="primary" class="expanded-toolbar">
+  <span *ngIf="(isLoggedIn)" fxShow="true">
+    <button mat-button routerLink="/">
+      <mat-icon>home</mat-icon>
+      {{'home_label'|translate}}
+    </button>
+  </span>
+
+  <span fxFlex></span>
+  <app-language-selector></app-language-selector>
+  <div *ngIf="(isLoggedIn)" fxLayout="row" fxShow="false" fxShow.gt-sm>
+    <button mat-button  (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      {{'logout_label'|translate}}
+    </button>
+  </div>
+
+
+  <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
+
+
+<mat-menu xPosition="before" #menu="matMenu">
+  <button mat-menu-item *ngIf="(isLoggedIn)" (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+    {{'logout_label'|translate}}
+  </button>
+</mat-menu>

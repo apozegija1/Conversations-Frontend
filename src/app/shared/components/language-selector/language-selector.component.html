@@ -1,0 +1,13 @@
+<button mat-button [mat-menu-trigger-for]="languageMenu">
+  <span *ngIf="selectedLanguage">
+    <img src="{{selectedLanguage.img}}" height="30" width="30" alt="{{selectedLanguage.nameKey|translate}}"/>
+    {{selectedLanguage.nameKey|translate}}
+  </span>
+</button>
+
+<mat-menu xPosition="before" #languageMenu="matMenu">
+  <button mat-menu-item *ngFor="let lang of languages" (click)="selectLanguage(lang)">
+    <img src="{{lang.img}}" height="40" width="40" alt="{{lang.nameKey|translate}}"/>
+    {{lang.nameKey|translate}}
+  </button>
+</mat-menu>

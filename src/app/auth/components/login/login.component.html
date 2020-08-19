@@ -1,0 +1,19 @@
+<div class="col-md-6 col-md-offset-3 mt-4">
+    <h2>{{'login_label'|translate}}</h2>
+    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+      <mat-form-field class="full-width">
+        <mat-label>{{'username_label'|translate}}</mat-label>
+        <input matInput type="text" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+        <mat-error>
+          {{'username_required_label'|translate}}
+        </mat-error>
+      </mat-form-field>
+      <app-revealable-password [(password)]="model.password"></app-revealable-password>
+
+      <div>
+        <button mat-raised-button color="primary">{{'login_label'|translate}}</button>
+        <a [routerLink]="['/register']" class="btn btn-link">{{'register_label'|translate}}</a>
+      </div>
+
+    </form>
+</div>
