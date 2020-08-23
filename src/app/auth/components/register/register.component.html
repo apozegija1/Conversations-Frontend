@@ -36,7 +36,7 @@
 
       <mat-form-field class="full-width">
         <mat-label>{{'address_label'|translate}}</mat-label>
-        <input matInput type="text" name="address" [(ngModel)]="model.address" #address="ngModel" required />
+        <input matInput type="text" name="gender" [(ngModel)]="model.gender" #gender="ngModel" required />
         <mat-error>
           {{'address_required_label'|translate}}
         </mat-error>
@@ -52,7 +52,6 @@
       <app-revealable-password [(password)]="model.password"></app-revealable-password>
       <div>
         <button mat-raised-button color="primary">{{'register_label'|translate}}</button>
-        <app-local-spinner></app-local-spinner>
         <a [routerLink]="['/login']" class="btn btn-link">{{'cancel_label'|translate}}</a>
       </div>
     </form>

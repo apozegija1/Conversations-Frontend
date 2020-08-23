@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {IAuthToken} from '../../../auth/models/iauth-token.interface';
-import {IUser} from '../../models/iuser.interface';
 
 @Component({
     templateUrl: 'user-info.component.html',
@@ -11,7 +10,7 @@ import {IUser} from '../../models/iuser.interface';
 })
 
 export class UserInfoComponent implements OnInit {
-    public currentUser: IUser;
+    public currentUser: IAuthToken;
     public now: Date = new Date();
 
     constructor(private authService: AuthenticationService) {

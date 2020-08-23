@@ -1,13 +1,11 @@
 import { RouterModule, Routes } from '@angular/router';
 import {UserInfoComponent} from './components/user-info/user-info.component';
 import {UsersListComponent} from './components/users-list/users-list.component';
-import {Role} from './models/role.enum';
 
-export const UsersRoutes: Routes = [
+export const CommunicationRoutes: Routes = [
   {
     path: '',
-    component: UsersListComponent,
-    data: { roles: [Role.Admin] }
+    component: UsersListComponent
   },
   {
     path: ':id',
@@ -15,7 +13,7 @@ export const UsersRoutes: Routes = [
   }
 ];
 
-export const UsersRoutingModule = RouterModule.forChild(UsersRoutes);
+export const CompaniesRoutingModule = RouterModule.forChild(CommunicationRoutes);
 
 export const UsersRoutingComponents = [UsersListComponent, UserInfoComponent];
 

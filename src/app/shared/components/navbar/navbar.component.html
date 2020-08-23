@@ -6,6 +6,13 @@
     </button>
   </span>
 
+  <span fxShow="true" *ngFor="let link of roleBasedLinks">
+    <button mat-button [routerLink]="link.path">
+      <mat-icon>{{link.icon}}</mat-icon>
+      {{link.text|translate}}
+    </button>
+  </span>
+
   <span fxFlex></span>
   <app-language-selector></app-language-selector>
   <div *ngIf="(isLoggedIn)" fxLayout="row" fxShow="false" fxShow.gt-sm>

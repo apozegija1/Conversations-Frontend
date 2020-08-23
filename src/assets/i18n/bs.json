@@ -38,5 +38,8 @@
   "invoice_product_pdv_label": "PDV",
   "registration_success": "Uspjesna registracija",
   "english_language": "Engleski",
-  "bosnian_language": "Bosanski"
+  "bosnian_language": "Bosanski",
+  "users_label": "Korisnici",
+  "companies_label": "Kompanije",
+  "communications_label": "Razgovori"
 }

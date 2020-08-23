@@ -1,6 +1,4 @@
-import {IRole} from './irole.interface';
-
-export class IUser {
+export class ICommunication {
     id: string;
     username: string;
     password: string;
@@ -8,6 +6,5 @@ export class IUser {
     lastName: string;
     email: string;
     phone: string;
-    gender: string;
-    roles: Array<IRole>;
+    address: string;
 }

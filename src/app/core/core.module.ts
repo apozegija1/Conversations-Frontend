@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {CustomUrlPrefixInterceptor} from '../shared/interceptors/http.interceptor';
+import {LoadingInterceptor} from '../shared/interceptors/loading.interceptor';
 import {JwtInterceptor} from '../shared/interceptors/jwt.interceptor';
 import {AlertService} from '../shared/services/alert.service';
 import {NotFoundComponent} from './components/not-found/not-found.component';
@@ -15,7 +15,7 @@ import {NotFoundComponent} from './components/not-found/not-found.component';
   ],
   providers: [
     AlertService,
-    { provide: HTTP_INTERCEPTORS, useClass: CustomUrlPrefixInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,

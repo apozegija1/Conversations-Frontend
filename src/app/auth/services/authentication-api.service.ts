@@ -8,7 +8,6 @@ import {ApiService} from '../../core/services/api.service';
 
 @Injectable()
 export class AuthenticationApiService {
-
     constructor(private apiService: ApiService) { }
 
     login(username: string, password: string): Observable<IAuthToken> {
@@ -20,5 +19,9 @@ export class AuthenticationApiService {
 
     register(user: IUser): Observable<IUser> {
       return this.apiService.post<IUser>(Constants.Api.Register, user);
+    }
+
+    getLoggedUser(): Observable<IUser> {
+      return this.apiService.get<IUser>(Constants.Api.CurrentUser);
     }
 }

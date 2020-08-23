@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import { Router } from '@angular/router';
 import {AlertService} from '../../../shared/services/alert.service';
 import {IUser} from '../../../users/models/iuser.interface';
@@ -6,19 +6,21 @@ import {TranslateService} from '@ngx-translate/core';
 import {AuthenticationApiService} from '../../services/authentication-api.service';
 
 @Component({
-    templateUrl: './register.component.html'
+    templateUrl: './register.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class RegisterComponent {
     model: IUser = {
       id: '',
       username: '',
-      address: '',
       firstName: '',
       lastName: '',
       password: '',
       email: '',
-      phone: ''
+      phone: '',
+      roles: [],
+      gender: ''
     };
 
     constructor(

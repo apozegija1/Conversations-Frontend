@@ -8,7 +8,7 @@ import {NavbarComponent} from './components/navbar/navbar.component';
 import {AlertComponent} from './components/alert/alert.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {RouterModule} from '@angular/router';
-import {LocalSpinnerComponent} from './components/local-spinner/local-spinner.component';
+import {GlobalLoaderComponent} from './components/global-loader/global-loader.component';
 import {AuthGuard} from './guards/auth.guard';
 import {RevealablePasswordComponent} from './components/revealable-password/revealable-password.component';
 
@@ -16,7 +16,7 @@ const SharedComponents = [
   AlertComponent,
   LanguageSelectorComponent,
   NavbarComponent,
-  LocalSpinnerComponent,
+  GlobalLoaderComponent,
   RevealablePasswordComponent
 ];
 
