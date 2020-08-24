@@ -1,9 +1,19 @@
 <div class="col-md-6 col-md-offset-3 mt-4">
     <h2>{{'register_label'|translate}}</h2>
-    <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+    <form name="form" (ngSubmit)="register()" #f="ngForm" novalidate>
+
+      <mat-form-field class="full-width">
+        <mat-label>{{'username_label'|translate}}</mat-label>
+        <input matInput type="tel" name="phone" [(ngModel)]="model.username" #username="ngModel" required />
+        <mat-error>
+          {{'username_required_label'|translate}}
+        </mat-error>
+      </mat-form-field>
+      <app-revealable-password [(password)]="model.password"></app-revealable-password>
+
       <mat-form-field class="full-width">
         <mat-label>{{'first_name_label'|translate}}</mat-label>
-        <input matInput type="text" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" required />
+        <input matInput type="text" name="firstName" [(ngModel)]="model.firstname" #firstName="ngModel" required />
         <mat-error>
           {{'first_name_required_label'|translate}}
         </mat-error>
@@ -11,7 +21,7 @@
 
       <mat-form-field class="full-width">
         <mat-label>{{'last_name_label'|translate}}</mat-label>
-        <input matInput type="text" name="lastName" [(ngModel)]="model.lastName" #lastName="ngModel" required />
+        <input matInput type="text" name="lastName" [(ngModel)]="model.lastname" #lastName="ngModel" required />
         <mat-error>
           {{'last_name_required_label'|translate}}
         </mat-error>
@@ -28,30 +38,21 @@
 
       <mat-form-field class="full-width">
         <mat-label>{{'phone_label'|translate}}</mat-label>
-        <input matInput type="tel" name="phone" [(ngModel)]="model.phone" #phone="ngModel" required />
+        <input matInput type="tel" name="phone" [(ngModel)]="model.phone" #phone="ngModel" />
         <mat-error>
           {{'phone_required_label'|translate}}
         </mat-error>
       </mat-form-field>
 
       <mat-form-field class="full-width">
-        <mat-label>{{'address_label'|translate}}</mat-label>
-        <input matInput type="text" name="gender" [(ngModel)]="model.gender" #gender="ngModel" required />
+        <mat-label>{{'gender_label'|translate}}</mat-label>
+        <input matInput type="text" name="gender" [(ngModel)]="model.gender" #gender="ngModel" />
         <mat-error>
-          {{'address_required_label'|translate}}
+          {{'gender_required_label'|translate}}
         </mat-error>
       </mat-form-field>
-
-      <mat-form-field class="full-width">
-        <mat-label>{{'username_label'|translate}}</mat-label>
-        <input matInput type="tel" name="phone" [(ngModel)]="model.username" #username="ngModel" required />
-        <mat-error>
-          {{'username_required_label'|translate}}
-        </mat-error>
-      </mat-form-field>
-      <app-revealable-password [(password)]="model.password"></app-revealable-password>
       <div>
-        <button mat-raised-button color="primary">{{'register_label'|translate}}</button>
+        <button mat-raised-button [disabled]="!f.form.valid" color="primary">{{'register_label'|translate}}</button>
         <a [routerLink]="['/login']" class="btn btn-link">{{'cancel_label'|translate}}</a>
       </div>
     </form>

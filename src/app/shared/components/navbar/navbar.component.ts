@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {Router} from '@angular/router';
@@ -6,7 +6,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {Constants} from '../../models/constants';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {SubSink} from '../../sub-sink';
-import {INavbarLinkInterface} from '../../models/interfaces/inavbar-link.interface';
+import {NavbarService} from '../../services/navbar.service';
+import {INavbarMenuItem} from '../../models/interfaces/inavbar-menu-item.interface';
 
 @Component({
     templateUrl: 'navbar.component.html',
@@ -19,12 +20,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     public isLoggedIn = false;
     subsink = new SubSink();
 
-    public roleBasedLinks: Array<INavbarLinkInterface> = [];
+    public roleBasedLinks: Array<INavbarMenuItem> = [];
 
     constructor(private authService: AuthenticationService,
                 private router: Router,
                 private translate: TranslateService,
-                private localStorageService: LocalStorageService) {}
+                private localStorageService: LocalStorageService,
+                private navbarService: NavbarService,
+                private cdr: ChangeDetectorRef) {}
 
     ngOnInit() {
       this.isLoggedIn = this.authService.isLoggedIn !== false;
@@ -34,6 +37,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
         .subscribe((data) => {
           this.isLoggedIn = data;
           this.setRoleBasedLinks();
+          // As we use primitive type flag isLoggedIn we need to manually run change detection after we improve data
+          this.cdr.detectChanges();
         });
     }
 
@@ -55,24 +60,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.roleBasedLinks = this.getRoleBasedLinks();
     }
 
-    public getRoleBasedLinks(): Array<INavbarLinkInterface> {
+    public getRoleBasedLinks(): Array<INavbarMenuItem> {
       if (this.isLoggedIn && this.roleBasedLinks.length === 0) {
         if (this.authService.isSuperAdmin()) {
           return [
             {
               icon: 'supervised_user_circle',
-              text: 'users_label',
-              path: '/users'
+              title: 'users_label',
+              path: '/users',
+              state: 'users'
             },
             {
               icon: 'business',
-              text: 'companies_label',
-              path: '/companies'
+              title: 'companies_label',
+              path: '/companies',
+              state: 'users'
             },
             {
               icon: 'phone_in_talk',
-              text: 'communications_label',
-              path: '/communications'
+              title: 'communications_label',
+              path: '/communications',
+              state: 'users'
             }
           ];
         } else if (this.authService.isCompanyAdmin()) {

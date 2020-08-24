@@ -9,7 +9,7 @@
   <span fxShow="true" *ngFor="let link of roleBasedLinks">
     <button mat-button [routerLink]="link.path">
       <mat-icon>{{link.icon}}</mat-icon>
-      {{link.text|translate}}
+      {{link.title|translate}}
     </button>
   </span>
 

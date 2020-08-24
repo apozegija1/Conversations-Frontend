@@ -4,6 +4,7 @@ import {AlertService} from '../../../shared/services/alert.service';
 import {IUser} from '../../../users/models/iuser.interface';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthenticationApiService} from '../../services/authentication-api.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
     templateUrl: './register.component.html',
@@ -14,13 +15,13 @@ export class RegisterComponent {
     model: IUser = {
       id: '',
       username: '',
-      firstName: '',
-      lastName: '',
+      firstname: '',
+      lastname: '',
       password: '',
       email: '',
-      phone: '',
+      phone: null,
       roles: [],
-      gender: ''
+      gender: null
     };
 
     constructor(
@@ -36,8 +37,8 @@ export class RegisterComponent {
                     this.alertService.success(this.translateService.instant('registration_success'), true);
                     this.router.navigate(['/login']);
                 },
-                error => {
-                    this.alertService.error(error);
+                (error: HttpErrorResponse) => {
+                    this.alertService.error(error.error.message);
                 });
     }
 }

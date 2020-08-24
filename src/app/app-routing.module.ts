@@ -14,6 +14,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'companies',
+    loadChildren: () => import('./companies/companies.module').then(m => m.CompaniesModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'admin', redirectTo: '/',
   },
 ];
