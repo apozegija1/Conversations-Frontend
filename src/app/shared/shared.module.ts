@@ -11,13 +11,15 @@ import {RouterModule} from '@angular/router';
 import {GlobalLoaderComponent} from './components/global-loader/global-loader.component';
 import {AuthGuard} from './guards/auth.guard';
 import {RevealablePasswordComponent} from './components/revealable-password/revealable-password.component';
+import {CommonTableComponent} from './components/common-table/common-table.component';
 
 const SharedComponents = [
   AlertComponent,
   LanguageSelectorComponent,
   NavbarComponent,
   GlobalLoaderComponent,
-  RevealablePasswordComponent
+  RevealablePasswordComponent,
+  CommonTableComponent
 ];
 
 @NgModule({

@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 import {AuthenticationService} from '../../../auth/services/authentication.service';
-import {IAuthToken} from '../../../auth/models/iauth-token.interface';
+import {IUser} from '../../../users/models/iuser.interface';
 
 @Component({
-    templateUrl: 'user-info.component.html',
+    templateUrl: 'communications-create.component.html',
     selector: 'app-user-info',
-  styleUrls: ['./user-info.component.scss']
+  styleUrls: ['./communications-create.component.scss']
 })
 
-export class UserInfoComponent implements OnInit {
-    public currentUser: IAuthToken;
+export class CommunicationsCreateComponent implements OnInit {
+    public currentUser: IUser;
     public now: Date = new Date();
 
     constructor(private authService: AuthenticationService) {

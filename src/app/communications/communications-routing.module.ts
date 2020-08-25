@@ -1,19 +1,19 @@
 import { RouterModule, Routes } from '@angular/router';
-import {UserInfoComponent} from './components/user-info/user-info.component';
-import {UsersListComponent} from './components/users-list/users-list.component';
+import {CommunicationsCreateComponent} from './components/communications-create/communications-create.component';
+import {CommunicationsListComponent} from './components/communications-list/communications-list.component';
 
 export const CommunicationRoutes: Routes = [
   {
-    path: '',
-    component: UsersListComponent
+    path: 'list',
+    component: CommunicationsListComponent
   },
   {
-    path: ':id',
-    component: UserInfoComponent
+    path: 'create',
+    component: CommunicationsCreateComponent
   }
 ];
 
 export const CommunicationsRoutingModule = RouterModule.forChild(CommunicationRoutes);
 
-export const CommunicationsRoutingComponents = [UsersListComponent, UserInfoComponent];
+export const CommunicationsRoutingComponents = [CommunicationsListComponent, CommunicationsCreateComponent];
 

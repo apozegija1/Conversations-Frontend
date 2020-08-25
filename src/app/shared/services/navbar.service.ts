@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
 import {INavbarMenu} from '../models/interfaces/inavbar-menu.interface';
 import {Role} from '../../users/models/role.enum';
+import {IUser} from '../../users/models/iuser.interface';
+import {INavbarMenuItem} from '../models/interfaces/inavbar-menu-item.interface';
+import {MenuItemType} from '../models/enums/menu-item-type.enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NavbarService {
-  defaultRoles: [Role.User, Role.Admin];
-  menus: {[key: string]: INavbarMenu } = {};
+  private defaultRoles: string[] =  [Role.User, Role.Admin];
+  private menus: {[key: string]: INavbarMenu } = {};
+
+  constructor() {
+    this.init();
+  }
 
   // Add new menu object by menu id
-   addMenu(menuId, options) {
+  addMenu(menuId: string, options: any): INavbarMenu {
     options = options || {};
 
     // Create the new menu
@@ -25,22 +32,24 @@ export class NavbarService {
   }
 
   // Add menu item object
-   addMenuItem(menuId, options) {
+   addMenuItem(menuId: string, menuOptions: INavbarMenuItem): INavbarMenu {
     // Validate that the menu exists
      this.validateMenuExistence(menuId);
 
-     options = options || {};
+     const options: any = menuOptions || {};
 
     // Push new menu item
      this.menus[menuId].items.push({
-      title: options.title || '',
-      state: options.state || '',
-      type: options.type || 'item',
-      class: options.class,
-      roles: ((options.roles === null || typeof options.roles === 'undefined') ? this.defaultRoles : options.roles),
-      position: options.position || 0,
-      items: [],
-      shouldRender: this.shouldRender
+        title: options.title || '',
+        state: options.state || '',
+        type: options.type || MenuItemType.Item,
+        class: options.class,
+        icon: options.icon,
+        path: options.path || '',
+        roles: ((options.roles === null || typeof options.roles === 'undefined') ? this.defaultRoles : options.roles),
+        position: options.position || 0,
+        items: [],
+        shouldRender: this.shouldRender
     });
 
     // Add submenu items
@@ -55,20 +64,22 @@ export class NavbarService {
   }
 
   // Add submenu item object
-   addSubMenuItem(menuId, parentItemState, options) {
-    options = options || {};
+   addSubMenuItem(menuId: string, parentItemState: string, menuOptions: INavbarMenuItem): INavbarMenu {
+    const options: any = menuOptions || {};
 
     // Validate that the menu exists
     this.validateMenuExistence(menuId);
 
     // Search for menu item
-    this.menus[menuId].items.filter((item) => {
+    this.menus[menuId].items.filter((item: INavbarMenuItem) => {
       return item.state === parentItemState;
     }).forEach((item) => {
       item.items.push({
         title: options.title || '',
         state: options.state || '',
         params: options.params || {},
+        icon: options.icon,
+        path: options.path || '',
         roles: ((options.roles === null || typeof options.roles === 'undefined') ? item.roles : options.roles),
         position: options.position || 0,
         shouldRender: this.shouldRender
@@ -80,7 +91,7 @@ export class NavbarService {
   }
 
   // Get the menu object by menu id
-   getMenu(menuId) {
+   getMenu(menuId): INavbarMenu {
     // Validate that the menu exists
      this.validateMenuExistence(menuId);
 
@@ -95,7 +106,11 @@ export class NavbarService {
     });
   }
 
-  shouldRender = function(user) {
+  isEmpty(): boolean {
+    return Object.keys(this.menus).length <= 1;
+  }
+
+  shouldRender = function(user?: IUser) {
     if (this.roles.indexOf('*') !== -1) {
       return true;
     }
@@ -105,22 +120,22 @@ export class NavbarService {
     }
 
     const matchingRoles = user.roles.filter(function(userRole) {
-      return this.roles.indexOf(userRole) !== -1;
+      return this.roles.find((menuRole) => menuRole === userRole.name) !== -1;
     }, this);
 
     return matchingRoles.length > 0;
   };
 
   // Remove existing menu object by menu id
-   removeMenu(menuId) {
+  removeMenu(menuId: string): void {
     // Validate that the menu exists
     this.validateMenuExistence(menuId);
 
     delete this.menus[menuId];
   }
 
-  // Remove existing menu object by menu id
-   removeMenuItem(menuId, menuItemState) {
+   // Remove existing menu object by menu id
+   removeMenuItem(menuId: string, menuItemState: string) {
     // Validate that the menu exists
      this.validateMenuExistence(menuId);
 
@@ -134,7 +149,7 @@ export class NavbarService {
   }
 
   // Remove existing menu object by menu id
-  removeSubMenuItem(menuId, subMenuItemState) {
+  removeSubMenuItem(menuId: string, subMenuItemState: string) {
     // Validate that the menu exists
     this.validateMenuExistence(menuId);
 
@@ -150,7 +165,7 @@ export class NavbarService {
   }
 
   // Validate menu existence
-   validateMenuExistence(menuId) {
+   validateMenuExistence(menuId: string) {
     if (!(menuId && menuId.length)) {
       throw new Error('MenuId was not provided');
     }
@@ -160,26 +175,3 @@ export class NavbarService {
     return true;
   }
 }
-
-
-/**
- * Usage
- *     menuService.addMenuItem('topbar', {
-      title: 'Kvizovi',
-      state: 'questionnaires',
-      type: 'dropdown',
-      roles: ['admin']
-    });
-
- menuService.addSubMenuItem('topbar', 'questionnaires', {
-      title: 'Lista kvizova',
-      state: 'questionnaires.list',
-      roles: ['admin']
-    });
-
- menuService.addSubMenuItem('topbar', 'questionnaires', {
-      title: 'Kreiraj kviz',
-      state: 'questionnaires.create',
-      roles: ['admin']
-    });
- * */

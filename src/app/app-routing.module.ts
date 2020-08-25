@@ -19,6 +19,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'communications',
+    loadChildren: () => import('./communications/communications.module').then(m => m.CommunicationsModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'admin', redirectTo: '/',
   },
 ];

@@ -40,6 +40,13 @@
   "english_language": "English",
   "bosnian_language": "Bosnian",
   "users_label": "Users",
+  "users_list_label": "Users list",
+  "users_create_label": "User create",
   "companies_label": "Companies",
-  "communications_label": "Communications"
+  "companies_list_label": "Companies list",
+  "companies_create_label": "Company create",
+  "communications_label": "Communications",
+  "communications_list_label": "Communications list",
+  "communications_create_label": "Communication create",
+  "select_communication": "Select a communication from the left to start chatting"
 }

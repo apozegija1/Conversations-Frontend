@@ -40,6 +40,13 @@
   "english_language": "Engleski",
   "bosnian_language": "Bosanski",
   "users_label": "Korisnici",
+  "users_list_label": "Lista korisnika",
+  "users_create_label": "Kreiraj korisnika",
   "companies_label": "Kompanije",
-  "communications_label": "Razgovori"
+  "companies_list_label": "List kompanija",
+  "companies_create_label": "Kreiraj kompaniju",
+  "communications_label": "Razgovori",
+  "communications_list_label": "Lista razgovora",
+  "communications_create_label": "Kreiraj razgovor",
+  "select_communication": "Izaberite razgovor sa lijeve strane da pocnete razgovarati"
 }

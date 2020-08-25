@@ -7,7 +7,11 @@ import {Constants} from '../../models/constants';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {SubSink} from '../../sub-sink';
 import {NavbarService} from '../../services/navbar.service';
-import {INavbarMenuItem} from '../../models/interfaces/inavbar-menu-item.interface';
+import {IUser} from '../../../users/models/iuser.interface';
+import {INavbarMenu} from '../../models/interfaces/inavbar-menu.interface';
+import {Role} from '../../../users/models/role.enum';
+import {MenuItemType} from '../../models/enums/menu-item-type.enum';
+import {MenuStateType} from '../../models/enums/menu-state-type.enum';
 
 @Component({
     templateUrl: 'navbar.component.html',
@@ -18,9 +22,10 @@ import {INavbarMenuItem} from '../../models/interfaces/inavbar-menu-item.interfa
 // Need to register navbar service so each component can register navbar elements
 export class NavbarComponent implements OnInit, OnDestroy {
     public isLoggedIn = false;
-    subsink = new SubSink();
+    private subsink = new SubSink();
 
-    public roleBasedLinks: Array<INavbarMenuItem> = [];
+    public navbarMenu: INavbarMenu;
+    public currentUser: IUser;
 
     constructor(private authService: AuthenticationService,
                 private router: Router,
@@ -31,6 +36,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
       this.isLoggedIn = this.authService.isLoggedIn !== false;
+      this.currentUser = this.authService.getCurrentUser();
       this.setRoleBasedLinks();
       // tslint:disable-next-line:no-console
       this.subsink.sink = this.authService.getIsUserLoggedIn()
@@ -57,46 +63,85 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     public setRoleBasedLinks(): void {
-      this.roleBasedLinks = this.getRoleBasedLinks();
-    }
+      this.navbarMenu = this.navbarService.getMenu('topbar');
+      if (this.isLoggedIn && this.navbarService.isEmpty()) {
+        this.addUsersMenu();
+        this.addCompaniesMenu();
+        this.addCommunicationsMenu();
 
-    public getRoleBasedLinks(): Array<INavbarMenuItem> {
-      if (this.isLoggedIn && this.roleBasedLinks.length === 0) {
-        if (this.authService.isSuperAdmin()) {
-          return [
-            {
-              icon: 'supervised_user_circle',
-              title: 'users_label',
-              path: '/users',
-              state: 'users'
-            },
-            {
-              icon: 'business',
-              title: 'companies_label',
-              path: '/companies',
-              state: 'users'
-            },
-            {
-              icon: 'phone_in_talk',
-              title: 'communications_label',
-              path: '/communications',
-              state: 'users'
-            }
-          ];
-        } else if (this.authService.isCompanyAdmin()) {
-          return [
-
-          ];
-        } else if (this.authService.isAgent()) {
-          return [
-
-          ];
-        } else if (this.authService.isUser()) {
-          return [
-
-          ];
-        }
       }
-      return [];
     }
+
+    private addUsersMenu() {
+      this.navbarService.addMenuItem('topbar', {
+        icon: 'supervised_user_circle',
+        title: 'users_label',
+        state: MenuStateType.Users,
+        type: MenuItemType.Dropdown,
+        roles: [Role.Admin]
+      });
+
+      this.navbarService.addSubMenuItem('topbar', MenuStateType.Users, {
+        title: 'users_list_label',
+        path: '/users/list',
+        state: MenuStateType.Users,
+        roles: [Role.Admin]
+      });
+
+      this.navbarService.addSubMenuItem('topbar', MenuStateType.Users, {
+        title: 'users_create_label',
+        path: '/users/create',
+        state: MenuStateType.Users,
+        roles: [Role.Admin]
+      });
+    }
+
+    private addCompaniesMenu() {
+      this.navbarService.addMenuItem('topbar', {
+        icon: 'business',
+        title: 'companies_label',
+        state: MenuStateType.Companies,
+        type: MenuItemType.Dropdown,
+        roles: [Role.Admin]
+      });
+
+      this.navbarService.addSubMenuItem('topbar', MenuStateType.Companies, {
+        title: 'companies_list_label',
+        path: '/companies/list',
+        state: MenuStateType.Companies,
+        roles: [Role.Admin]
+      });
+
+      this.navbarService.addSubMenuItem('topbar', MenuStateType.Companies, {
+        title: 'companies_create_label',
+        path: '/companies/create',
+        state: MenuStateType.Companies,
+        roles: [Role.Admin]
+      });
+    }
+
+  private addCommunicationsMenu() {
+    this.navbarService.addMenuItem('topbar', {
+      icon: 'phone_in_talk',
+      title: 'communications_label',
+      path: '/communications',
+      state: MenuStateType.Communications,
+      type: MenuItemType.Dropdown,
+      roles: [Role.Admin]
+    });
+
+    this.navbarService.addSubMenuItem('topbar', MenuStateType.Communications, {
+      title: 'communications_list_label',
+      path: '/communications/list',
+      state: MenuStateType.Communications,
+      roles: [Role.Admin]
+    });
+
+    this.navbarService.addSubMenuItem('topbar', MenuStateType.Communications, {
+      title: 'communications_create_label',
+      path: '/communications/create',
+      state: MenuStateType.Communications,
+      roles: [Role.Admin]
+    });
+  }
 }

@@ -18,6 +18,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatCardModule} from '@angular/material/card';
+import {MatTabsModule} from '@angular/material/tabs';
 
 const materialModules = [
   MatGridListModule,
@@ -37,7 +39,9 @@ const materialModules = [
   MatTooltipModule,
   MatTableModule,
   MatPaginatorModule,
-  MatMenuModule
+  MatMenuModule,
+  MatCardModule,
+  MatTabsModule
 ];
 
 @NgModule({
