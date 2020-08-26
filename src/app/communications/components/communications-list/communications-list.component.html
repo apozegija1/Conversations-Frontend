@@ -8,10 +8,10 @@
             <span>{{'communications_label'|translate}}</span>
           </ng-template>
           <mat-list class="conversations">
-            <a mat-list-item [ngClass]="{ 'active-communication': (selectedConversation && conversation.id === selectedConversation.id) }"
-               *ngFor="let conversation of conversations" (click)="selectConversation(conversation.id)">
+            <a mat-list-item [ngClass]="{ 'active-communication': (selectedConversation && conversation.user.id === selectedConversation.user.id) }"
+               *ngFor="let conversation of conversations" (click)="selectConversation(conversation.user.id)">
               <mat-icon color="primary" matListIcon>forum</mat-icon>
-              <span>{{ conversation.userName }}</span>
+              <span>{{ conversation.user.username }}</span>
             </a>
           </mat-list>
         </mat-tab>
@@ -32,7 +32,7 @@
     <div class="mat-typography conversation-header">
       <p>
         <mat-icon color="primary" matListIcon>forum</mat-icon>
-        <span>{{selectedConversation.userName}}</span>
+        <span>{{selectedConversation.user.username}}</span>
         <span fxFlex=""></span>
         <button mat-icon-button (click)="startVideoCall()">
           <mat-icon color="primary" class="icon-scaled-16">video_call</mat-icon>
@@ -43,11 +43,11 @@
 
     <mat-divider></mat-divider>
     <mat-list dense class="conversation-history mat-typography">
-      <div *ngFor="let conversation of selectedConversation.conversations">
+      <div *ngFor="let conversation of selectedConversation.communications">
         <div class="message-container">
           <span *ngIf="conversation.id != currentUser.id" fxFlex></span>
           <button class="message-chip" mat-raised-button color="{{conversation.id === currentUser.id ? 'primary' : 'accent'}}">
-            {{conversation.message}}
+            {{conversation.text}}
           </button>
         </div>
       </div>

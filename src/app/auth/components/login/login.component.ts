@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
 import {AlertService} from '../../../shared/services/alert.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     templateUrl: './login.component.html',
@@ -9,14 +10,22 @@ import {AlertService} from '../../../shared/services/alert.service';
 })
 
 export class LoginComponent implements OnInit {
-    model: any = {};
     returnUrl: string;
+
+    form: FormGroup;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService) { }
+        private alertService: AlertService,
+        fb: FormBuilder) {
+
+      this.form = fb.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required]
+      });
+    }
 
     ngOnInit() {
         // reset login status
@@ -27,7 +36,8 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        this.authenticationService.login(this.model.username, this.model.password)
+        const model = this.form.value;
+        this.authenticationService.login(model.username, model.password)
             .subscribe(
                 data => {
                   this.router.navigate([this.returnUrl]);

@@ -1,10 +1,9 @@
 export class ICommunication {
-    id: string;
-    username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    address: string;
+    id: number;
+    type: any;
+    agentId: number;
+    customerId: number;
+    startTime?: string;
+    endTime?: string;
+    text: string;
 }

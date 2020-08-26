@@ -1,13 +1,13 @@
 import {IRole} from './irole.interface';
 
 export class IUser {
-    id: string;
+    id?: number;
     username: string;
-    password: string;
+    password?: string;
     firstname: string;
     lastname: string;
     email: string;
-    phone: string;
-    gender: string;
+    phone?: string;
+    gender?: string;
     roles: Array<IRole>;
 }

@@ -20,6 +20,7 @@
   "username_required_label": "Username is required",
   "email_label": "Email",
   "email_required_label": "Email is required",
+  "email_invalid_label": "Email is invalid",
   "phone_label": "Phone",
   "phone_required_label": "Phone is required",
   "gender_label": "Gender",

@@ -5,6 +5,7 @@ import {DialogPopupService} from '../../../shared/services/dialog-popup.service'
 import {TranslateService} from '@ngx-translate/core';
 import {VideoPopupComponent} from '../video-popup/video-popup.component';
 import {CommunicationsApiService} from '../../services/communications-api.service';
+import {IUserCommunication} from '../../models/iuser-communication.interface';
 
 @Component({
     templateUrl: './communications-list.component.html',
@@ -12,8 +13,8 @@ import {CommunicationsApiService} from '../../services/communications-api.servic
 })
 
 export class CommunicationsListComponent extends BaseUserInfo implements OnInit {
-  conversations: any[] = [];
-  selectedConversation: any;
+  conversations: IUserCommunication[] = [];
+  selectedConversation: IUserCommunication;
 
   messageText: string;
   events: Array<any> = [];
@@ -26,14 +27,15 @@ export class CommunicationsListComponent extends BaseUserInfo implements OnInit 
   }
 
   ngOnInit() {
-    this.communicationApiService.getAllUserCommunications().subscribe((data) => {
-      this.conversations = data;
+    this.communicationApiService.getAllUserCommunications(this.currentUser)
+      .subscribe((data) => {
+        this.conversations = data;
     });
   }
 
-  selectConversation(conversationId: string) {
+  selectConversation(conversationId: number) {
     this.selectedConversation = this.conversations
-      .find((conversation) => conversation.id === conversationId);
+      .find((conversation) => conversation.user.id === conversationId);
   }
 
   sendText(text: string) {

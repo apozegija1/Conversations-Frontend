@@ -6,6 +6,7 @@ import {ApiService} from '../../core/services/api.service';
 import {ICommunication} from '../models/icommunication.interface';
 import {Observable} from 'rxjs';
 import {communications} from './mock.data';
+import {IUser} from '../../users/models/iuser.interface';
 
 @Injectable()
 export class CommunicationsApiService extends BaseApiService<ICommunication> {
@@ -13,7 +14,7 @@ export class CommunicationsApiService extends BaseApiService<ICommunication> {
     super(apiService, Constants.Api.Communications);
   }
 
-  getAllUserCommunications(): Observable<any> {
+  getAllUserCommunications(user: IUser): Observable<any> {
     return of(communications);
   }
 }
