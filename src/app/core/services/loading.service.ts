@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class LoadingService {
     this.isLoadingData$.next(false);
   }
 
-  public isLoading$() {
+  public isLoading$(): Observable<boolean> {
     return this.isLoadingData$.asObservable();
   }
 }

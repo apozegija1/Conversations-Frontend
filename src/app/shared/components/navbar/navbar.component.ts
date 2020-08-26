@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {Constants} from '../../models/constants';
 import {LocalStorageService} from '../../services/local-storage.service';
-import {SubSink} from '../../sub-sink';
+import {SubSink} from '../../classes/sub-sink';
 import {NavbarService} from '../../services/navbar.service';
 import {IUser} from '../../../users/models/iuser.interface';
 import {INavbarMenu} from '../../models/interfaces/inavbar-menu.interface';
@@ -126,22 +126,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       title: 'communications_label',
       path: '/communications',
       state: MenuStateType.Communications,
-      type: MenuItemType.Dropdown,
-      roles: [Role.Admin]
-    });
-
-    this.navbarService.addSubMenuItem('topbar', MenuStateType.Communications, {
-      title: 'communications_list_label',
-      path: '/communications/list',
-      state: MenuStateType.Communications,
-      roles: [Role.Admin]
-    });
-
-    this.navbarService.addSubMenuItem('topbar', MenuStateType.Communications, {
-      title: 'communications_create_label',
-      path: '/communications/create',
-      state: MenuStateType.Communications,
-      roles: [Role.Admin]
+      roles: [Role.Admin, Role.User, Role.Agent, Role.CompanyAdmin]
     });
   }
 }

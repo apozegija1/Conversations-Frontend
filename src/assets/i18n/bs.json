@@ -48,5 +48,12 @@
   "communications_label": "Razgovori",
   "communications_list_label": "Lista razgovora",
   "communications_create_label": "Kreiraj razgovor",
-  "select_communication": "Izaberite razgovor sa lijeve strane da pocnete razgovarati"
+  "select_communication": "Izaberite razgovor sa lijeve strane da pocnete komunikaciju",
+  "chat_start_placeholder": "Pocnite razgovor...",
+  "in_video_call": "Video poziv pokrenut",
+  "yes_confirm": "Da",
+  "no_reject": "Ne",
+  "ok_confirm": "Ok",
+  "no_video_support": "Vas internet preglednik ne podrzava video.",
+  "finish_call": "Zavrsi"
 }

@@ -12,6 +12,8 @@ import {GlobalLoaderComponent} from './components/global-loader/global-loader.co
 import {AuthGuard} from './guards/auth.guard';
 import {RevealablePasswordComponent} from './components/revealable-password/revealable-password.component';
 import {CommonTableComponent} from './components/common-table/common-table.component';
+import {SubmitButtonComponent} from './components/submit-button/submit-button.component';
+import {ConfirmationPopupComponent} from './components/confirmation-popup/confirmation-popup.component';
 
 const SharedComponents = [
   AlertComponent,
@@ -19,7 +21,9 @@ const SharedComponents = [
   NavbarComponent,
   GlobalLoaderComponent,
   RevealablePasswordComponent,
-  CommonTableComponent
+  CommonTableComponent,
+  SubmitButtonComponent,
+  ConfirmationPopupComponent
 ];
 
 @NgModule({

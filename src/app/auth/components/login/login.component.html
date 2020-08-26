@@ -11,7 +11,7 @@
       <app-revealable-password [(password)]="model.password"></app-revealable-password>
 
       <div>
-        <button mat-raised-button color="primary">{{'login_label'|translate}}</button>
+        <app-submit-button text="login_label"></app-submit-button>
         <a [routerLink]="['/register']" class="btn btn-link">{{'register_label'|translate}}</a>
       </div>
 

@@ -1,4 +1,4 @@
-export class ICommunication {
+export class ICompany {
     id: string;
     username: string;
     password: string;

@@ -1,0 +1,8 @@
+.full-width {
+    width: 100%;
+}
+
+.dialog-actions-r {
+    text-align: right;
+    display: inherit !important;
+}

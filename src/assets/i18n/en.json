@@ -48,5 +48,12 @@
   "communications_label": "Communications",
   "communications_list_label": "Communications list",
   "communications_create_label": "Communication create",
-  "select_communication": "Select a communication from the left to start chatting"
+  "select_communication": "Select a communication from the left to start chatting",
+  "chat_start_placeholder": "Start chatting...",
+  "in_video_call": "Video call running",
+  "yes_confirm": "Yes",
+  "no_reject": "No",
+  "ok_confirm": "Ok",
+  "no_video_support": "Your browser does not support the video.",
+  "finish_call": "Finish"
 }

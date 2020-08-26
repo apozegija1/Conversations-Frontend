@@ -1,6 +1,6 @@
 <div class="col-md-6 col-md-offset-3 mt-4">
     <h2>{{'register_label'|translate}}</h2>
-    <form name="form" (ngSubmit)="register()" #f="ngForm" novalidate>
+    <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
 
       <mat-form-field class="full-width">
         <mat-label>{{'username_label'|translate}}</mat-label>
@@ -52,7 +52,7 @@
         </mat-error>
       </mat-form-field>
       <div>
-        <button mat-raised-button [disabled]="!f.form.valid" color="primary">{{'register_label'|translate}}</button>
+        <app-submit-button text="register_label"></app-submit-button>
         <a [routerLink]="['/login']" class="btn btn-link">{{'cancel_label'|translate}}</a>
       </div>
     </form>

@@ -1,3 +1,5 @@
+@import "~src/styles";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -19,6 +21,11 @@
   height: 100%;
 }
 
+
+.conversation-header {
+  margin: 5px 0 0 5px;
+}
+
 .conversation-header h2, .conversation-header p {
   align-items: center;
   display: flex;
@@ -30,8 +37,8 @@
 }
 
 .conversation-history.mat-list {
-  height: calc(100% - 180px);
-  overflow-x: scroll;
+  height: calc(100% - 120px);
+  overflow-x: auto;
   position: absolute;
   width: 100%;
 }
@@ -81,3 +88,21 @@ section .mat-list .mat-list-avatar{
   cursor: pointer;
 }
 
+.icon-scaled-16 {
+  transform: scale(1.6);
+  margin-right: 15px;
+}
+
+.message-chip {
+  margin: 0 10px;
+}
+
+
+.message-container {
+  margin: 10px 0;
+}
+
+.active-communication {
+  background-color: $accentColor;
+
+}

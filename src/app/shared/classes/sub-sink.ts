@@ -1,4 +1,4 @@
-import {DataHelpers} from './helpers/data.helper';
+import {DataHelpers} from '../helpers/data.helper';
 
 export interface SubscriptionLike {
   unsubscribe(): void;
