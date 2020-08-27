@@ -16,6 +16,7 @@
   "last_name_required_label": "Last Name is required",
   "password_label": "Password",
   "password_required_label": "Password is required",
+  "password_format_label": "Password has to contain at least 8 characters, Upper case, lower case and special character",
   "username_label": "Username",
   "username_required_label": "Username is required",
   "email_label": "Email",
@@ -56,5 +57,6 @@
   "no_reject": "No",
   "ok_confirm": "Ok",
   "no_video_support": "Your browser does not support the video.",
-  "finish_call": "Finish"
+  "finish_call": "Finish",
+  "remember_me": "Remember me"
 }

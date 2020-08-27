@@ -9,6 +9,11 @@
         </mat-error>
       </mat-form-field>
       <app-revealable-password [parentForm]="form"></app-revealable-password>
+      <div class="remember-me-container">
+        <mat-checkbox class="full-width" formControlName="rememberMe">
+          {{'remember_me'|translate}}
+        </mat-checkbox>
+      </div>
 
       <div fxLayout="row" fxLayoutAlign="start center" >
         <app-submit-button text="login_label"></app-submit-button>

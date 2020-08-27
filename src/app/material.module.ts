@@ -21,6 +21,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatCheckbox, MatCheckboxModule} from '@angular/material/checkbox';
 
 const materialModules = [
   MatGridListModule,
@@ -43,7 +44,8 @@ const materialModules = [
   MatMenuModule,
   MatCardModule,
   MatTabsModule,
-  MatDialogModule
+  MatDialogModule,
+  MatCheckboxModule
 ];
 
 @NgModule({

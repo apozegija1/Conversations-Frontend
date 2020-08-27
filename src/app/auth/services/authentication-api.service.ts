@@ -5,13 +5,14 @@ import {Observable} from 'rxjs';
 import {IUser} from '../../users/models/iuser.interface';
 import {IAuthToken} from '../models/iauth-token.interface';
 import {ApiService} from '../../core/services/api.service';
+import {IAuthLogin} from '../models/iauth-login.interface';
 
 @Injectable()
 export class AuthenticationApiService {
     constructor(private apiService: ApiService) { }
 
-    login(username: string, password: string): Observable<IAuthToken> {
-        return this.apiService.post<IAuthToken>(Constants.Api.Login, { username, password })
+    login(data: IAuthLogin): Observable<IAuthToken> {
+        return this.apiService.post<IAuthToken>(Constants.Api.Login, data)
           .pipe(map((user: IAuthToken) => {
                 return user;
             }));

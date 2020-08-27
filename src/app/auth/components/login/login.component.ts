@@ -2,10 +2,13 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
 import {AlertService} from '../../../shared/services/alert.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {ValidatorHelper} from '../../../shared/helpers/validator.helper';
+import {IAuthLogin} from '../../models/iauth-login.interface';
 
 @Component({
     templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
@@ -22,8 +25,9 @@ export class LoginComponent implements OnInit {
         fb: FormBuilder) {
 
       this.form = fb.group({
-        username: ['', Validators.required],
-        password: ['', Validators.required]
+        username: ['', ValidatorHelper.getUsernameValidators()],
+        password: ['', ValidatorHelper.getPasswordValidators()],
+        rememberMe: [false]
       });
     }
 
@@ -36,8 +40,8 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        const model = this.form.value;
-        this.authenticationService.login(model.username, model.password)
+        const model: IAuthLogin = this.form.value;
+        this.authenticationService.login(model)
             .subscribe(
                 data => {
                   this.router.navigate([this.returnUrl]);

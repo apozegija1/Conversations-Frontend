@@ -16,6 +16,7 @@
   "last_name_required_label": "Prezime je obavezno",
   "password_label": "Lozinka",
   "password_required_label": "Lozinka je obavezna",
+  "password_format_label": "Lozinka treba da sadrzi barem 8 znakova, veliko slovo, malo slovo i specijalni znak",
   "username_label": "Username",
   "username_required_label": "Username je obavezno",
   "email_label": "Email",
@@ -44,7 +45,7 @@
   "users_list_label": "Lista korisnika",
   "users_create_label": "Kreiraj korisnika",
   "companies_label": "Kompanije",
-  "companies_list_label": "List kompanija",
+  "companies_list_label": "Lista kompanija",
   "companies_create_label": "Kreiraj kompaniju",
   "communications_label": "Razgovori",
   "communications_list_label": "Lista razgovora",
@@ -56,5 +57,6 @@
   "no_reject": "Ne",
   "ok_confirm": "Ok",
   "no_video_support": "Vas internet preglednik ne podrzava video.",
-  "finish_call": "Zavrsi"
+  "finish_call": "Zavrsi",
+  "remember_me": "Zapamti me"
 }

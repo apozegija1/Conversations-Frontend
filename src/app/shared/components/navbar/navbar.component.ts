@@ -3,7 +3,6 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
-import {Constants} from '../../models/constants';
 import {LocalStorageService} from '../../services/local-storage.service';
 import {SubSink} from '../../classes/sub-sink';
 import {NavbarService} from '../../services/navbar.service';
@@ -12,6 +11,7 @@ import {INavbarMenu} from '../../models/interfaces/inavbar-menu.interface';
 import {Role} from '../../../users/models/role.enum';
 import {MenuItemType} from '../../models/enums/menu-item-type.enum';
 import {MenuStateType} from '../../models/enums/menu-state-type.enum';
+import {Constants} from '../../models/constants';
 
 @Component({
     templateUrl: 'navbar.component.html',
@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.isLoggedIn = this.authService.isLoggedIn !== false;
       this.currentUser = this.authService.getCurrentUser();
       this.setRoleBasedLinks();
-      // tslint:disable-next-line:no-console
+
       this.subsink.sink = this.authService.getIsUserLoggedIn()
         .subscribe((data) => {
           this.isLoggedIn = data;
@@ -54,26 +54,21 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
     public logout() {
       this.authService.logout();
+      this.navbarMenu = this.navbarService.clear();
       this.router.navigate(['/login']);
     }
 
-    public selectLanguage(language: string) {
-      this.localStorageService.setItem(Constants.LocalStorageKey.LanguageSelected, language);
-      this.translate.setDefaultLang(language);
-    }
-
     public setRoleBasedLinks(): void {
-      this.navbarMenu = this.navbarService.getMenu('topbar');
+      this.navbarMenu = this.navbarService.getMenu(Constants.Menu.defaultTopMenuName);
       if (this.isLoggedIn && this.navbarService.isEmpty()) {
         this.addUsersMenu();
         this.addCompaniesMenu();
         this.addCommunicationsMenu();
-
       }
     }
 
     private addUsersMenu() {
-      this.navbarService.addMenuItem('topbar', {
+      this.navbarService.addMenuItem(Constants.Menu.defaultTopMenuName, {
         icon: 'supervised_user_circle',
         title: 'users_label',
         state: MenuStateType.Users,
@@ -81,14 +76,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
         roles: [Role.Admin]
       });
 
-      this.navbarService.addSubMenuItem('topbar', MenuStateType.Users, {
+      this.navbarService.addSubMenuItem(Constants.Menu.defaultTopMenuName, MenuStateType.Users, {
         title: 'users_list_label',
-        path: '/users/list',
+        path: '/users',
         state: MenuStateType.Users,
         roles: [Role.Admin]
       });
 
-      this.navbarService.addSubMenuItem('topbar', MenuStateType.Users, {
+      this.navbarService.addSubMenuItem(Constants.Menu.defaultTopMenuName, MenuStateType.Users, {
         title: 'users_create_label',
         path: '/users/create',
         state: MenuStateType.Users,
@@ -97,7 +92,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
     private addCompaniesMenu() {
-      this.navbarService.addMenuItem('topbar', {
+      this.navbarService.addMenuItem(Constants.Menu.defaultTopMenuName, {
         icon: 'business',
         title: 'companies_label',
         state: MenuStateType.Companies,
@@ -105,14 +100,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
         roles: [Role.Admin]
       });
 
-      this.navbarService.addSubMenuItem('topbar', MenuStateType.Companies, {
+      this.navbarService.addSubMenuItem(Constants.Menu.defaultTopMenuName, MenuStateType.Companies, {
         title: 'companies_list_label',
         path: '/companies/list',
         state: MenuStateType.Companies,
         roles: [Role.Admin]
       });
 
-      this.navbarService.addSubMenuItem('topbar', MenuStateType.Companies, {
+      this.navbarService.addSubMenuItem(Constants.Menu.defaultTopMenuName, MenuStateType.Companies, {
         title: 'companies_create_label',
         path: '/companies/create',
         state: MenuStateType.Companies,
@@ -121,7 +116,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
 
   private addCommunicationsMenu() {
-    this.navbarService.addMenuItem('topbar', {
+    this.navbarService.addMenuItem(Constants.Menu.defaultTopMenuName, {
       icon: 'phone_in_talk',
       title: 'communications_label',
       path: '/communications',

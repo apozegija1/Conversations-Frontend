@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import {AuthenticationService} from '../../../auth/services/authentication.service';
-import {IAuthToken} from '../../../auth/models/iauth-token.interface';
 import {IUser} from '../../models/iuser.interface';
 
 @Component({

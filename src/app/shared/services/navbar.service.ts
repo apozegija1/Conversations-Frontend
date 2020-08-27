@@ -4,6 +4,7 @@ import {Role} from '../../users/models/role.enum';
 import {IUser} from '../../users/models/iuser.interface';
 import {INavbarMenuItem} from '../models/interfaces/inavbar-menu-item.interface';
 import {MenuItemType} from '../models/enums/menu-item-type.enum';
+import {Constants} from '../models/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -99,15 +100,17 @@ export class NavbarService {
      return this.menus[menuId];
   }
 
-   init() {
+   init(): INavbarMenu {
     // Adding the topbar menu
-    this.addMenu('topbar', {
+    this.addMenu(Constants.Menu.defaultTopMenuName, {
       roles: ['*']
     });
+
+    return this.getMenu(Constants.Menu.defaultTopMenuName);
   }
 
   isEmpty(): boolean {
-    return Object.keys(this.menus).length <= 1;
+    return Object.keys(this.menus).length === 1 && this.getMenu(Constants.Menu.defaultTopMenuName).items.length === 0;
   }
 
   shouldRender = function(user?: IUser) {
@@ -162,6 +165,11 @@ export class NavbarService {
 
     // Return the menu object
     return this.menus[menuId];
+  }
+
+  clear(): INavbarMenu {
+    this.menus = {};
+    return this.init();
   }
 
   // Validate menu existence

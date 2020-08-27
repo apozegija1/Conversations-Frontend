@@ -15,4 +15,7 @@ export class Constants {
   static Defaults = {
     Language: 'en'
   };
+  static Menu = {
+    defaultTopMenuName: 'topbar'
+  };
 }

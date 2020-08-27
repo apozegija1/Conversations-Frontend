@@ -8,6 +8,7 @@ import {AuthenticationApiService} from './authentication-api.service';
 import {AuthHelper} from '../helpers/auth.helper';
 import {IUser} from '../../users/models/iuser.interface';
 import {Role} from '../../users/models/role.enum';
+import {IAuthLogin} from '../models/iauth-login.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -59,8 +60,8 @@ export class AuthenticationService {
       return this.isRole(Role.Agent);
     }
 
-    public login(username: string, password: string): Observable<IAuthToken> {
-        return this.authenticationApiService.login(username, password)
+    public login(data: IAuthLogin): Observable<IAuthToken> {
+        return this.authenticationApiService.login(data)
           .pipe(map((authToken: IAuthToken) => {
                 // login successful if there's a jwt token in the response
                 if (authToken && AuthHelper.getToken(authToken)) {
