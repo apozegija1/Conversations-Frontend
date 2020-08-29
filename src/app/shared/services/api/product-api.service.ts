@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import {Constants} from '../../models/constants';
 import {ProductModel} from '../../models/product.model';
-import {BaseHelper} from '../../helpers/base.helper';
+import {BaseUtils} from '../../utils/base.utils';
 import {BaseApiService} from '../base-api.service';
 import {ApiService} from '../../../core/services/api.service';
 import {Observable} from 'rxjs';
@@ -15,6 +15,6 @@ export class ProductApiService extends BaseApiService<ProductModel> {
     }
 
     getByCategoryName(category: string): Observable<ProductModel[]> {
-      return this.apiService.get<ProductModel[]>(BaseHelper.getByIdUri(this.baseUri + 'for', category));
+      return this.apiService.get<ProductModel[]>(BaseUtils.getByIdUri(this.baseUri + 'for', category));
     }
 }

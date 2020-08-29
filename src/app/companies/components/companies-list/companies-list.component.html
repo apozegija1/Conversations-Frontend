@@ -1,3 +1,5 @@
 <div>
-  <app-common-table [header]="'companies_label'"></app-common-table>
+  <app-common-table [header]="'companies_label'"
+                    [tableConfig]="companiesTableConfig"
+                    [data]="companies$|async"></app-common-table>
 </div>

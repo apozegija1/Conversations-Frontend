@@ -1,3 +1,5 @@
 <div>
-  <app-common-table [header]="'users_label'"></app-common-table>
+  <app-common-table [header]="'users_label'"
+                    [data]="users$|async" [tableConfig]="userTableConfig"
+                    (deleteChange)="onDelete($event)"></app-common-table>
 </div>

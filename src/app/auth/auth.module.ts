@@ -6,7 +6,7 @@ import {AuthenticationApiService} from './services/authentication-api.service';
 @NgModule({
   imports: [
     SharedModule,
-    AuthRoutingModule,
+    AuthRoutingModule
   ],
   declarations: [...AuthRoutingComponents],
   providers: [AuthenticationApiService]

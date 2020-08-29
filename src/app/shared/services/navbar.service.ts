@@ -5,6 +5,7 @@ import {IUser} from '../../users/models/iuser.interface';
 import {INavbarMenuItem} from '../models/interfaces/inavbar-menu-item.interface';
 import {MenuItemType} from '../models/enums/menu-item-type.enum';
 import {Constants} from '../models/constants';
+import {IRole} from '../../users/models/irole.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -122,8 +123,8 @@ export class NavbarService {
       return false;
     }
 
-    const matchingRoles = user.roles.filter(function(userRole) {
-      return this.roles.find((menuRole) => menuRole === userRole.name) !== -1;
+    const matchingRoles = user.roles.filter((userRole: IRole) => {
+      return this.roles.find((menuRole) => menuRole === userRole.name) != null;
     }, this);
 
     return matchingRoles.length > 0;

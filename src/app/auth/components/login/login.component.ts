@@ -3,8 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {AuthenticationService} from '../../services/authentication.service';
 import {AlertService} from '../../../shared/services/alert.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {ValidatorHelper} from '../../../shared/helpers/validator.helper';
+import {ValidatorUtils} from '../../../shared/utils/validator.utils';
 import {IAuthLogin} from '../../models/iauth-login.interface';
+import {IUser} from '../../../users/models/iuser.interface';
 
 @Component({
     templateUrl: './login.component.html',
@@ -25,8 +26,8 @@ export class LoginComponent implements OnInit {
         fb: FormBuilder) {
 
       this.form = fb.group({
-        username: ['', ValidatorHelper.getUsernameValidators()],
-        password: ['', ValidatorHelper.getPasswordValidators()],
+        username: ['', ValidatorUtils.getUsernameValidators()],
+        password: ['', ValidatorUtils.getPasswordValidators()],
         rememberMe: [false]
       });
     }
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit {
         const model: IAuthLogin = this.form.value;
         this.authenticationService.login(model)
             .subscribe(
-                data => {
+              (_: IUser) => {
                   this.router.navigate([this.returnUrl]);
                 },
                 error => {

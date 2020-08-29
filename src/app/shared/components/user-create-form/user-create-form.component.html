@@ -1,0 +1,50 @@
+<div>
+  <mat-form-field class="full-width" [formGroup]="parentForm">
+    <mat-label>{{'username_label'|translate}}</mat-label>
+    <input matInput type="text" name="username" formControlName="username" />
+    <mat-error>
+      {{'username_required_label'|translate}}
+    </mat-error>
+  </mat-form-field>
+  <app-revealable-password [parentForm]="parentForm"></app-revealable-password>
+
+  <mat-form-field class="full-width" [formGroup]="parentForm">
+    <mat-label>{{'first_name_label'|translate}}</mat-label>
+    <input matInput type="text" name="firstName" formControlName="firstname" />
+    <mat-error>
+      {{'first_name_required_label'|translate}}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width" [formGroup]="parentForm">
+    <mat-label>{{'last_name_label'|translate}}</mat-label>
+    <input matInput type="text" name="lastname" formControlName="lastname" />
+    <mat-error>
+      {{'last_name_required_label'|translate}}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width" [formGroup]="parentForm">
+    <mat-label>{{'email_label'|translate}}</mat-label>
+    <input matInput type="email" name="email" formControlName="email" />
+    <mat-error>
+      {{'email_invalid_label'|translate}}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width" [formGroup]="parentForm">
+    <mat-label>{{'phone_label'|translate}}</mat-label>
+    <input matInput type="tel" name="phone" formControlName="phone" />
+    <mat-error>
+      {{'phone_required_label'|translate}}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="full-width" [formGroup]="parentForm">
+    <mat-label>{{'gender_label'|translate}}</mat-label>
+    <input matInput type="text" name="gender" formControlName="gender" />
+    <mat-error>
+      {{'gender_required_label'|translate}}
+    </mat-error>
+  </mat-form-field>
+</div>

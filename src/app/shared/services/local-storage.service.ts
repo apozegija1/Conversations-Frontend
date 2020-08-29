@@ -10,6 +10,9 @@ export class LocalStorageService {
   }
 
   setItem(key: string, value: any): void {
+    if (value == null) {
+      throw new Error('Can not set undefined value to storage');
+    }
     localStorage.setItem(key, JSON.stringify(value));
   }
 

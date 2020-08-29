@@ -3,7 +3,7 @@
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
 
-      <ng-container *ngFor="let column of tableConfig.columns" [matColumnDef]="column.id">
+      <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.id">
         <th mat-header-cell *matHeaderCellDef>
           <span [ngClass]="{'action-buttons': column.dataType === 'ActionButtons'}">{{column.title|translate}}</span>
         </th>
@@ -22,10 +22,10 @@
 
           <span *ngIf="column.dataType === 'ActionButtons'">
             <span fxFlex></span>
-            <button mat-icon-button (click)="edit()">
+            <button mat-icon-button (click)="edit(element)">
               <mat-icon color="primary" class="icon-scaled-16">edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="delete()">
+            <button mat-icon-button (click)="delete(element)">
               <mat-icon color="warn" class="icon-scaled-16">delete</mat-icon>
             </button>
           </span>

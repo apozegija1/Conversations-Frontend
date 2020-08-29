@@ -14,6 +14,7 @@ import {RevealablePasswordComponent} from './components/revealable-password/reve
 import {CommonTableComponent} from './components/common-table/common-table.component';
 import {SubmitButtonComponent} from './components/submit-button/submit-button.component';
 import {ConfirmationPopupComponent} from './components/confirmation-popup/confirmation-popup.component';
+import {UserCreateFormComponent} from './components/user-create-form/user-create-form.component';
 
 const SharedComponents = [
   AlertComponent,
@@ -23,7 +24,8 @@ const SharedComponents = [
   RevealablePasswordComponent,
   CommonTableComponent,
   SubmitButtonComponent,
-  ConfirmationPopupComponent
+  ConfirmationPopupComponent,
+  UserCreateFormComponent
 ];
 
 @NgModule({

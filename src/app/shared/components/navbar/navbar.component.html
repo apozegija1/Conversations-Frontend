@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="expanded-toolbar">
-  <span *ngIf="(isLoggedIn)" fxShow="true">
+  <span *ngIf="(isLoggedIn$|async)" fxShow="true">
     <button mat-button routerLink="/">
       <mat-icon>home</mat-icon>
       {{'home_label'|translate}}
@@ -7,35 +7,36 @@
   </span>
 
   <span *ngIf="navbarMenu && navbarMenu.shouldRender(currentUser)">
-    <span fxShow="true" *ngFor="let item of navbarMenu.items" class="{{item.class}}">
-      <button mat-button [routerLink]="item.path" *ngIf="item.type === 'item'">
-        <mat-icon>{{item.icon}}</mat-icon>
-        <span>{{item.title|translate}}</span>
-      </button>
+    <span *ngFor="let item of navbarMenu.items" class="{{item.class}}">
+      <span *ngIf="item.shouldRender(currentUser)">
+        <button mat-button [routerLink]="item.path" *ngIf="item.type === 'item'">
+          <mat-icon>{{item.icon}}</mat-icon>
+          <span>{{item.title|translate}}</span>
+        </button>
 
-      <button mat-button *ngIf="item.type === 'dropdown'" [mat-menu-trigger-for]="navbarMenuDropdown">
-        <mat-icon>{{item.icon}}</mat-icon>
-        <span>{{item.title|translate}}</span>
-        <mat-icon>keyboard_arrow_down</mat-icon>
+        <button mat-button *ngIf="item.type === 'dropdown'" [mat-menu-trigger-for]="navbarMenuDropdown">
+          <mat-icon>{{item.icon}}</mat-icon>
+          <span>{{item.title|translate}}</span>
+          <mat-icon>keyboard_arrow_down</mat-icon>
 
-        <mat-menu  xPosition="before" #navbarMenuDropdown="matMenu">
-          <span *ngFor="let subitem of item.items">
-            <button mat-menu-item *ngIf="subitem.shouldRender(currentUser)" [routerLink]="subitem.path">
-              <mat-icon *ngIf="subitem.icon">{{subitem.icon}}</mat-icon>
-              <span>{{subitem.title|translate}}</span>
-            </button>
-          </span>
-        </mat-menu>
+          <mat-menu  xPosition="before" #navbarMenuDropdown="matMenu">
+            <span *ngFor="let subItem of item.items">
+              <button mat-menu-item *ngIf="subItem.shouldRender(currentUser)" [routerLink]="subItem.path">
+                <mat-icon *ngIf="subItem.icon">{{subItem.icon}}</mat-icon>
+                <span>{{subItem.title|translate}}</span>
+              </button>
+            </span>
+          </mat-menu>
 
-      </button>
+        </button>
+      </span>
+
     </span>
   </span>
 
-
-
   <span fxFlex></span>
   <app-language-selector></app-language-selector>
-  <div *ngIf="(isLoggedIn)" fxLayout="row" fxShow="false" fxShow.gt-sm>
+  <div *ngIf="(isLoggedIn$|async)" fxLayout="row" fxShow="false" fxShow.gt-sm>
     <button mat-button  (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>
       {{'logout_label'|translate}}
@@ -50,7 +51,7 @@
 
 
 <mat-menu xPosition="before" #menu="matMenu">
-  <button mat-menu-item *ngIf="(isLoggedIn)" (click)="logout()">
+  <button mat-menu-item *ngIf="(isLoggedIn$|async)" (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>
     {{'logout_label'|translate}}
   </button>

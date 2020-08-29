@@ -5,7 +5,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {AuthenticationApiService} from '../../services/authentication-api.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ValidatorHelper} from '../../../shared/helpers/validator.helper';
+import {FormUtils} from '../../../shared/utils/form.utils';
 
 @Component({
     templateUrl: './register.component.html',
@@ -23,13 +23,7 @@ export class RegisterComponent {
         fb: FormBuilder) {
 
       this.form = fb.group({
-        username: ['', ValidatorHelper.getUsernameValidators()],
-        password: ['', ValidatorHelper.getPasswordValidators()],
-        firstname: ['', ValidatorHelper.getNameValidators()],
-        lastname: ['', ValidatorHelper.getNameValidators()],
-        email: ['', ValidatorHelper.getEmailValidators()],
-        phone: [null, Validators.pattern(new RegExp('[0-9 ]{12}'))],
-        gender: [null]
+        ...FormUtils.getUserCreateFormConfig()
       });
     }
 

@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
-import {BaseHelper} from '../helpers/base.helper';
+import {BaseUtils} from '../utils/base.utils';
 import {ApiService} from '../../core/services/api.service';
+import {IPageable} from '../models/interfaces/ipageable.interface';
 
 export abstract  class BaseApiService<T> {
   constructor(protected apiService: ApiService,
@@ -9,7 +10,7 @@ export abstract  class BaseApiService<T> {
   }
 
   get() {
-    return this.apiService.get<T[]>(this.baseUri);
+    return this.apiService.get<T[]|IPageable<T[]>>(this.baseUri);
   }
 
   getById(id: number) {
@@ -20,8 +21,8 @@ export abstract  class BaseApiService<T> {
     return this.apiService.post(this.baseUri, data);
   }
 
-  update(data: T, id: string) {
-    return this.apiService.put(BaseHelper.getByIdUri(this.baseUri, id), data);
+  update(data: T, id: string|number) {
+    return this.apiService.put(BaseUtils.getByIdUri(this.baseUri, id), data);
   }
 
   delete() {
@@ -29,6 +30,6 @@ export abstract  class BaseApiService<T> {
   }
 
   deleteById(id: number) {
-    return this.apiService.delete(BaseHelper.getByIdUri(this.baseUri, id.toString()));
+    return this.apiService.delete(BaseUtils.getByIdUri(this.baseUri, id.toString()));
   }
 }

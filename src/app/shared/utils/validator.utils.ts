@@ -1,7 +1,7 @@
 import {ValidationErrors, Validators} from '@angular/forms';
 import {PasswordStrengthValidator} from '../validators/password-strength.validator';
 
-export class ValidatorHelper {
+export class ValidatorUtils {
   public static getUsernameValidators(maxLength: number = 15): ValidationErrors[] {
     return [Validators.required, Validators.minLength(3), Validators.maxLength(maxLength)];
   }
@@ -16,5 +16,9 @@ export class ValidatorHelper {
 
   public static getEmailValidators(): ValidationErrors[] {
     return [Validators.required, Validators.email];
+  }
+
+  public static getPhoneValidators(): ValidationErrors {
+    return Validators.pattern(new RegExp('[0-9 ]{12}'));
   }
 }

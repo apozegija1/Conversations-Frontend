@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {map} from 'rxjs/operators';
+import {flatMap, map, mergeMap} from 'rxjs/operators';
 import {Constants} from '../../shared/models/constants';
-import {Observable, Subject} from 'rxjs';
+import {Observable, Subject, throwError} from 'rxjs';
 import {LocalStorageService} from '../../shared/services/local-storage.service';
 import {IAuthToken} from '../models/iauth-token.interface';
 import {AuthenticationApiService} from './authentication-api.service';
@@ -60,20 +60,21 @@ export class AuthenticationService {
       return this.isRole(Role.Agent);
     }
 
-    public login(data: IAuthLogin): Observable<IAuthToken> {
+    public login(data: IAuthLogin): Observable<IUser> {
         return this.authenticationApiService.login(data)
-          .pipe(map((authToken: IAuthToken) => {
+          .pipe(mergeMap((authToken: IAuthToken): Observable<IUser> => {
                 // login successful if there's a jwt token in the response
                 if (authToken && AuthHelper.getToken(authToken)) {
                   // store user details and jwt token in local storage to keep user logged in between page refreshes
                   this.setAuthStorage(authToken);
-                  this.authenticationApiService.getLoggedUser().subscribe((user) => {
-                    this.setUserStorage(user);
-                    this.notifyUserLoggedIn(true);
-                  });
+                  return this.authenticationApiService.getLoggedUser();
+                } else {
+                  return throwError('Some error information');
                 }
-
-                return authToken;
+            }), map((user: IUser) => {
+              this.setUserStorage(user);
+              this.notifyUserLoggedIn(true);
+              return user;
             }));
     }
 

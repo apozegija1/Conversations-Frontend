@@ -2,7 +2,7 @@ import {Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {ProductModel} from '../models/product.model';
 import {ProductViewModel} from '../models/product.viewmodel';
-import {ArrayHelpers} from '../helpers/array.helper';
+import {ArrayHelpers} from '../utils/array.utils';
 import {CrudMode} from '../models/enums/crud-mode.enum';
 
 @Injectable()
