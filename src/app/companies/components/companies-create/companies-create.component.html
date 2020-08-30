@@ -1,3 +1,19 @@
-<div>
-  Welcome to companies create
+<div class="mt-4" fxFlex="65" fxFlexOffset="15">
+  <h2>{{'companies_create_label'|translate}}</h2>
+  <form name="form" [formGroup]="form" (ngSubmit)="form.valid && createCompany()" novalidate>
+    <mat-form-field class="full-width">
+      <mat-label>{{'name_label'|translate}}</mat-label>
+      <input matInput type="text" name="username" formControlName="name" />
+      <mat-error>
+        {{'name_required_label'|translate}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>{{'address_label'|translate}}</mat-label>
+      <input matInput type="text" name="username" formControlName="address" />
+    </mat-form-field>
+    <div>
+      <app-submit-button text="create_label"></app-submit-button>
+    </div>
+  </form>
 </div>

@@ -51,6 +51,8 @@ export class NavbarService {
         roles: ((options.roles === null || typeof options.roles === 'undefined') ? this.defaultRoles : options.roles),
         position: options.position || 0,
         items: [],
+        isRightSideDivider: options.isRightSideDivider || false,
+        method: options.method || null,
         shouldRender: this.shouldRender
     });
 
@@ -84,6 +86,7 @@ export class NavbarService {
         path: options.path || '',
         roles: ((options.roles === null || typeof options.roles === 'undefined') ? item.roles : options.roles),
         position: options.position || 0,
+        method: options.method || null,
         shouldRender: this.shouldRender
       });
     });
@@ -114,7 +117,7 @@ export class NavbarService {
     return Object.keys(this.menus).length === 1 && this.getMenu(Constants.Menu.defaultTopMenuName).items.length === 0;
   }
 
-  shouldRender = function(user?: IUser) {
+  private shouldRender = function(user?: IUser, from?: string) {
     if (this.roles.indexOf('*') !== -1) {
       return true;
     }

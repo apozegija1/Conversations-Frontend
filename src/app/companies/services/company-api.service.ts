@@ -5,7 +5,9 @@ import {BaseApiService} from '../../shared/services/base-api.service';
 import {ApiService} from '../../core/services/api.service';
 import {ICompany} from '../models/icompany.interface';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CompanyApiService extends BaseApiService<ICompany> {
   constructor(apiService: ApiService) {
     super(apiService, Constants.Api.Companies);

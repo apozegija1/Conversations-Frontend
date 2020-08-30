@@ -49,7 +49,7 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
       this.subsink.unsubscribe();
     }
 
-    public logout() {
+    public logout = () => {
       this.authService.logout();
       this.navbarMenu = this.navbarService.clear();
       this.currentUser = null;
@@ -57,14 +57,16 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
     }
 
     public setRoleBasedLinks(isLoggedIn: boolean): void {
-      this.navbarMenu = this.navbarService.getMenu(Constants.Menu.defaultTopMenuName);
       if (isLoggedIn) {
         this.setCurrentUser();
         if (this.navbarService.isEmpty()) {
+          this.addDashboardMenu();
           this.addUsersMenu();
           this.addCompaniesMenu();
           this.addCommunicationsMenu();
+          this.addAuthMenu();
         }
+        this.navbarMenu = this.navbarService.getMenu(Constants.Menu.defaultTopMenuName);
       } else {
         this.navbarMenu = this.navbarService.clear();
       }
@@ -125,6 +127,36 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
       path: '/communications',
       state: MenuStateType.Communications,
       roles: [Role.User, Role.Agent, Role.CompanyAdmin]
+    });
+  }
+
+  private addDashboardMenu() {
+    this.navbarService.addMenuItem(Constants.Menu.defaultTopMenuName, {
+      icon: 'home',
+      title: 'home_label',
+      path: '/',
+      state: MenuStateType.Dashboard,
+      roles: ['*']
+    });
+  }
+
+  private addAuthMenu() {
+    this.navbarService.addMenuItem(Constants.Menu.defaultTopMenuName, {
+      icon: 'person_pin',
+      title: this.currentUser.username,
+      state: MenuStateType.Auth,
+      isRightSideDivider: true,
+      type: MenuItemType.Dropdown,
+      roles: ['*']
+    });
+
+    this.navbarService.addSubMenuItem(Constants.Menu.defaultTopMenuName, MenuStateType.Auth, {
+      title: 'logout_label',
+      icon: 'exit_to_app',
+      state: MenuStateType.Auth,
+      type: MenuItemType.ClickItem,
+      method: this.logout,
+      roles: ['*']
     });
   }
 }

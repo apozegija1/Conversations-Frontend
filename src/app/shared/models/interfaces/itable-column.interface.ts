@@ -7,4 +7,5 @@ export interface ITableColumn {
   iconName?: string;
   headerIcon?: string;
   title?: string;
+  showOnSm?: boolean;
 }

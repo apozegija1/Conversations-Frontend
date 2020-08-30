@@ -3,6 +3,8 @@ import {CommunicationsCreateComponent} from './components/communications-create/
 import {CommunicationsListComponent} from './components/communications-list/communications-list.component';
 import {VideoPopupComponent} from './components/video-popup/video-popup.component';
 import {CommunicationRouteUtils} from './utils/communication-route.utils';
+import {CommunicationsUserListComponent} from './components/communications-user-list/communications-user-list.component';
+import {CommunicationsSendMessageComponent} from './components/communications-send-message/communications-send-message.component';
 
 export const CommunicationRoutes: Routes = [
   {
@@ -14,6 +16,7 @@ export const CommunicationRoutes: Routes = [
 
 export const CommunicationsRoutingModule = RouterModule.forChild(CommunicationRoutes);
 
-export const CommunicationsRoutingComponents = [CommunicationsListComponent, CommunicationsCreateComponent,
+export const CommunicationsRoutingComponents = [CommunicationsListComponent, CommunicationsSendMessageComponent,
+  CommunicationsUserListComponent, CommunicationsCreateComponent,
   VideoPopupComponent];
 

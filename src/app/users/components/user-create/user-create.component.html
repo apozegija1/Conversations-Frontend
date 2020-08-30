@@ -11,6 +11,13 @@
         {{'role_required_label'|translate}}
       </mat-error>
     </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>{{'company_label'|translate}}</mat-label>
+      <mat-select formControlName="company">
+        <mat-option *ngFor="let company of (companies$|async)"
+                    [value]="company.id">{{company.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <div>
       <app-submit-button text="create_label"></app-submit-button>
     </div>

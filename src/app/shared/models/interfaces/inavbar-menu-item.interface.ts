@@ -1,3 +1,4 @@
+import {INavbarShouldRender} from '../types/inavbar-should-render.type';
 
 export interface INavbarMenuItem {
   title: string;
@@ -10,5 +11,7 @@ export interface INavbarMenuItem {
   roles?: string[];
   position?: number;
   items?: INavbarMenuItem[];
-  shouldRender?: (user?) => boolean;
+  shouldRender?: INavbarShouldRender;
+  isRightSideDivider?: boolean;
+  method?: () => void;
 }

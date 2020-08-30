@@ -29,6 +29,10 @@
   "gender_required_label": "Spol je obavezan",
   "role_label": "Rola",
   "role_required_label": "Rola je obavezna",
+  "company_label": "Kompanija",
+  "company_required_label": "Kompanija je obavezna",
+  "name_label": "Naziv",
+  "name_required_label": "Naziv je obavezan",
   "close_invoice_modal_label": "Zatvori",
   "print_invoice_modal_label": "Isprintaj",
   "logout_label": "Odloguj se",
@@ -55,7 +59,8 @@
   "no_video_support": "Vas internet preglednik ne podrzava video.",
   "finish_call": "Zavrsi",
   "remember_me": "Zapamti me",
-  "user_create_label_message": "Korisnik kreiran",
+  "user_created_label_message": "Korisnik kreiran",
+  "company_created_label_message": "Kompanija kreirana",
   "delete_confirmation_title": "Brisanje unosa",
   "delete_confirmation_content": "Da li ste sigurni da zelite obrisati ovaj unos?"
 }

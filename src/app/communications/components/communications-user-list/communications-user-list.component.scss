@@ -1,0 +1,13 @@
+@import "~src/styles";
+
+.active-communication {
+  background-color: $accentColor;
+}
+
+.communication-user-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+

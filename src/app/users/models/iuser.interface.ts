@@ -1,4 +1,5 @@
 import {IRole} from './irole.interface';
+import {ICompany} from '../../companies/models/icompany.interface';
 
 export class IUser {
     id?: number;
@@ -9,5 +10,6 @@ export class IUser {
     email: string;
     phone?: string;
     gender?: string;
+    company?: ICompany;
     roles: Array<IRole>;
 }

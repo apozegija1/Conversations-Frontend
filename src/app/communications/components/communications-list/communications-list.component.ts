@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BaseUserInfo} from '../../../shared/classes/base-user-info';
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {DialogPopupService} from '../../../shared/services/dialog-popup.service';
@@ -16,9 +16,6 @@ export class CommunicationsListComponent extends BaseUserInfo implements OnInit 
   conversations: IUserCommunication[] = [];
   selectedConversation: IUserCommunication;
 
-  messageText: string;
-  events: Array<any> = [];
-
   constructor(authService: AuthenticationService,
               private dialogPopupService: DialogPopupService,
               private translate: TranslateService,
@@ -27,22 +24,17 @@ export class CommunicationsListComponent extends BaseUserInfo implements OnInit 
   }
 
   ngOnInit() {
-    this.communicationApiService.getAllUserCommunications(this.currentUser)
-      .subscribe((data) => {
+    this.communicationApiService.getAllUserCommunications()
+      .subscribe((data: IUserCommunication[]) => {
         this.conversations = data;
     });
   }
 
-  selectConversation(conversationId: number) {
-    this.selectedConversation = this.conversations
-      .find((conversation) => conversation.user.id === conversationId);
+  selectConversation(selectedCommunication: IUserCommunication) {
+    this.selectedConversation = selectedCommunication;
   }
 
-  sendText(text: string) {
-
-  }
-
-  send() {
+  send(text: string) {
 
   }
 

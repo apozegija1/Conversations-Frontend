@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { map, mergeMap} from 'rxjs/operators';
+import {map, mergeMap} from 'rxjs/operators';
 import {Constants} from '../../shared/models/constants';
 import {Observable, Subject, throwError} from 'rxjs';
 import {LocalStorageService} from '../../shared/services/local-storage.service';
@@ -53,7 +53,7 @@ export class AuthenticationService {
                   this.setAuthStorage(authToken);
                   return this.authenticationApiService.getLoggedUser();
                 } else {
-                  return throwError('Some error information');
+                  return throwError('Missing auth token');
                 }
             }), map((user: IUser) => {
               this.setUserStorage(user);
@@ -65,6 +65,10 @@ export class AuthenticationService {
     public logout(): void {
       this.clearUserStorage();
       this.notifyUserLoggedIn(false);
+    }
+
+    public isCompanyAdmin() {
+      return this.isRole(Role.CompanyAdmin);
     }
 
     private clearUserStorage(): void {

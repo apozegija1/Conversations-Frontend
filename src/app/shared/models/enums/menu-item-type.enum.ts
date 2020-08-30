@@ -1,4 +1,5 @@
 export enum  MenuItemType {
   Dropdown = 'dropdown',
-  Item = 'item'
+  Item = 'item',
+  ClickItem = 'clickItem'
 }

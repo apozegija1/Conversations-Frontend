@@ -1,4 +1,3 @@
-import {HttpClient} from '@angular/common/http';
 import {BaseUtils} from '../utils/base.utils';
 import {ApiService} from '../../core/services/api.service';
 import {IPageable} from '../models/interfaces/ipageable.interface';
@@ -7,6 +6,11 @@ export abstract  class BaseApiService<T> {
   constructor(protected apiService: ApiService,
               protected baseUri: string) {
 
+  }
+
+  getAll() {
+    // Depending if the get all route is one that can be paginated or not this will return data as array or pageable content
+    return this.apiService.get<T[]>(`${this.baseUri}/all`);
   }
 
   get() {

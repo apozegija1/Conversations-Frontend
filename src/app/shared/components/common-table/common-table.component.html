@@ -1,15 +1,25 @@
 <div fxFlex="94" fxFlexOffset="3">
-  <h2>{{header|translate}}</h2>
+  <div>
+    <h2>{{header|translate}}</h2>
+    <span fxFlex></span>
+    <button mat-button>
+      <mat-icon color="primary" class="icon-scaled-16">add</mat-icon>
+    </button>
+  </div>
   <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource">
 
       <ng-container *ngFor="let column of tableColumns" [matColumnDef]="column.id">
         <th mat-header-cell *matHeaderCellDef>
-          <span [ngClass]="{'action-buttons': column.dataType === 'ActionButtons'}">{{column.title|translate}}</span>
+          <span fxShow.gt-sm fxHide.lt-sm="{{!column.showOnSm}}" [ngClass]="{'action-buttons': column.dataType === 'ActionButtons'}">
+            {{column.title|translate}}
+          </span>
         </th>
 
-        <td mat-cell *matCellDef="let element">
-          <span *ngIf="column.dataType === 'Text'">{{element[column.id]}}</span>
+        <td mat-cell *matCellDef="let element" fxShow.gt-sm fxHide.lt-sm="{{!column.showOnSm}}">
+          <span *ngIf="column.dataType === 'Text'" >
+            {{element[column.id]}}
+          </span>
 
           <span *ngIf="column.dataType === 'MdIcon'">
             <mat-icon>{{element[column.id]}}</mat-icon>
@@ -23,13 +33,12 @@
             <span>{{element[column.id]}.join(',')}</span>
           </span>
 
-          <span *ngIf="column.dataType === 'ActionButtons'">
-            <span fxFlex></span>
+          <span *ngIf="column.dataType === 'ActionButtons'" class="action-buttons-data">
             <button mat-icon-button (click)="edit(element)">
-              <mat-icon color="primary" class="icon-scaled-16">edit</mat-icon>
+              <mat-icon color="primary">edit</mat-icon>
             </button>
             <button mat-icon-button (click)="delete(element)">
-              <mat-icon color="warn" class="icon-scaled-16">delete</mat-icon>
+              <mat-icon color="warn">delete</mat-icon>
             </button>
           </span>
         </td>

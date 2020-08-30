@@ -8,12 +8,13 @@ import {Observable} from 'rxjs';
 import {IUserCommunication} from '../models/iuser-communication.interface';
 
 @Injectable()
-export class CommunicationsApiService extends BaseApiService<ICommunication> {
-  constructor(apiService: ApiService) {
-    super(apiService, Constants.Api.Communications);
+export class SmsApiService {
+  constructor(protected apiService: ApiService,
+              protected baseUri: string) {
+    this.baseUri = '';
   }
 
-  getAllUserCommunications(): Observable<IUserCommunication[]> {
-    return this.apiService.get<IUserCommunication[]>(`${this.baseUri}/users`);
+  create(message: string) {
+    return this.apiService.post(this.baseUri, message);
   }
 }

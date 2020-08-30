@@ -1,6 +1,6 @@
 <div *ngIf="message" [ngClass]="{ 'alert': message, 'alert-success': message.type === 'success',
   'alert-danger': message.type === 'error' }">
-  <span>{{message.text}}</span>
+  <span fxFlex="90">{{message.text}}</span>
   <span fxFlex></span>
   <button mat-button (click)="dismissMessage()">
     <mat-icon color="primary" >highlight_off</mat-icon>

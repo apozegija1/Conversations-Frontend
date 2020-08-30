@@ -7,23 +7,26 @@ export class TableUtils {
       columns: [{
         dataType: CellType.Text,
         id: 'id',
-        title: 'Id'
+        title: 'Id',
+        showOnSm: true
       },
-        {
-          dataType: CellType.Text,
-          id: 'name',
-          title: 'name_header'
-        },
-        {
-          dataType: CellType.Text,
-          id: 'address',
-          title: 'address_label'
-        },
-        {
-          dataType: CellType.ActionButtons,
-          id: 'actions',
-          title: 'actions_label'
-        }]
+      {
+        dataType: CellType.Text,
+        id: 'name',
+        title: 'name_header',
+        showOnSm: true
+      },
+      {
+        dataType: CellType.Text,
+        id: 'address',
+        title: 'address_label'
+      },
+      {
+        dataType: CellType.ActionButtons,
+        id: 'actions',
+        title: 'actions_label',
+        showOnSm: true
+      }]
     };
   }
 }

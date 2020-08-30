@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {ITableConfig} from '../../models/interfaces/itable-config.interface';
@@ -13,7 +13,7 @@ import {TranslateService} from '@ngx-translate/core';
     styleUrls: ['./common-table.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommonTableComponent implements OnInit, OnChanges {
+export class CommonTableComponent implements OnInit {
   @Input() header: string;
 
   @Input() tableConfig: ITableConfig;
@@ -30,6 +30,8 @@ export class CommonTableComponent implements OnInit, OnChanges {
   @Output() deleteChange: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() editChange: EventEmitter<any> = new EventEmitter<any>();
+
+  @Output() createChange: EventEmitter<void> = new EventEmitter<void>();
 
   private localData: Array<any>;
 
@@ -50,12 +52,8 @@ export class CommonTableComponent implements OnInit, OnChanges {
       throw new Error('Please provide configuration for table so it can render data');
     }
 
-    this.visibleColumns = this.tableConfig.columns.map((column) => column.id);
+    this.visibleColumns = this.tableConfig.columns.map((column: ITableColumn) => column.id);
     this.tableColumns = this.tableConfig.columns;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
   }
 
   public delete(element: any) {
@@ -69,6 +67,10 @@ export class CommonTableComponent implements OnInit, OnChanges {
 
   public edit(element: any) {
     this.editChange.emit(element);
+  }
+
+  public create() {
+    this.createChange.emit();
   }
 
   private initDataSource() {

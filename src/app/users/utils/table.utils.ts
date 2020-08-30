@@ -7,43 +7,46 @@ export class TableUtils {
       columns: [{
         dataType: CellType.Text,
         id: 'id',
-        title: 'Id'
+        title: 'Id',
+        showOnSm: true
       },
-        {
-          dataType: CellType.Text,
-          id: 'username',
-          title: 'username_label'
-        },
-        {
-          dataType: CellType.Text,
-          id: 'firstname',
-          title: 'first_name_label'
-        },
-        {
-          dataType: CellType.Text,
-          id: 'lastname',
-          title: 'last_name_label'
-        },
-        {
-          dataType: CellType.Text,
-          id: 'email',
-          title: 'email_label'
-        },
-        {
-          dataType: CellType.Text,
-          id: 'gender',
-          title: 'gender_label'
-        },
-        {
-          dataType: CellType.Text,
-          id: 'phone',
-          title: 'phone_label'
-        },
-        {
-          dataType: CellType.ActionButtons,
-          id: 'actions',
-          title: 'actions_label'
-        }]
+      {
+        dataType: CellType.Text,
+        id: 'username',
+        title: 'username_label',
+        showOnSm: true
+      },
+      {
+        dataType: CellType.Text,
+        id: 'firstname',
+        title: 'first_name_label'
+      },
+      {
+        dataType: CellType.Text,
+        id: 'lastname',
+        title: 'last_name_label'
+      },
+      {
+        dataType: CellType.Text,
+        id: 'email',
+        title: 'email_label'
+      },
+      {
+        dataType: CellType.Text,
+        id: 'gender',
+        title: 'gender_label'
+      },
+      {
+        dataType: CellType.Text,
+        id: 'phone',
+        title: 'phone_label'
+      },
+      {
+        dataType: CellType.ActionButtons,
+        id: 'actions',
+        title: 'actions_label',
+        showOnSm: true
+      }]
     };
   }
 }

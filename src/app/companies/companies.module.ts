@@ -9,6 +9,8 @@ import {CompanyApiService} from './services/company-api.service';
     CompaniesRoutingModule,
   ],
   providers: [CompanyApiService],
+  exports: [
+  ],
   declarations: [...CompaniesRoutingComponents]
 })
 export class CompaniesModule { }

@@ -1,0 +1,10 @@
+<mat-list class="conversations">
+  <a mat-list-item *ngFor="let conversation of conversations">
+    <button mat-button (click)="selectConversation(conversation)" class="communication-user-container"
+            [ngClass]="{ 'active-communication': (selectedConversation && conversation.user.id === selectedConversation.user.id) }">
+      <mat-icon color="primary" matListIcon>forum</mat-icon>
+      <span>{{ conversation.user.username }}</span>
+    </button>
+
+  </a>
+</mat-list>

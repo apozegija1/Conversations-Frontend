@@ -88,15 +88,9 @@ section .mat-list .mat-list-avatar{
   cursor: pointer;
 }
 
-.icon-scaled-16 {
-  transform: scale(1.6);
-  margin-right: 15px;
-}
-
 .message-chip {
   margin: 0 10px;
 }
-
 
 .message-container {
   margin: 10px 0;
@@ -104,5 +98,4 @@ section .mat-list .mat-list-avatar{
 
 .active-communication {
   background-color: $accentColor;
-
 }

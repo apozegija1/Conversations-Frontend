@@ -1,16 +1,17 @@
-<mat-toolbar color="primary" class="expanded-toolbar">
-  <span *ngIf="(isLoggedIn$|async)" fxShow="true">
-    <button mat-button routerLink="/">
-      <mat-icon>home</mat-icon>
-      {{'home_label'|translate}}
-    </button>
-  </span>
-
-  <span *ngIf="navbarMenu && navbarMenu.shouldRender(currentUser)">
-    <span *ngFor="let item of navbarMenu.items" class="{{item.class}}">
+<mat-toolbar color="primary" class="expanded-toolbar" fxLayout="row">
+  <span *ngIf="navbarMenu && navbarMenu.shouldRender(currentUser)"
+        fxFlex="95" fxHide="true" fxShow.gt-sm fxLayout="row">
+    <span *ngFor="let item of navbarMenu.items" class="{{item.class}}"
+          [ngClass]="{ 'right-side-divider': item.isRightSideDivider }">
+      <span fxFlex></span>
       <span *ngIf="item.shouldRender(currentUser)">
         <button mat-button [routerLink]="item.path" *ngIf="item.type === 'item'">
           <mat-icon>{{item.icon}}</mat-icon>
+          <span>{{item.title|translate}}</span>
+        </button>
+
+        <button mat-button *ngIf="item.type === 'clickItem'" (click)="item.method()">
+          <mat-icon>C{{item.icon}}</mat-icon>
           <span>{{item.title|translate}}</span>
         </button>
 
@@ -21,7 +22,8 @@
 
           <mat-menu  xPosition="before" #navbarMenuDropdown="matMenu">
             <span *ngFor="let subItem of item.items">
-              <button mat-menu-item *ngIf="subItem.shouldRender(currentUser)" [routerLink]="subItem.path">
+              <button mat-menu-item *ngIf="subItem.shouldRender(currentUser)"
+                      [routerLink]="subItem.path" (click)="subItem.method && subItem.method()">
                 <mat-icon *ngIf="subItem.icon">{{subItem.icon}}</mat-icon>
                 <span>{{subItem.title|translate}}</span>
               </button>
@@ -34,23 +36,16 @@
     </span>
   </span>
 
-  <span fxFlex></span>
   <app-language-selector></app-language-selector>
-  <div *ngIf="(isLoggedIn$|async)" fxLayout="row" fxShow="false" fxShow.gt-sm>
-    <button mat-button  (click)="logout()">
-      <mat-icon>exit_to_app</mat-icon>
-      {{'logout_label'|translate}}
-    </button>
-  </div>
 
-
-  <button mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
+  <span fxFlex></span>
+  <button mat-button [mat-menu-trigger-for]="smMenu" fxHide.gt-sm>
     <mat-icon>menu</mat-icon>
   </button>
 </mat-toolbar>
 
 
-<mat-menu xPosition="before" #menu="matMenu">
+<mat-menu xPosition="before" #smMenu="matMenu">
   <button mat-menu-item *ngIf="(isLoggedIn$|async)" (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>
     {{'logout_label'|translate}}

@@ -3,9 +3,14 @@ table {
   width: 100%;
 }
 
-
 .action-buttons {
   display: flex;
   justify-content: flex-end;
-  padding-right: 15px;
+  padding-right: 20px;
+}
+
+.action-buttons-data {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 0;
 }

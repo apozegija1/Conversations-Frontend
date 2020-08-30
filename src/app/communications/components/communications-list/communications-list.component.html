@@ -7,24 +7,23 @@
             <mat-icon color="primary" matListIcon>forum</mat-icon>
             <span>{{'communications_label'|translate}}</span>
           </ng-template>
-          <mat-list class="conversations">
-            <a mat-list-item [ngClass]="{ 'active-communication': (selectedConversation && conversation.user.id === selectedConversation.user.id) }"
-               *ngFor="let conversation of conversations" (click)="selectConversation(conversation.user.id)">
-              <mat-icon color="primary" matListIcon>forum</mat-icon>
-              <span>{{ conversation.user.username }}</span>
-            </a>
-          </mat-list>
+          <app-communications-user-list [conversations]="conversations"
+                                        [selectedConversation]="selectedConversation"
+                                        (conversationSelected)="selectConversation($event)"></app-communications-user-list>
         </mat-tab>
       </mat-tab-group>
     </mat-card>
   </mat-sidenav>
   <mat-sidenav position="end" mode="side" opened *ngIf="selectedConversation">
     <mat-card>
+      <h2 class="pt-2">{{'users_label'|translate}}</h2>
       <mat-list class="members">
-        ...
+        <h3>{{selectedConversation.user.username}}</h3>
+        <h3>{{currentUser.username}}</h3>
       </mat-list>
     </mat-card>
   </mat-sidenav>
+
   <section class="empty-conversation" *ngIf="!selectedConversation">
     <h1 class="mat-display-1">{{'select_communication'|translate}}</h1>
   </section>
@@ -52,12 +51,7 @@
         </div>
       </div>
     </mat-list>
-    <div class="conversation-input">
-      <mat-divider></mat-divider>
-      <mat-form-field class="full-width">
-        <input matInput placeholder="{{'chat_start_placeholder'|translate}}" name="text" [(ngModel)]="messageText">
-        <mat-icon class="icon-scaled-16" color="primary" matSuffix (click)="send()">send</mat-icon>
-      </mat-form-field>
-    </div>
+    <app-communications-send-message class="conversation-input"
+                                     (messageSend)="send($event)"></app-communications-send-message>
   </section>
 </mat-sidenav-container>
