@@ -24,7 +24,7 @@
   "email_required_label": "Email je obavezno",
   "email_invalid_label": "Email nije u validnom formatu",
   "phone_label": "Telefon",
-  "phone_required_label": "Telefon je obavezno",
+  "phone_invalid_label": "Broj telefona je u nevalidnom formatu, koristiti format nnn(pozivni broj zemlje), nn(lokalni pozivni) nnnnnn(broj)",
   "gender_label": "Spol",
   "gender_required_label": "Spol je obavezan",
   "role_label": "Rola",
@@ -55,5 +55,7 @@
   "no_video_support": "Vas internet preglednik ne podrzava video.",
   "finish_call": "Zavrsi",
   "remember_me": "Zapamti me",
-  "user_create_label_message": "Korisnik kreiran"
+  "user_create_label_message": "Korisnik kreiran",
+  "delete_confirmation_title": "Brisanje unosa",
+  "delete_confirmation_content": "Da li ste sigurni da zelite obrisati ovaj unos?"
 }

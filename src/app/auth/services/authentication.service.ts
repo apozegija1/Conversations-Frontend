@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {flatMap, map, mergeMap} from 'rxjs/operators';
+import { map, mergeMap} from 'rxjs/operators';
 import {Constants} from '../../shared/models/constants';
 import {Observable, Subject, throwError} from 'rxjs';
 import {LocalStorageService} from '../../shared/services/local-storage.service';
@@ -44,22 +44,6 @@ export class AuthenticationService {
       this.isLoggedIn$.next(value);
     }
 
-    public isSuperAdmin(): boolean {
-      return this.isRole(Role.Admin);
-    }
-
-    public isCompanyAdmin(): boolean {
-      return this.isRole(Role.CompanyAdmin);
-    }
-
-    public isUser(): boolean {
-      return this.isRole(Role.User);
-    }
-
-    public isAgent(): boolean {
-      return this.isRole(Role.Agent);
-    }
-
     public login(data: IAuthLogin): Observable<IUser> {
         return this.authenticationApiService.login(data)
           .pipe(mergeMap((authToken: IAuthToken): Observable<IUser> => {
@@ -87,9 +71,10 @@ export class AuthenticationService {
       // remove user from local storage to log user out
       this.localStorageService.removeItem(Constants.LocalStorageKey.CurrentAuth);
       this.localStorageService.removeItem(Constants.LocalStorageKey.CurrentUser);
+      this.currentUser = null;
     }
 
-    private setUserStorage( user: IUser): void {
+    private setUserStorage(user: IUser): void {
       this.localStorageService.setItem(Constants.LocalStorageKey.CurrentUser, user);
     }
 

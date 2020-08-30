@@ -10,6 +10,7 @@ export abstract  class BaseApiService<T> {
   }
 
   get() {
+    // Depending if the get all route is one that can be paginated or not this will return data as array or pageable content
     return this.apiService.get<T[]|IPageable<T[]>>(this.baseUri);
   }
 

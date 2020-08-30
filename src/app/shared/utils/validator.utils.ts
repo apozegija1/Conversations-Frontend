@@ -19,6 +19,6 @@ export class ValidatorUtils {
   }
 
   public static getPhoneValidators(): ValidationErrors {
-    return Validators.pattern(new RegExp('[0-9 ]{12}'));
+    return Validators.pattern(new RegExp('[0-9 ]{11,12}'));
   }
 }

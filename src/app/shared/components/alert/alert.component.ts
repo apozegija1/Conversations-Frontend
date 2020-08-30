@@ -11,9 +11,14 @@ import {IAlert} from '../../models/interfaces/ialert.interface';
 export class AlertComponent implements  OnInit {
     message: IAlert;
 
-    constructor(private alertService: AlertService) { }
+    constructor(private alertService: AlertService) {}
 
     public ngOnInit() {
-        this.alertService.getMessage().subscribe(message => { this.message = message; });
+        this.alertService.getMessage()
+          .subscribe(message => { this.message = message; });
+    }
+
+    public dismissMessage() {
+      this.alertService.clear();
     }
 }

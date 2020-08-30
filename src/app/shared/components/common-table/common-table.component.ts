@@ -3,6 +3,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {ITableConfig} from '../../models/interfaces/itable-config.interface';
 import {ITableColumn} from '../../models/interfaces/itable-column.interface';
+import {DialogPopupService} from '../../services/dialog-popup.service';
+import {ConfirmationPopupComponent} from '../confirmation-popup/confirmation-popup.component';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
     templateUrl: 'common-table.component.html',
@@ -37,6 +40,10 @@ export class CommonTableComponent implements OnInit, OnChanges {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+  constructor(private propDialogService: DialogPopupService,
+              private translate: TranslateService) {}
+
+
   ngOnInit() {
     this.initDataSource();
     if (this.tableConfig == null) {
@@ -52,7 +59,12 @@ export class CommonTableComponent implements OnInit, OnChanges {
   }
 
   public delete(element: any) {
-    this.deleteChange.emit(element);
+    this.propDialogService.processPopup(ConfirmationPopupComponent,
+      this.translate.instant('delete_confirmation_title'), this.translate.instant('delete_confirmation_content'))
+      .subscribe((ok: boolean) => {
+        if (!ok) { return; }
+        this.deleteChange.emit(element);
+      });
   }
 
   public edit(element: any) {

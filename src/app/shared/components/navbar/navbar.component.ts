@@ -1,5 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
-
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
@@ -53,19 +52,19 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
     public logout() {
       this.authService.logout();
       this.navbarMenu = this.navbarService.clear();
+      this.currentUser = null;
       this.router.navigate(['/login']);
     }
 
     public setRoleBasedLinks(isLoggedIn: boolean): void {
       this.navbarMenu = this.navbarService.getMenu(Constants.Menu.defaultTopMenuName);
       if (isLoggedIn) {
+        this.setCurrentUser();
         if (this.navbarService.isEmpty()) {
           this.addUsersMenu();
           this.addCompaniesMenu();
           this.addCommunicationsMenu();
         }
-        // To trigger detection change after data was added to navbar menu
-        this.navbarMenu = this.navbarService.getMenu(Constants.Menu.defaultTopMenuName);
       } else {
         this.navbarMenu = this.navbarService.clear();
       }

@@ -15,6 +15,7 @@ import {CommonTableComponent} from './components/common-table/common-table.compo
 import {SubmitButtonComponent} from './components/submit-button/submit-button.component';
 import {ConfirmationPopupComponent} from './components/confirmation-popup/confirmation-popup.component';
 import {UserCreateFormComponent} from './components/user-create-form/user-create-form.component';
+import {ReactiveAsteriskDirective} from './directives/reactive-asterix.directive';
 
 const SharedComponents = [
   AlertComponent,
@@ -25,7 +26,10 @@ const SharedComponents = [
   CommonTableComponent,
   SubmitButtonComponent,
   ConfirmationPopupComponent,
-  UserCreateFormComponent
+  UserCreateFormComponent,
+
+
+  ReactiveAsteriskDirective
 ];
 
 @NgModule({

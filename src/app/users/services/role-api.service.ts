@@ -1,17 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { IUser } from '../models/iuser.interface';
 import {Constants} from '../../shared/models/constants';
 import {BaseApiService} from '../../shared/services/base-api.service';
 import {ApiService} from '../../core/services/api.service';
+import {IRole} from '../models/irole.interface';
 
 @Injectable()
-export class UserApiService extends BaseApiService<IUser> {
+export class RoleApiService extends BaseApiService<IRole> {
   constructor(apiService: ApiService) {
-    super(apiService, Constants.Api.Users);
-  }
-
-  public createUserWithRole(user: IUser, role: string) {
-    return this.apiService.post(`${this.baseUri}/role/${role}`, user);
+    super(apiService, Constants.Api.Roles);
   }
 }

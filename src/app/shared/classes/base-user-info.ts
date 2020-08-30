@@ -5,6 +5,10 @@ export abstract class BaseUserInfo {
   public currentUser: IUser;
 
   protected constructor(protected authService: AuthenticationService) {
+    this.setCurrentUser();
+  }
+
+  protected setCurrentUser() {
     this.currentUser = this.authService.getCurrentUser();
   }
 }
