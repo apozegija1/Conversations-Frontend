@@ -6,6 +6,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {VideoPopupComponent} from '../video-popup/video-popup.component';
 import {CommunicationsApiService} from '../../services/communications-api.service';
 import {IUserCommunication} from '../../models/iuser-communication.interface';
+import {CommunicationType} from '../../models/communication-type.enum';
 
 @Component({
     templateUrl: './communications-list.component.html',
@@ -35,7 +36,13 @@ export class CommunicationsListComponent extends BaseUserInfo implements OnInit 
   }
 
   send(text: string) {
-
+    this.communicationApiService.create({
+      customerId: this.selectedConversation.user.id,
+      startTime: new Date().toDateString(),
+      type: CommunicationType.Sms,
+      text,
+      agentId: this.currentUser.id
+    });
   }
 
   startVideoCall() {

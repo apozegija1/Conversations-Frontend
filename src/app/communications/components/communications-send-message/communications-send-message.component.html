@@ -1,7 +1,11 @@
 <div>
   <mat-divider></mat-divider>
   <mat-form-field class="full-width">
-    <input matInput placeholder="{{'chat_start_placeholder'|translate}}" name="text" [(ngModel)]="messageText">
-    <mat-icon class="icon-scaled-16" color="primary" matSuffix (click)="send()">send</mat-icon>
+    <input matInput placeholder="{{'chat_start_placeholder'|translate}}"
+           name="text" [(ngModel)]="messageText">
+    <button mat-button [disabled]="messageText == null" appDebounceClick (click)="send()">
+      <mat-icon class="icon-scaled-16" color="primary" matSuffix>send</mat-icon>
+    </button>
+
   </mat-form-field>
 </div>

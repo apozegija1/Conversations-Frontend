@@ -37,8 +37,11 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
     ngOnInit() {
       // Assign logged in observable and notify if user logged in
       this.subsink.sink = this.authService.getIsUserLoggedIn()
-        .subscribe((data) => {
+        .subscribe((data: boolean) => {
           this.setRoleBasedLinks(data);
+          if (data === false) {
+            this.clearLogoutData();
+          }
           this.isLoggedIn$.next(data);
         });
 
@@ -49,11 +52,14 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
       this.subsink.unsubscribe();
     }
 
-    public logout = () => {
-      this.authService.logout();
+    private clearLogoutData() {
       this.navbarMenu = this.navbarService.clear();
       this.currentUser = null;
       this.router.navigate(['/login']);
+    }
+
+    public logout = () => {
+      this.authService.logout();
     }
 
     public setRoleBasedLinks(isLoggedIn: boolean): void {

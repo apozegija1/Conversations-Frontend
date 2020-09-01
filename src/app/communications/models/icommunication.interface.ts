@@ -1,5 +1,5 @@
 export class ICommunication {
-    id: number;
+    id?: number;
     type: any;
     agentId: number;
     customerId: number;
