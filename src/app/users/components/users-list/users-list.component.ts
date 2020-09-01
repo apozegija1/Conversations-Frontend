@@ -6,6 +6,7 @@ import {IPageable} from '../../../shared/models/interfaces/ipageable.interface';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {TableUtils} from '../../utils/table.utils';
+import {Router} from '@angular/router';
 
 @Component({
     templateUrl: './users-list.component.html',
@@ -17,7 +18,8 @@ export class UsersListComponent implements OnInit {
     public users$: Observable<IUser[]> = new BehaviorSubject([]);
     public userTableConfig: ITableConfig = TableUtils.getTableConfig();
 
-    constructor(private userApiService: UserApiService) {}
+    constructor(private userApiService: UserApiService,
+                private router: Router) {}
 
     ngOnInit() {
       this.getUsers();
@@ -36,6 +38,10 @@ export class UsersListComponent implements OnInit {
         .subscribe((data) => {
         this.getUsers();
       });
+    }
+
+    onCreate() {
+      this.router.navigate(['/users/create']);
     }
 
     private getUsers() {

@@ -62,5 +62,6 @@
   "user_created_label_message": "Korisnik kreiran",
   "company_created_label_message": "Kompanija kreirana",
   "delete_confirmation_title": "Brisanje unosa",
-  "delete_confirmation_content": "Da li ste sigurni da zelite obrisati ovaj unos?"
+  "delete_confirmation_content": "Da li ste sigurni da zelite obrisati ovaj unos?",
+  "session_expired": "Sesija istekla, logujte se ponovo"
 }

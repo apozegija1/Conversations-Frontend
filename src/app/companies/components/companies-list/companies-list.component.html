@@ -1,5 +1,8 @@
 <div>
   <app-common-table [header]="'companies_label'"
                     [tableConfig]="companiesTableConfig"
-                    [data]="companies$|async"></app-common-table>
+                    [data]="companies$|async"
+                    (editChange)="onEdit($event)"
+                    (deleteChange)="onDelete($event)"
+                    (createChange)="onCreate()"></app-common-table>
 </div>

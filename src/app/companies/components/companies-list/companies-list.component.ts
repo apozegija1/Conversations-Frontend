@@ -6,6 +6,7 @@ import {ICompany} from '../../models/icompany.interface';
 import {map} from 'rxjs/operators';
 import {IPageable} from '../../../shared/models/interfaces/ipageable.interface';
 import {TableUtils} from '../../utils/table.utils';
+import {Router} from '@angular/router';
 
 @Component({
     templateUrl: './companies-list.component.html',
@@ -17,12 +18,25 @@ export class CompaniesListComponent implements OnInit {
   public companiesTableConfig: ITableConfig = TableUtils.getTableConfig();
   public companies$: Observable<ICompany[]> = new BehaviorSubject([]);
 
-  constructor(private companiesApiService: CompanyApiService) {}
+  constructor(private companiesApiService: CompanyApiService,
+              private router: Router) {}
 
   ngOnInit() {
     this.companies$ = this.companiesApiService.get()
       .pipe(map((data: IPageable<ICompany[]>) => {
         return data.content;
     }));
+  }
+
+  onEdit(company: ICompany) {
+
+  }
+
+  onDelete(company: ICompany) {
+
+  }
+
+  onCreate() {
+    this.router.navigate(['/companies/create']);
   }
 }

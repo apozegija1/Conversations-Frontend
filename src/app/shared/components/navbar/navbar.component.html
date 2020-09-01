@@ -1,26 +1,26 @@
 <mat-toolbar color="primary" class="expanded-toolbar" fxLayout="row">
   <span *ngIf="navbarMenu && navbarMenu.shouldRender(currentUser)"
         fxFlex="95" fxHide="true" fxShow.gt-sm fxLayout="row">
-    <span *ngFor="let item of navbarMenu.items" class="{{item.class}}"
+    <span *ngFor="let item of (navbarMenu).items" class="{{item.class}}"
           [ngClass]="{ 'right-side-divider': item.isRightSideDivider }">
       <span fxFlex></span>
       <span *ngIf="item.shouldRender(currentUser)">
-        <button mat-button [routerLink]="item.path" *ngIf="item.type === 'item'">
+        <button mat-button [routerLink]="item.path" *ngIf="item.type === menuItemTypes.Item">
           <mat-icon>{{item.icon}}</mat-icon>
           <span>{{item.title|translate}}</span>
         </button>
 
-        <button mat-button *ngIf="item.type === 'clickItem'" (click)="item.method()">
-          <mat-icon>C{{item.icon}}</mat-icon>
+        <button mat-button *ngIf="item.type === menuItemTypes.ClickItem" (click)="item.method()">
+          <mat-icon>{{item.icon}}</mat-icon>
           <span>{{item.title|translate}}</span>
         </button>
 
-        <button mat-button *ngIf="item.type === 'dropdown'" [mat-menu-trigger-for]="navbarMenuDropdown">
+        <button mat-button *ngIf="item.type === menuItemTypes.Dropdown" [mat-menu-trigger-for]="navbarMenuDropdown">
           <mat-icon>{{item.icon}}</mat-icon>
           <span>{{item.title|translate}}</span>
           <mat-icon>keyboard_arrow_down</mat-icon>
 
-          <mat-menu  xPosition="before" #navbarMenuDropdown="matMenu">
+          <mat-menu xPosition="before" #navbarMenuDropdown="matMenu">
             <span *ngFor="let subItem of item.items">
               <button mat-menu-item *ngIf="subItem.shouldRender(currentUser)"
                       [routerLink]="subItem.path" (click)="subItem.method && subItem.method()">
@@ -32,7 +32,6 @@
 
         </button>
       </span>
-
     </span>
   </span>
 
@@ -46,8 +45,10 @@
 
 
 <mat-menu xPosition="before" #smMenu="matMenu">
-  <button mat-menu-item *ngIf="(isLoggedIn$|async)" (click)="logout()">
-    <mat-icon>exit_to_app</mat-icon>
-    {{'logout_label'|translate}}
-  </button>
+  <div *ngFor="let item of (navbarMenuSmFlat)">
+    <button mat-button [routerLink]="item.path" *ngIf="item.shouldRender(currentUser)">
+      <mat-icon>{{item.icon}}</mat-icon>
+      <span>{{item.title|translate}}</span>
+    </button>
+  </div>
 </mat-menu>
