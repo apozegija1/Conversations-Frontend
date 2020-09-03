@@ -20,6 +20,7 @@
           <span>{{item.title|translate}}</span>
           <mat-icon>keyboard_arrow_down</mat-icon>
 
+
           <mat-menu  xPosition="before" #navbarMenuDropdown="matMenu">
             <span *ngFor="let subItem of item.items">
               <button mat-menu-item *ngIf="subItem.shouldRender(currentUser)"

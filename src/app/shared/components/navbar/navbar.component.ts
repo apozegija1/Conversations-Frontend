@@ -118,6 +118,43 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
         state: MenuStateType.Companies,
         roles: [Role.Admin]
       });
+
+      this.navbarService.addMenuItem(Constants.Menu.defaultTopMenuName, {
+        icon: 'analytics',
+        title: 'Reports',
+        type: MenuItemType.Dropdown,
+        state: MenuStateType.Reports,
+        roles: [Role.Admin, Role.CompanyAdmin]
+      });
+
+      this.navbarService.addSubMenuItem(Constants.Menu.defaultTopMenuName, MenuStateType.Reports, {
+        title: 'Agents',
+        path: '/reports/agents',
+        state: MenuStateType.Reports,
+        roles: [Role.Admin, Role.CompanyAdmin]
+      });
+
+      this.navbarService.addSubMenuItem(Constants.Menu.defaultTopMenuName, MenuStateType.Reports, {
+        title: 'Calls',
+        path: '/reports/calls',
+        state: MenuStateType.Reports,
+        roles: [Role.Admin, Role.CompanyAdmin]
+      });
+
+      this.navbarService.addSubMenuItem(Constants.Menu.defaultTopMenuName, MenuStateType.Reports, {
+        title: 'SMS',
+        path: '/reports/sms',
+        state: MenuStateType.Reports,
+        roles: [Role.Admin, Role.CompanyAdmin]
+      });
+
+      this.navbarService.addSubMenuItem(Constants.Menu.defaultTopMenuName, MenuStateType.Reports, {
+        title: 'Statistics',
+        path: '/reports/average',
+        state: MenuStateType.Reports,
+        roles: [Role.Admin, Role.CompanyAdmin]
+      });
+
     }
 
   private addCommunicationsMenu() {

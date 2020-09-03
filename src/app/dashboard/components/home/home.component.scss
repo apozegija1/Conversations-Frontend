@@ -3,6 +3,25 @@
   padding-top: 20px;
 }
 
+mat-icon.mat-card-avatar {
+  background-size: auto;
+}
+
+.card {
+  max-width: 200px;
+  margin: 10px;
+}
+
+.content {
+  padding: 16px;
+}
+
+
+.content > mat-card {
+  margin-top: 20px;
+  width: 200px;
+}
+
 .side-nav {
   background-color: #1976d2;
 }
