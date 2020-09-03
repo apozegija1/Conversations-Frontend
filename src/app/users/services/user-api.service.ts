@@ -10,8 +10,4 @@ export class UserApiService extends BaseApiService<IUser> {
   constructor(apiService: ApiService) {
     super(apiService, Constants.Api.Users);
   }
-
-  public createUserWithRole(user: IUser, role: string) {
-    return this.apiService.post(`${this.baseUri}/role/${role}`, user);
-  }
 }

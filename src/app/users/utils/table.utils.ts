@@ -33,11 +33,6 @@ export class TableUtils {
       },
       {
         dataType: CellType.Text,
-        id: 'gender',
-        title: 'gender_label'
-      },
-      {
-        dataType: CellType.Text,
         id: 'phone',
         title: 'phone_label'
       },

@@ -20,7 +20,8 @@ export class ApiService {
     }
   }
 
-  public getByParam = <T>(url: string, id: string) => this.http.get<T>(`${this.getUrl(url)}/${id}`);
+  public getByParam = <T>(url: string, id: string) => this.http.get<IResponse<T>>(`${this.getUrl(url)}/${id}`)
+    .pipe(map(ApiService.getResponseData))
 
   public get = <T>(url: string) => this.http
     .get<IResponse<T>>(this.getUrl(url))

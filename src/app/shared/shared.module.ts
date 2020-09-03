@@ -17,8 +17,10 @@ import {ConfirmationPopupComponent} from './components/confirmation-popup/confir
 import {UserCreateFormComponent} from './components/user-create-form/user-create-form.component';
 import {ReactiveAsteriskDirective} from './directives/reactive-asterix.directive';
 import {DebounceClickDirective} from './directives/debounce-click.directive';
+import {BaseFormComponent} from './components/base-form/base-form.component';
 
 const SharedComponents = [
+  BaseFormComponent,
   AlertComponent,
   LanguageSelectorComponent,
   NavbarComponent,

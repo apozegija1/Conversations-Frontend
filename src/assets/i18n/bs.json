@@ -7,8 +7,15 @@
   "register_label": "Registruj se",
   "login_label": "Loguj se",
   "create_user_label": "Kreiraj korisnika",
+  "edit_user_label": "Promjeni korisnika",
+  "view_user_label": "Pregledaj korisnika",
+  "create_company_label": "Kreiraj kompaniju",
+  "edit_company_label": "Promjeni kompaniju",
+  "view_company_label": "Pregledaj kompaniju",
   "cancel_label": "Prekini",
-  "create_label": "Create",
+  "create_label": "Kreiraj",
+  "edit_label": "Promjeni",
+  "view_label": "Pregledaj",
   "actions_label": "Akcije",
   "address_label": "Adresa",
   "first_name_label": "Ime",
@@ -60,8 +67,10 @@
   "finish_call": "Zavrsi",
   "remember_me": "Zapamti me",
   "user_created_label_message": "Korisnik kreiran",
+  "user_edited_label_message": "Korisnik azuriran",
   "company_created_label_message": "Kompanija kreirana",
   "delete_confirmation_title": "Brisanje unosa",
   "delete_confirmation_content": "Da li ste sigurni da zelite obrisati ovaj unos?",
-  "session_expired": "Sesija istekla, logujte se ponovo"
+  "session_expired": "Sesija istekla, logujte se ponovo",
+  "none_label": "Bez"
 }

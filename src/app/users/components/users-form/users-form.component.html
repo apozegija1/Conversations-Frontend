@@ -1,11 +1,11 @@
 <div class="mt-4" fxFlex="65" fxFlexOffset="15">
-  <h2>{{'create_user_label'|translate}}</h2>
-  <form name="form" [formGroup]="form" (ngSubmit)="form.valid && createUser()" novalidate>
+  <h2>{{formLabel.title|translate}}</h2>
+  <form name="form" [formGroup]="form" (ngSubmit)="form.valid && createOrUpdateUser()" novalidate>
     <app-create-form [parentForm]="form"></app-create-form>
     <mat-form-field class="full-width">
       <mat-label>{{'role_label'|translate}}</mat-label>
       <mat-select formControlName="role">
-        <mat-option *ngFor="let role of (roles$|async)" [value]="role.name">{{role.name}}</mat-option>
+        <mat-option *ngFor="let role of (roles$|async)" [value]="role.id">{{role.name}}</mat-option>
       </mat-select>
       <mat-error>
         {{'role_required_label'|translate}}
@@ -14,12 +14,13 @@
     <mat-form-field class="full-width">
       <mat-label>{{'company_label'|translate}}</mat-label>
       <mat-select formControlName="company">
+        <mat-option [value]="undefined">{{'none_label'|translate}}</mat-option>
         <mat-option *ngFor="let company of (companies$|async)"
                     [value]="company.id">{{company.name}}</mat-option>
       </mat-select>
     </mat-form-field>
     <div>
-      <app-submit-button text="create_label"></app-submit-button>
+      <app-submit-button text="{{formLabel.btn}}"></app-submit-button>
     </div>
   </form>
 </div>

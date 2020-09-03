@@ -1,8 +1,10 @@
 import { RouterModule, Routes } from '@angular/router';
-import {UserInfoComponent} from './components/user-info/user-info.component';
+import {UsersViewComponent} from './components/users-view/users-view.component';
 import {UsersListComponent} from './components/users-list/users-list.component';
 import {UserRouteUtils} from './utils/user-route.utils';
-import {UserCreateComponent} from './components/user-create/user-create.component';
+import {UserCreateComponent} from './components/users-create/user-create.component';
+import {UsersFormComponent} from './components/users-form/users-form.component';
+import {UsersEditComponent} from './components/users-edit/users-edit.component';
 
 export const UsersRoutes: Routes = [
   {
@@ -20,8 +22,15 @@ export const UsersRoutes: Routes = [
     }
   },
   {
-    path: ':id',
-    component: UserInfoComponent,
+    path: 'edit/:id',
+    component: UsersEditComponent,
+    data: {
+      roles: UserRouteUtils.getCreateRouteRoles()
+    }
+  },
+  {
+    path: 'view/:id',
+    component: UsersViewComponent,
     data: {
       roles: UserRouteUtils.getCreateRouteRoles()
     }
@@ -30,5 +39,5 @@ export const UsersRoutes: Routes = [
 
 export const UsersRoutingModule = RouterModule.forChild(UsersRoutes);
 
-export const UsersRoutingComponents = [UsersListComponent, UserInfoComponent, UserCreateComponent];
+export const UsersRoutingComponents = [UsersFormComponent, UsersEditComponent, UsersListComponent, UsersViewComponent, UserCreateComponent];
 

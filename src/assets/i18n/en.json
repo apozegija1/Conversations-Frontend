@@ -7,7 +7,14 @@
   "register_label": "Register",
   "login_label": "Login",
   "create_user_label": "Create user",
+  "edit_user_label": "Edit user",
+  "view_user_label": "View user",
+  "create_company_label": "Create company",
+  "edit_company_label": "Edit company",
+  "view_company_label": "View company",
   "create_label": "Create",
+  "edit_label": "Edit",
+  "view_label": "View",
   "cancel_label": "Cancel",
   "actions_label": "Actions",
   "address_label": "Address",
@@ -60,8 +67,10 @@
   "finish_call": "Finish",
   "remember_me": "Remember me",
   "user_created_label_message": "User created",
+  "user_edited_label_message": "User updated",
   "company_created_label_message": "Company created",
   "delete_confirmation_title": "Delete entity",
   "delete_confirmation_content": "Are you sure you want to delete this entity?",
-  "session_expired": "Session expired, please login again"
+  "session_expired": "Session expired, please login again",
+  "none_label": "None"
 }

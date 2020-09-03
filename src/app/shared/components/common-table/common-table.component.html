@@ -34,6 +34,9 @@
           </span>
 
           <span *ngIf="column.dataType === 'ActionButtons'" class="action-buttons-data">
+            <button mat-icon-button (click)="view(element)">
+              <mat-icon>preview</mat-icon>
+            </button>
             <button mat-icon-button (click)="edit(element)">
               <mat-icon color="primary">edit</mat-icon>
             </button>
