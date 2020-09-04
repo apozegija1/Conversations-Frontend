@@ -1,4 +1,5 @@
 export enum CommunicationType {
-  Sms = 'sms',
-  Video = 'video'
+  Sms = 'Sms',
+  Video = 'Video',
+  Audio = 'Audio'
 }

@@ -71,6 +71,14 @@ export class AuthenticationService {
       return this.isRole(Role.CompanyAdmin);
     }
 
+    public isAgent() {
+      return this.isRole(Role.Agent);
+    }
+
+    public isUser() {
+      return this.isRole(Role.User);
+    }
+
     private clearUserStorage(): void {
       // remove user from local storage to log user out
       this.localStorageService.removeItem(Constants.LocalStorageKey.CurrentAuth);

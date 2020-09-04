@@ -25,6 +25,5 @@ export class CommunicationsUserListComponent implements OnInit {
 
   selectConversation(selectedCommunication: IUserCommunication) {
     this.conversationSelected.emit(selectedCommunication);
-    // this.selectedConversation = selectedCommunication;
   }
 }

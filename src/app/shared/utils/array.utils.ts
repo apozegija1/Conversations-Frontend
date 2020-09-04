@@ -1,5 +1,5 @@
 
-export class ArrayHelpers {
+export class ArrayUtils {
   // This method accepts array of elements, item to be inserted and position to be inserted at
   // Returns new array with item added to specified insertAt position, it doesn't change original array
   // Immutable way of inserting data at index, it isn't fastest but it is much safer and better for change detection
@@ -57,7 +57,7 @@ export class ArrayHelpers {
 
   // Check if passed collection is empty
   public static IsTotalSumZero(values: number[]): boolean {
-    return  ArrayHelpers.getTotalSum(values) === 0;
+    return  ArrayUtils.getTotalSum(values) === 0;
   }
 
   /**

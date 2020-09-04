@@ -7,6 +7,9 @@ import {VideoPopupComponent} from '../video-popup/video-popup.component';
 import {CommunicationsApiService} from '../../services/communications-api.service';
 import {IUserCommunication} from '../../models/iuser-communication.interface';
 import {CommunicationType} from '../../models/communication-type.enum';
+import {ICommunication} from '../../models/icommunication.interface';
+import {ArrayUtils} from '../../../shared/utils/array.utils';
+import {IUser} from '../../../users/models/iuser.interface';
 
 @Component({
     templateUrl: './communications-list.component.html',
@@ -36,12 +39,27 @@ export class CommunicationsListComponent extends BaseUserInfo implements OnInit 
   }
 
   send(text: string) {
-    this.communicationApiService.create({
-      customerId: this.selectedConversation.user.id,
-      startTime: new Date().toDateString(),
-      type: CommunicationType.Sms,
+    let customer: IUser, agent: IUser;
+    if (this.authService.isAgent()) {
+      customer = this.selectedConversation.user;
+      agent = this.currentUser;
+    } else if (this.authService.isUser()) {
+      customer = this.currentUser;
+      agent = this.selectedConversation.user;
+    } else {
+      throw Error('Unsupported role for sending');
+    }
+
+    const newConversation: ICommunication = {
+      customer,
+      startTime: new Date().toJSON(),
+      type: { type: CommunicationType.Sms, id: null },
       text,
-      agentId: this.currentUser.id
+      agent
+    };
+
+    this.subsink.sink = this.communicationApiService.create(newConversation).subscribe((data) => {
+      this.selectedConversation.communications = ArrayUtils.insert(this.selectedConversation.communications, newConversation);
     });
   }
 

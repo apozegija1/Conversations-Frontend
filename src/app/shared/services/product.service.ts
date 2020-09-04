@@ -2,7 +2,7 @@ import {Subject} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {ProductModel} from '../models/product.model';
 import {ProductViewModel} from '../models/product.viewmodel';
-import {ArrayHelpers} from '../utils/array.utils';
+import {ArrayUtils} from '../utils/array.utils';
 import {CrudMode} from '../models/enums/crud-mode.enum';
 
 @Injectable()
@@ -45,19 +45,19 @@ export class ProductService {
       if (mode === CrudMode.Delete) {
         quantity -= 1;
         if (quantity <= 0) {
-          this.productsSelected = ArrayHelpers.removeAtIndex(this.productsSelected, productIndex);
+          this.productsSelected = ArrayUtils.removeAtIndex(this.productsSelected, productIndex);
         } else {
           productVm = {...productFound, quantity};
-          this.productsSelected = ArrayHelpers.updateAtIndex(this.productsSelected, productVm, productIndex);
+          this.productsSelected = ArrayUtils.updateAtIndex(this.productsSelected, productVm, productIndex);
         }
       } else {
         quantity += 1;
         productVm = {...productFound, quantity};
-        this.productsSelected = ArrayHelpers.updateAtIndex(this.productsSelected, productVm, productIndex);
+        this.productsSelected = ArrayUtils.updateAtIndex(this.productsSelected, productVm, productIndex);
       }
     } else {
       productVm = { product: value, quantity: 1 };
-      this.productsSelected = ArrayHelpers.insert(this.productsSelected, productVm);
+      this.productsSelected = ArrayUtils.insert(this.productsSelected, productVm);
     }
   }
 }
