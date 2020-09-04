@@ -1,57 +1,10 @@
-<mat-sidenav-container class="container">
-  <mat-sidenav mode="side" opened>
-    <mat-card>
-      <mat-tab-group>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon color="primary" matListIcon>forum</mat-icon>
-            <span>{{'communications_label'|translate}}</span>
-          </ng-template>
-          <app-communications-user-list [conversations]="conversations"
-                                        [selectedConversation]="selectedConversation"
-                                        (conversationSelected)="selectConversation($event)"></app-communications-user-list>
-        </mat-tab>
-      </mat-tab-group>
-    </mat-card>
-  </mat-sidenav>
-  <mat-sidenav position="end" mode="side" opened *ngIf="selectedConversation">
-    <mat-card>
-      <h2 class="pt-2">{{'users_label'|translate}}</h2>
-      <mat-list class="members">
-        <h3>{{selectedConversation.user.username}}</h3>
-        <h3>{{currentUser.username}}</h3>
-      </mat-list>
-    </mat-card>
-  </mat-sidenav>
-
-  <section class="empty-conversation" *ngIf="!selectedConversation">
-    <h1 class="mat-display-1">{{'select_communication'|translate}}</h1>
-  </section>
-  <section *ngIf="selectedConversation">
-    <div class="mat-typography conversation-header">
-      <p>
-        <mat-icon color="primary" matListIcon>forum</mat-icon>
-        <span>{{selectedConversation.user.username}}</span>
-        <span fxFlex=""></span>
-        <button mat-icon-button (click)="startVideoCall()">
-          <mat-icon color="primary" class="icon-scaled-16">video_call</mat-icon>
-        </button>
-
-      </p>
+<mat-list dense class="conversation-history mat-typography">
+  <div *ngFor="let conversation of selectedConversation.communications">
+    <div class="message-container">
+      <span *ngIf="conversation.id != currentUser.id" fxFlex></span>
+      <button class="message-chip" mat-raised-button color="{{conversation.id === currentUser.id ? 'primary' : 'accent'}}">
+        {{conversation.text}}
+      </button>
     </div>
-
-    <mat-divider></mat-divider>
-    <mat-list dense class="conversation-history mat-typography">
-      <div *ngFor="let conversation of selectedConversation.communications">
-        <div class="message-container">
-          <span *ngIf="conversation.id != currentUser.id" fxFlex></span>
-          <button class="message-chip" mat-raised-button color="{{conversation.id === currentUser.id ? 'primary' : 'accent'}}">
-            {{conversation.text}}
-          </button>
-        </div>
-      </div>
-    </mat-list>
-    <app-communications-send-message class="conversation-input"
-                                     (messageSend)="send($event)"></app-communications-send-message>
-  </section>
-</mat-sidenav-container>
+  </div>
+</mat-list>
