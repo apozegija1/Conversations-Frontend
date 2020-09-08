@@ -11,6 +11,7 @@ import {AuthModule} from './auth/auth.module';
 import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {StatisticsService} from './statistics/services/statistics.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import {ReactiveFormsModule} from '@angular/forms';
     CoreModule,
   ],
   providers: [
-
+    StatisticsService
   ],
   bootstrap: [AppComponent]
 })

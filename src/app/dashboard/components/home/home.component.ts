@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import Chart from 'chart.js';
+import {StatisticsService} from '../../../statistics/services/statistics.service';
+
 
 
 @Component({
@@ -9,19 +11,37 @@ import Chart from 'chart.js';
 })
 
 export class HomeComponent implements OnInit{
-  content = [
-      {icon: 'people', title: 'Agents', num: 64},
-      {icon: 'phone_in_talk', title: 'Calls', num: 1765},
-      {icon: 'access_time', title: 'Average call length', num: '2:07'}
-  ];
 
-
+  public statisticsData;
+  public chartData;
   public canvas: any;
   public ctx;
   public chartColor;
   public chartHours;
 
+  constructor(private statisticsService: StatisticsService) {}
+
+  getStatisticsData() {
+    this.statisticsService.getStats().subscribe(
+      data => { this.statisticsData = data; },
+      err => console.log(err),
+      () => console.log('Data loaded')
+    );
+  }
+
+  getChartData() {
+    this.statisticsService.getStatsForChart().subscribe(
+      data => { this.statisticsData = data; },
+      err => console.log(err),
+      () => console.log('Data loaded')
+    );
+  }
+
+
   ngOnInit(){
+    this.getStatisticsData();
+    this.getChartData();
+
     this.chartColor = '#FFFFFF';
 
     this.canvas = document.getElementById('chartHours');
@@ -38,23 +58,7 @@ export class HomeComponent implements OnInit{
           pointRadius: 0,
           pointHoverRadius: 0,
           borderWidth: 3,
-          data: [300, 310, 316, 322, 330, 326, 333, 345, 338, 354]
-          },
-          {
-            borderColor: '#f17e5d',
-            backgroundColor: '#421C85',
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            borderWidth: 3,
-            data: [320, 340, 365, 360, 370, 385, 390, 384, 408, 420]
-          },
-          {
-            borderColor: '#fcc468',
-            backgroundColor: '#fcc468',
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            borderWidth: 3,
-            data: [370, 394, 415, 409, 425, 445, 460, 450, 478, 484]
+          data: this.chartData
           }
         ]
       },
