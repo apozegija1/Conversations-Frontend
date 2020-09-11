@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AuthenticationService} from '../../auth/services/authentication.service';
@@ -15,7 +15,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class StatisticsService extends BaseApiService<IUser>{
+export class StatisticsService extends BaseApiService<any> {
   private currentUser: IUser;
 
   constructor(private http: HttpClient, private authService: AuthenticationService, apiService: ApiService) {
@@ -23,11 +23,11 @@ export class StatisticsService extends BaseApiService<IUser>{
     this.currentUser = this.authService.getCurrentUser();
   }
 
-  getStats() {
-    return this.http.get(environment.baseUri + `api/statistics/overview`);
+  getStats(): Observable<any>{
+    return this.http.get(`${environment.baseUri}/api/statistics/overview`);
   }
 
   getStatsForChart() {
-    return this.http.get(environment.baseUri + `api/statistics/chartOverview`);
+    return this.http.get(environment.baseUri + `/api/statistics/chartOverview`);
   }
 }

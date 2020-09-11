@@ -1,7 +1,16 @@
 import {Component, OnInit} from '@angular/core';
 import Chart from 'chart.js';
 import {StatisticsService} from '../../../statistics/services/statistics.service';
-
+import {map} from 'rxjs/operators';
+import {ApiService} from '../../../core/services/api.service';
+import {IUser} from '../../../users/models/iuser.interface';
+import {Role} from '../../../users/models/role.enum';
+import {IRole} from '../../../users/models/irole.interface';
+import {forEach} from '@angular-devkit/schematics';
+import {AuthenticationService} from '../../../auth/services/authentication.service';
+import {BaseUserInfo} from '../../../shared/classes/base-user-info';
+import {BehaviorSubject} from 'rxjs';
+import {Constants} from '../../../shared/models/constants';
 
 
 @Component({
@@ -10,56 +19,95 @@ import {StatisticsService} from '../../../statistics/services/statistics.service
   templateUrl: 'home.component.html'
 })
 
-export class HomeComponent implements OnInit{
+export class HomeComponent extends BaseUserInfo implements OnInit{
 
-  public statisticsData;
-  public chartData;
+  public statisticsData$;
+  public chartData$;
   public canvas: any;
   public ctx;
   public chartColor;
   public chartHours;
+  public labels: any = [];
+  public data: any = [];
 
-  constructor(private statisticsService: StatisticsService) {}
+  public roleName: string;
+  public title1: string;
+  public title2: string;
+  public title3: string;
+  public titleChart: string;
 
-  getStatisticsData() {
-    this.statisticsService.getStats().subscribe(
-      data => { this.statisticsData = data; },
-      err => console.log(err),
-      () => console.log('Data loaded')
-    );
+  public isLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+
+  constructor(authService: AuthenticationService,
+              private statisticsService: StatisticsService) {
+    super(authService);
   }
-
-  getChartData() {
-    this.statisticsService.getStatsForChart().subscribe(
-      data => { this.statisticsData = data; },
-      err => console.log(err),
-      () => console.log('Data loaded')
-    );
-  }
-
 
   ngOnInit(){
-    this.getStatisticsData();
-    this.getChartData();
+
+    this.setCurrentUser();
+
+    const matchingRoles = this.authService.getCurrentUser().roles.filter((userRole: IRole) => {
+      return userRole.name;
+    }, this);
+    this.roleName = matchingRoles[0].name;
+    if (this.roleName === Role.CompanyAdmin) {
+      this.title1 = 'Agents';
+      this.title2 = 'Calls';
+      this.title3 = 'Average call duration';
+      this.titleChart = 'Number of calls by month';
+    } else if (this.roleName === Role.Admin) {
+      this.title1 = 'Users registered';
+      this.title2 = 'Companies registered';
+      this.title3 = 'Users registered in this year by months';
+      this.titleChart = 'Number of users registered by months';
+    } else if (this.roleName === Role.Agent) {
+      this.title1 = 'Agents';
+      this.title2 = 'Calls';
+      this.title3 = 'Average call duration';
+      this.titleChart = 'Number of calls by month';
+    } else {
+      this.title1 = 'Agents';
+      this.title2 = 'Calls';
+      this.title3 = 'Average call duration';
+      this.titleChart = 'Number of calls by month';
+    }
+
+
+    this.statisticsData$ = this.statisticsService.getStats()
+      .pipe(map(ApiService.getResponseData));
+
+
+    this.chartData$ = this.statisticsService.getStatsForChart()
+      .pipe(map(ApiService.getResponseData));
+
 
     this.chartColor = '#FFFFFF';
 
     this.canvas = document.getElementById('chartHours');
     this.ctx = this.canvas.getContext('2d');
+    this.chartData$.forEach(item => {
+        item.forEach(data => {
+           this.labels.push(data.month);
+           this.data.push(data.number);
+        });
+    });
+
 
     this.chartHours = new Chart(this.ctx, {
       type: 'line',
 
       data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        labels: this.labels,
         datasets: [{
           borderColor: '#6bd098',
           backgroundColor: '#EC7629',
           pointRadius: 0,
           pointHoverRadius: 0,
           borderWidth: 3,
-          data: this.chartData
-          }
+          data: this.data
+        }
         ]
       },
       options: {
@@ -107,3 +155,4 @@ export class HomeComponent implements OnInit{
   }
 
 }
+

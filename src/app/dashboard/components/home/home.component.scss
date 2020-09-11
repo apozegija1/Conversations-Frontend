@@ -8,18 +8,17 @@ mat-icon.mat-card-avatar {
 }
 
 .card {
-  max-width: 200px;
+  max-width: 100px;
   margin: 10px;
 }
 
 .content {
-  padding: 16px;
+  padding: 16px 16px 16px 16px;
 }
 
 
 .content > mat-card {
   margin-top: 20px;
-  width: 200px;
 }
 
 .side-nav {
