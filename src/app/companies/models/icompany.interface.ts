@@ -1,5 +1,5 @@
 export class ICompany {
-    id: string;
+    id: number;
     name: string;
     address?: string;
 }

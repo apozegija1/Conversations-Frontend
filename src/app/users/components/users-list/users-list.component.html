@@ -1,5 +1,9 @@
 <div>
   <app-common-table [header]="'users_label'"
-                    [data]="users$|async" [tableConfig]="userTableConfig"
-                    (deleteChange)="onDelete($event)" (editChange)="onEdit($event)"></app-common-table>
+                    [data]="(users$|async)"
+                    [tableConfig]="userTableConfig"
+                    (deleteChange)="onDelete($event)"
+                    (editChange)="onEdit($event)"
+                    (viewChange)="onView($event)"
+                    (createChange)="onCreate()"></app-common-table>
 </div>

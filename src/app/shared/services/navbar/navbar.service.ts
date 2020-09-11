@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import {INavbarMenu} from '../models/interfaces/inavbar-menu.interface';
-import {Role} from '../../users/models/role.enum';
-import {IUser} from '../../users/models/iuser.interface';
-import {INavbarMenuItem} from '../models/interfaces/inavbar-menu-item.interface';
-import {MenuItemType} from '../models/enums/menu-item-type.enum';
-import {Constants} from '../models/constants';
-import {IRole} from '../../users/models/irole.interface';
+import {Injectable} from '@angular/core';
+import {INavbarMenu} from '../../models/interfaces/inavbar-menu.interface';
+import {Role} from '../../../users/models/role.enum';
+import {IUser} from '../../../users/models/iuser.interface';
+import {INavbarMenuItem} from '../../models/interfaces/inavbar-menu-item.interface';
+import {MenuItemType} from '../../models/enums/menu-item-type.enum';
+import {Constants} from '../../models/constants';
+import {IRole} from '../../../users/models/irole.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -96,12 +96,28 @@ export class NavbarService {
   }
 
   // Get the menu object by menu id
-   getMenu(menuId): INavbarMenu {
+   getMenu(menuId: string): INavbarMenu {
     // Validate that the menu exists
      this.validateMenuExistence(menuId);
 
     // Return the menu object
      return this.menus[menuId];
+  }
+
+  // Flattened version of navbar for smaller screens or similar where only list is needed not whole groups
+  public getMenuFlattened(menuId: string): INavbarMenuItem[] {
+    // Validate that the menu exists
+    this.validateMenuExistence(menuId);
+
+    return this.menus[menuId].items.reduce((acc, item) => {
+      if (item.type === MenuItemType.Dropdown) {
+        acc.push(...item.items);
+      } else {
+        acc.push(item);
+      }
+
+      return acc;
+    }, []);
   }
 
    init(): INavbarMenu {
@@ -114,7 +130,8 @@ export class NavbarService {
   }
 
   isEmpty(): boolean {
-    return Object.keys(this.menus).length === 1 && this.getMenu(Constants.Menu.defaultTopMenuName).items.length === 0;
+    return Object.keys(this.menus).length === 1 &&
+      this.getMenu(Constants.Menu.defaultTopMenuName).items.length === 0;
   }
 
   private shouldRender = function(user?: IUser, from?: string) {

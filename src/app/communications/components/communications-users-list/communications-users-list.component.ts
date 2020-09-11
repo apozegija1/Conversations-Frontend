@@ -3,12 +3,12 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IUserCommunication} from '../../models/iuser-communication.interface';
 
 @Component({
-    templateUrl: 'communications-user-list.component.html',
+    templateUrl: 'communications-users-list.component.html',
     selector: 'app-communications-user-list',
-  styleUrls: ['./communications-user-list.component.scss']
+  styleUrls: ['./communications-users-list.component.scss']
 })
 
-export class CommunicationsUserListComponent implements OnInit {
+export class CommunicationsUsersListComponent implements OnInit {
   @Input() conversations: IUserCommunication[] = [];
 
   @Input() selectedConversation: IUserCommunication;
@@ -25,6 +25,5 @@ export class CommunicationsUserListComponent implements OnInit {
 
   selectConversation(selectedCommunication: IUserCommunication) {
     this.conversationSelected.emit(selectedCommunication);
-    // this.selectedConversation = selectedCommunication;
   }
 }

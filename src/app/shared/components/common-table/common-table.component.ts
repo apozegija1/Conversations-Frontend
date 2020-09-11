@@ -33,6 +33,8 @@ export class CommonTableComponent implements OnInit {
 
   @Output() createChange: EventEmitter<void> = new EventEmitter<void>();
 
+  @Output() viewChange: EventEmitter<any> = new EventEmitter<any>();
+
   private localData: Array<any>;
 
   public dataSource: MatTableDataSource<any>;
@@ -63,6 +65,10 @@ export class CommonTableComponent implements OnInit {
         if (!ok) { return; }
         this.deleteChange.emit(element);
       });
+  }
+
+  public view(element: any) {
+    this.viewChange.emit(element);
   }
 
   public edit(element: any) {

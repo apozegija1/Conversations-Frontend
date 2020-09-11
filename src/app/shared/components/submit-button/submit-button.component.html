@@ -1,2 +1,2 @@
-<button [disabled]="isDataLoading$|async" mat-raised-button
+<button [disabled]="isDisabled || (isDataLoading$|async)" mat-raised-button
         color="primary">{{text|translate}}</button>

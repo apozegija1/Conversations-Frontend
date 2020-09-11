@@ -16,8 +16,11 @@ import {SubmitButtonComponent} from './components/submit-button/submit-button.co
 import {ConfirmationPopupComponent} from './components/confirmation-popup/confirmation-popup.component';
 import {UserCreateFormComponent} from './components/user-create-form/user-create-form.component';
 import {ReactiveAsteriskDirective} from './directives/reactive-asterix.directive';
+import {DebounceClickDirective} from './directives/debounce-click.directive';
+import {BaseFormComponent} from './components/base-form/base-form.component';
 
 const SharedComponents = [
+  BaseFormComponent,
   AlertComponent,
   LanguageSelectorComponent,
   NavbarComponent,
@@ -29,7 +32,8 @@ const SharedComponents = [
   UserCreateFormComponent,
 
 
-  ReactiveAsteriskDirective
+  ReactiveAsteriskDirective,
+  DebounceClickDirective
 ];
 
 @NgModule({

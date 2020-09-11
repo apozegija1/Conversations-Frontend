@@ -26,8 +26,8 @@ export abstract  class BaseApiService<T> {
     return this.apiService.post(this.baseUri, data);
   }
 
-  update(data: T, id: string|number) {
-    return this.apiService.put(BaseUtils.getByIdUri(this.baseUri, id), data);
+  update(data: T) {
+    return this.apiService.put(this.baseUri, data);
   }
 
   delete() {
