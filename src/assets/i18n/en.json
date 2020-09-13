@@ -58,6 +58,7 @@
   "communications_list_label": "Communications list",
   "communications_create_label": "Communication create",
   "select_communication": "Select a communication from the left to start chatting",
+  "select_user": "Select user",
   "chat_start_placeholder": "Start chatting...",
   "in_video_call": "Video call running",
   "yes_confirm": "Yes",
