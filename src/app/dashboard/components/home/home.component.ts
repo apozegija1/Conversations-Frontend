@@ -1,22 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import Chart from 'chart.js';
+import * as Chart from 'chart.js';
 import {StatisticsService} from '../../../statistics/services/statistics.service';
-import {map} from 'rxjs/operators';
-import {ApiService} from '../../../core/services/api.service';
-import {IUser} from '../../../users/models/iuser.interface';
-import {Role} from '../../../users/models/role.enum';
 import {IRole} from '../../../users/models/irole.interface';
-import {forEach} from '@angular-devkit/schematics';
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {BaseUserInfo} from '../../../shared/classes/base-user-info';
-import {BehaviorSubject} from 'rxjs';
-import {Constants} from '../../../shared/models/constants';
+import {INavbarMenu} from '../../../shared/models/interfaces/inavbar-menu.interface';
 
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'home-cmp',
-  templateUrl: 'home.component.html'
+  templateUrl: 'home.component.html',
+  styleUrls: ['./home.component.scss']
 })
 
 export class HomeComponent extends BaseUserInfo implements OnInit{
@@ -29,15 +22,12 @@ export class HomeComponent extends BaseUserInfo implements OnInit{
   public chartHours;
   public labels: any = [];
   public data: any = [];
+  public currentRoleTitles: any;
 
-  public roleName: string;
-  public title1: string;
-  public title2: string;
-  public title3: string;
-  public titleChart: string;
-
-  public isLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-
+  private titlesRemainingRoles = { title1: 'agents', title2: 'calls', title3: 'average_call_duration', title4: 'number_of_calls_by_month' };
+  // tslint:disable-next-line:max-line-length
+  private titlesSuperAgent = { title1: 'users_registered', title2: 'companies_registered', title3: 'users_registered_in_this_year_by_months',
+    title4: 'number_of_users_registered_by_months'};
 
   constructor(authService: AuthenticationService,
               private statisticsService: StatisticsService) {
@@ -48,45 +38,23 @@ export class HomeComponent extends BaseUserInfo implements OnInit{
 
     this.setCurrentUser();
 
-    const matchingRoles = this.authService.getCurrentUser().roles.filter((userRole: IRole) => {
-      return userRole.name;
-    }, this);
-    this.roleName = matchingRoles[0].name;
-    if (this.roleName === Role.CompanyAdmin) {
-      this.title1 = 'Agents';
-      this.title2 = 'Calls';
-      this.title3 = 'Average call duration';
-      this.titleChart = 'Number of calls by month';
-    } else if (this.roleName === Role.Admin) {
-      this.title1 = 'Users registered';
-      this.title2 = 'Companies registered';
-      this.title3 = 'Users registered in this year by months';
-      this.titleChart = 'Number of users registered by months';
-    } else if (this.roleName === Role.Agent) {
-      this.title1 = 'Agents';
-      this.title2 = 'Calls';
-      this.title3 = 'Average call duration';
-      this.titleChart = 'Number of calls by month';
+    if (this.authService.isCompanyAdmin()) {
+      this.currentRoleTitles = this.titlesRemainingRoles;
+    } else if (this.authService.isUser()) {
+      this.currentRoleTitles = this.titlesRemainingRoles;
+    } else if (this.authService.isAgent()) {
+      this.currentRoleTitles = this.titlesRemainingRoles;
     } else {
-      this.title1 = 'Agents';
-      this.title2 = 'Calls';
-      this.title3 = 'Average call duration';
-      this.titleChart = 'Number of calls by month';
+      this.currentRoleTitles = this.titlesSuperAgent;
     }
 
-
-    this.statisticsData$ = this.statisticsService.getStats()
-      .pipe(map(ApiService.getResponseData));
-
-
-    this.chartData$ = this.statisticsService.getStatsForChart()
-      .pipe(map(ApiService.getResponseData));
-
+    this.statisticsData$ = this.statisticsService.getStats();
+    this.chartData$ = this.statisticsService.getStatsForChart();
 
     this.chartColor = '#FFFFFF';
-
     this.canvas = document.getElementById('chartHours');
     this.ctx = this.canvas.getContext('2d');
+
     this.chartData$.forEach(item => {
         item.forEach(data => {
            this.labels.push(data.month);
@@ -94,7 +62,10 @@ export class HomeComponent extends BaseUserInfo implements OnInit{
         });
     });
 
+    this.buildChart(this.labels, this.data);
+  }
 
+  private buildChart(labels: any, data: any) {
     this.chartHours = new Chart(this.ctx, {
       type: 'line',
 

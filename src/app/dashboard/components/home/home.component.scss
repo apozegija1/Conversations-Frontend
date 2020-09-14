@@ -8,8 +8,15 @@ mat-icon.mat-card-avatar {
 }
 
 .card {
-  max-width: 100px;
-  margin: 10px;
+  padding: 16px !important;
+  margin: 20px;
+}
+
+.card-content {
+  font-weight: bold;
+  font-size: 40px;
+  text-align: center;
+  color: #673ab7;
 }
 
 .content {
@@ -27,4 +34,19 @@ mat-icon.mat-card-avatar {
 
 .main-container {
   background-color: #4B82B9;
+}
+
+.chart-style {
+  margin-right: 60px;
+  margin-left: 60px;
+  margin-bottom: 30px;
+}
+
+.chart-title {
+  font-size: 30px;
+  font-weight: normal;
+}
+
+.button {
+  margin-left: 16px !important;
 }

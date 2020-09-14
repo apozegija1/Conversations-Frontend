@@ -14,7 +14,7 @@ export class ApiService {
   }
   private readonly baseUrl: string;
 
-  static getResponseData<T>(data: IResponse<T>) {
+  private static getResponseData<T>(data: IResponse<T>) {
     if (data.status === 'SUCCESS') {
       return data.data;
     } else {

@@ -38,7 +38,6 @@
     "rxjs": "~6.6.2",
     "tslib": "^1.10.0",
     "typescript": "~3.9.7",
-    "yarn": "^1.22.5",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

@@ -73,5 +73,15 @@
   "delete_confirmation_title": "Delete entity",
   "delete_confirmation_content": "Are you sure you want to delete this entity?",
   "session_expired": "Session expired, please login again",
-  "none_label": "None"
+  "none_label": "None",
+  "agents": "Agents",
+  "calls": "Calls",
+  "average_call_duration": "Average call duration",
+  "number_of_calls_by_month": "Number of calls by month",
+  "users_registered" : "Users registered",
+  "companies_registered" : "Companies registered",
+  "users_registered_in_this_year_by_months" : "Users registered in this year by months",
+  "number_of_users_registered_by_months" : "Number of users registered by months",
+  "see_more": "More"
+
 }

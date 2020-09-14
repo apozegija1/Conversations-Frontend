@@ -38,7 +38,6 @@ import {StatisticsService} from './statistics/services/statistics.service';
     CoreModule,
   ],
   providers: [
-    StatisticsService
   ],
   bootstrap: [AppComponent]
 })

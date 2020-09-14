@@ -7,7 +7,7 @@ export class Constants {
     Users: 'api/users',
     Roles: 'api/roles',
     CurrentUser: 'api/user',
-    Home: 'api/statistics'
+    Statistics: 'api/statistics'
   };
   static LocalStorageKey = {
     CurrentUser: 'currentUser',

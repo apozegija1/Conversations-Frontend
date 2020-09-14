@@ -19,15 +19,15 @@ export class StatisticsService extends BaseApiService<any> {
   private currentUser: IUser;
 
   constructor(private http: HttpClient, private authService: AuthenticationService, apiService: ApiService) {
-    super(apiService, Constants.Api.Home);
+    super(apiService, Constants.Api.Statistics);
     this.currentUser = this.authService.getCurrentUser();
   }
 
-  getStats(): Observable<any>{
-    return this.http.get(`${environment.baseUri}/api/statistics/overview`);
+  getStats(){
+    return this.apiService.get(Constants.Api.Statistics + `/overview`);
   }
 
   getStatsForChart() {
-    return this.http.get(environment.baseUri + `/api/statistics/chartOverview`);
+    return this.apiService.get(Constants.Api.Statistics + `/chartOverview`);
   }
 }

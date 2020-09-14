@@ -73,5 +73,15 @@
   "delete_confirmation_title": "Brisanje unosa",
   "delete_confirmation_content": "Da li ste sigurni da zelite obrisati ovaj unos?",
   "session_expired": "Sesija istekla, logujte se ponovo",
-  "none_label": "Bez"
+  "none_label": "Bez",
+  "agents": "Agenti",
+  "calls": "Pozivi",
+  "average_call_duration": "Prosjecno trajanje poziva",
+  "number_of_calls_by_month": "Broj poziva po mjesecima",
+  "users_registered" : "Registrovanih korisnika",
+  "companies_registered" : "Registrovanih kompanija",
+  "users_registered_in_this_year_by_months" : "Prosjecan broj registrovanih korisnika po mjesecima",
+  "number_of_users_registered_by_months" : "Broj registrovanih korisnika po mjesecima",
+  "see_more": "Vise"
+
 }

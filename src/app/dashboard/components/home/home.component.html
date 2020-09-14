@@ -1,68 +1,56 @@
 
   <div class="content" fxLayout="row" fxLayoutGap="16px grid" *ngFor="let stats of (statisticsData$|async)" >
-    <mat-card style="margin-outside: 20px; margin: 20px; " fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="mat-elevation-z8" >
-      <mat-card-header style = "padding: 16px 16px">
+    <mat-card class="card mat-elevation-z8" fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" >
+      <mat-card-header>
         <mat-icon mat-card-avatar>people</mat-icon>
-        <mat-card-title>{{title1}}</mat-card-title>
+        <mat-card-title>{{currentRoleTitles.title1 | translate}}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p style = "font-weight: bold; font-size: 40px; text-align: center; color: #673ab7;">
+        <p class = "card-content">
           {{ stats.numberOfElementsOfEntityOne }}
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button style = "margin-left: 16px">See more</button>
+        <button mat-button class = "button">See more</button>
       </mat-card-actions>
     </mat-card>
-    <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="mat-elevation-z8" style = "margin-outside: 20px; margin: 20px; ">
-      <mat-card-header style = "padding: 16px 16px">
+    <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="card mat-elevation-z8">
+      <mat-card-header>
         <mat-icon mat-card-avatar>phone_in_talk</mat-icon>
-        <mat-card-title>{{title2}}</mat-card-title>
+        <mat-card-title>{{currentRoleTitles.title2 | translate}}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p style = "font-weight: bold; font-size: 40px; text-align: center; color: #673ab7;">
+        <p class = "card-content">
           {{ stats.numberOfElementsOfEntityTwo }}
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button style = "margin-left: 16px">See more</button>
+        <button mat-button class = "button">See more</button>
       </mat-card-actions>
     </mat-card>
-    <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="mat-elevation-z8" style = "margin-right: 40px; margin-left:20px; margin-top: 20px; margin-bottom:20px; margin-outside: 20px;  ">
-      <mat-card-header style = "padding: 16px 16px ">
+    <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="card mat-elevation-z8">
+      <mat-card-header>
         <mat-icon mat-card-avatar>access_time</mat-icon>
-        <mat-card-title>{{title3}}</mat-card-title>
+        <mat-card-title>{{currentRoleTitles.title3 | translate}}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p style = "font-weight: bold; font-size: 40px; text-align: center; color: #673ab7;">
+        <p class = "card-content">
           {{ stats.numberOfElementsOfEntityThree }}
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-button style = "margin-left: 16px">See more</button>
+        <button mat-button class = "button">{{"see_more" | translate}}</button>
       </mat-card-actions>
     </mat-card>
   </div>
 
 
 
-<div style = "margin-right: 60px; margin-left: 60px; margin-bottom: 30px;">
+<div class = "chart-style">
   <div>
-    <p style = "font-size: 30px; font-weight: normal;"> {{titleChart}} </p>
+    <p class = "chart-title"> {{currentRoleTitles.title4 | translate}} </p>
   </div>
   <div>
     <canvas id=chartHours width="50%" height="10%"></canvas>
   </div>
 </div>
-
-
-<!--
-<mat-card style="margin: 20px">
-  <mat-card-header>
-    <mat-card-title>Chart</mat-card-title>
-    <mat-card-subtitle>Some statistics</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-        Some content
-  </mat-card-content>
-</mat-card>-->
