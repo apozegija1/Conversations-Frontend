@@ -5,6 +5,8 @@ import {UserRouteUtils} from './utils/user-route.utils';
 import {UserCreateComponent} from './components/users-create/user-create.component';
 import {UsersFormComponent} from './components/users-form/users-form.component';
 import {UsersEditComponent} from './components/users-edit/users-edit.component';
+import {UsersSearchComponent} from './components/users-search/users-search.component';
+import {NgModule} from '@angular/core';
 
 export const UsersRoutes: Routes = [
   {
@@ -37,7 +39,13 @@ export const UsersRoutes: Routes = [
   }
 ];
 
-export const UsersRoutingModule = RouterModule.forChild(UsersRoutes);
+@NgModule({
+  imports: [RouterModule.forChild(UsersRoutes)],
+  exports: [RouterModule]
+})
+export class UsersRoutingModule {
+}
 
-export const UsersRoutingComponents = [UsersFormComponent, UsersEditComponent, UsersListComponent, UsersViewComponent, UserCreateComponent];
+export const UsersRoutingComponents = [UsersFormComponent, UsersEditComponent, UsersListComponent,
+    UsersViewComponent, UserCreateComponent, UsersSearchComponent];
 

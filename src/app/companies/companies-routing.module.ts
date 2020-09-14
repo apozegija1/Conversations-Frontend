@@ -5,6 +5,7 @@ import {CompanyRouteUtils} from './utils/company-route.utils';
 import {CompaniesFormComponent} from './components/companies-form/companies-form.component';
 import {CompaniesEditComponent} from './components/companies-edit/companies-edit.component';
 import {CompaniesViewComponent} from './components/companies-view/companies-view.component';
+import {NgModule} from '@angular/core';
 
 export const CommunicationRoutes: Routes = [
   {
@@ -32,7 +33,12 @@ export const CommunicationRoutes: Routes = [
   }
 ];
 
-export const CompaniesRoutingModule = RouterModule.forChild(CommunicationRoutes);
+@NgModule({
+  imports: [RouterModule.forChild(CommunicationRoutes)],
+  exports: [RouterModule]
+})
+export class CompaniesRoutingModule {
+}
 
 export const CompaniesRoutingComponents = [CompaniesFormComponent, CompaniesListComponent,
     CompaniesCreateComponent, CompaniesEditComponent, CompaniesViewComponent];

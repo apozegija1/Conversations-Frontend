@@ -27,6 +27,8 @@ export class CommonTableComponent implements OnInit {
   }
   public get data() { return this.localData; }
 
+  @Input() query: () => void;
+
   @Output() deleteChange: EventEmitter<any> = new EventEmitter<any>();
 
   @Output() editChange: EventEmitter<any> = new EventEmitter<any>();

@@ -1,0 +1,16 @@
+<div>
+  <mat-form-field>
+    <mat-icon matPrefix color="primary" matListIcon>forum</mat-icon>
+    <input type="text"
+           placeholder="{{'select_user'|translate}}"
+           aria-label="Select user"
+           matInput
+           [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="userDisplay"
+                      (optionSelected)="selectedUserForCommunication($event.option.value)">
+      <mat-option *ngFor="let option of users$ | async" [value]="option">
+        {{option.username}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

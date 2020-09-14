@@ -7,6 +7,7 @@ import {CommunicationsUsersListComponent} from './components/communications-user
 import {CommunicationsSendMessageComponent} from './components/communications-send-message/communications-send-message.component';
 import {CommunicationsPageComponent} from './components/communications-page/communications-page.component';
 import {CommunicationsUsersInfoComponent} from './components/communications-users-info/communications-users-info.component';
+import {NgModule} from '@angular/core';
 
 export const CommunicationRoutes: Routes = [
   {
@@ -16,7 +17,12 @@ export const CommunicationRoutes: Routes = [
   }
 ];
 
-export const CommunicationsRoutingModule = RouterModule.forChild(CommunicationRoutes);
+@NgModule({
+  imports: [RouterModule.forChild(CommunicationRoutes)],
+  exports: [RouterModule]
+})
+export class CommunicationsRoutingModule {
+}
 
 export const CommunicationsRoutingComponents = [CommunicationsUserHeaderComponent, CommunicationsPageComponent,
   CommunicationsListComponent, CommunicationsSendMessageComponent, CommunicationsUsersInfoComponent,

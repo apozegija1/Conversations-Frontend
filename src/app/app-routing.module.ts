@@ -34,7 +34,8 @@ const routes: Routes = [
     path: 'admin', redirectTo: '/',
   },
 ];
-
+// https://plnkr.co/edit/5impstull9EBCUxlw26k?preview We need to user @NgModule when exporting routes in submodules
+// to avoid problem with routes conflicts
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

@@ -58,6 +58,7 @@
   "communications_list_label": "Lista razgovora",
   "communications_create_label": "Kreiraj razgovor",
   "select_communication": "Izaberite razgovor sa lijeve strane da pocnete komunikaciju",
+  "select_user": "Izaberi korisnika",
   "chat_start_placeholder": "Pocnite razgovor...",
   "in_video_call": "Video poziv pokrenut",
   "yes_confirm": "Da",
