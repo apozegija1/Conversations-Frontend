@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import * as Chart from 'chart.js';
+import {ChartDataSets, ChartOptions} from 'chart.js';
+import {Color, Label} from 'ng2-charts';
 import {StatisticsService} from '../../../statistics/services/statistics.service';
-import {IRole} from '../../../users/models/irole.interface';
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {BaseUserInfo} from '../../../shared/classes/base-user-info';
-import {INavbarMenu} from '../../../shared/models/interfaces/inavbar-menu.interface';
 
 
 @Component({
@@ -14,12 +13,13 @@ import {INavbarMenu} from '../../../shared/models/interfaces/inavbar-menu.interf
 
 export class HomeComponent extends BaseUserInfo implements OnInit{
 
+  constructor(authService: AuthenticationService,
+              private statisticsService: StatisticsService) {
+    super(authService);
+  }
+
   public statisticsData$;
   public chartData$;
-  public canvas: any;
-  public ctx;
-  public chartColor;
-  public chartHours;
   public labels: any = [];
   public data: any = [];
   public currentRoleTitles: any;
@@ -29,10 +29,23 @@ export class HomeComponent extends BaseUserInfo implements OnInit{
   private titlesSuperAgent = { title1: 'users_registered', title2: 'companies_registered', title3: 'users_registered_in_this_year_by_months',
     title4: 'number_of_users_registered_by_months'};
 
-  constructor(authService: AuthenticationService,
-              private statisticsService: StatisticsService) {
-    super(authService);
-  }
+  public lineChartData: ChartDataSets[] = [
+      { data: this.data, label: '' },
+    ];
+  public lineChartLabels: Label[] = this.labels;
+  public lineChartOptions: (ChartOptions & { annotation: any }) = {
+    annotation: undefined,
+    responsive: true
+  };
+  public lineChartColors: Color[] = [
+      {
+        borderColor: '#6bd098',
+        backgroundColor: '#EC7629',
+      },
+    ];
+  public lineChartLegend = false;
+  public lineChartType = 'line';
+  public lineChartPlugins = [];
 
   ngOnInit(){
 
@@ -51,76 +64,11 @@ export class HomeComponent extends BaseUserInfo implements OnInit{
     this.statisticsData$ = this.statisticsService.getStats();
     this.chartData$ = this.statisticsService.getStatsForChart();
 
-    this.chartColor = '#FFFFFF';
-    this.canvas = document.getElementById('chartHours');
-    this.ctx = this.canvas.getContext('2d');
-
     this.chartData$.forEach(item => {
         item.forEach(data => {
            this.labels.push(data.month);
            this.data.push(data.number);
         });
-    });
-
-    this.buildChart(this.labels, this.data);
-  }
-
-  private buildChart(labels: any, data: any) {
-    this.chartHours = new Chart(this.ctx, {
-      type: 'line',
-
-      data: {
-        labels: this.labels,
-        datasets: [{
-          borderColor: '#6bd098',
-          backgroundColor: '#EC7629',
-          pointRadius: 0,
-          pointHoverRadius: 0,
-          borderWidth: 3,
-          data: this.data
-        }
-        ]
-      },
-      options: {
-        legend: {
-          display: false
-        },
-
-        tooltips: {
-          enabled: false
-        },
-
-        scales: {
-          yAxes: [{
-
-            ticks: {
-              fontColor: '#9f9f9f',
-              beginAtZero: false,
-              maxTicksLimit: 5,
-              // padding: 20
-            },
-            gridLines: {
-              drawBorder: false,
-              zeroLineColor: '#ccc',
-              color: 'rgba(255,255,255,0.05)'
-            }
-
-          }],
-
-          xAxes: [{
-            gridLines: {
-              drawBorder: false,
-              color: 'rgba(255,255,255,0.1)',
-              zeroLineColor: 'transparent',
-              display: false,
-            },
-            ticks: {
-              padding: 20,
-              fontColor: '#9f9f9f'
-            }
-          }]
-        },
-      }
     });
 
   }

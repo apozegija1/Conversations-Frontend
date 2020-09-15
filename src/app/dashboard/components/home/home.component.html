@@ -51,6 +51,14 @@
     <p class = "chart-title"> {{currentRoleTitles.title4 | translate}} </p>
   </div>
   <div>
-    <canvas id=chartHours width="50%" height="10%"></canvas>
+    <canvas baseChart id=chartHours width="50%" height="10%"
+      [datasets]="lineChartData"
+      [labels]="lineChartLabels"
+      [options]="lineChartOptions"
+      [colors]="lineChartColors"
+      [legend]="lineChartLegend"
+      [chartType]="lineChartType"
+      [plugins]="lineChartPlugins">
+    </canvas>
   </div>
 </div>
