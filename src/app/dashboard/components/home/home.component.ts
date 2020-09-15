@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Color, Label} from 'ng2-charts';
-import {StatisticsService} from '../../../shared/services/statistics.service';
+import {StatisticsApiService} from '../../../shared/services/api/statistics-api.service';
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {BaseUserInfo} from '../../../shared/classes/base-user-info';
 import {Observable, Subject} from 'rxjs';
@@ -18,7 +18,7 @@ import {RoleTranslationType} from '../../../shared/models/enums/role-translation
 export class HomeComponent extends BaseUserInfo implements OnInit, OnDestroy {
 
   constructor(authService: AuthenticationService,
-              private statisticsService: StatisticsService,
+              private statisticsService: StatisticsApiService,
               private roleTranslationService: RoleTranslationService) {
     super(authService);
   }
