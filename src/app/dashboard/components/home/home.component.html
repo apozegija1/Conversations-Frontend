@@ -1,48 +1,47 @@
-
-  <div class="content" fxLayout="row" fxLayoutGap="16px grid" *ngFor="let stats of (statisticsData$|async)" >
-    <mat-card class="card mat-elevation-z8" fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" >
-      <mat-card-header>
-        <mat-icon mat-card-avatar>people</mat-icon>
-        <mat-card-title>{{currentRoleTitles.title1 | translate}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p class = "card-content">
-          {{ stats.numberOfElementsOfEntityOne }}
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button class = "button">{{"see_more" | translate}}</button>
-      </mat-card-actions>
-    </mat-card>
-    <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="card mat-elevation-z8">
-      <mat-card-header>
-        <mat-icon mat-card-avatar>phone_in_talk</mat-icon>
-        <mat-card-title>{{currentRoleTitles.title2 | translate}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p class = "card-content">
-          {{ stats.numberOfElementsOfEntityTwo }}
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button class = "button">{{"see_more" | translate}}</button>
-      </mat-card-actions>
-    </mat-card>
-    <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="card mat-elevation-z8">
-      <mat-card-header>
-        <mat-icon mat-card-avatar>access_time</mat-icon>
-        <mat-card-title>{{currentRoleTitles.title3 | translate}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p class = "card-content">
-          {{ stats.numberOfElementsOfEntityThree }}
-        </p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button class = "button">{{"see_more" | translate}}</button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+<div class="content" fxLayout="row" fxLayoutGap="grid" *ngFor="let stats of (statisticsData$|async)" >
+  <mat-card class="card mat-elevation-z8" fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" >
+    <mat-card-header>
+      <mat-icon mat-card-avatar>people</mat-icon>
+      <mat-card-title>{{currentRoleTitles.title1 | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class = "card-content">
+        {{ stats.numberOfElementsOfEntityOne }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button class = "button">{{"see_more" | translate}}</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="card mat-elevation-z8">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>phone_in_talk</mat-icon>
+      <mat-card-title>{{currentRoleTitles.title2 | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class = "card-content">
+        {{ stats.numberOfElementsOfEntityTwo }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button class = "button">{{"see_more" | translate}}</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="card mat-elevation-z8">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>access_time</mat-icon>
+      <mat-card-title>{{currentRoleTitles.title3 | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class = "card-content">
+        {{ stats.numberOfElementsOfEntityThree }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button class = "button">{{"see_more" | translate}}</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
 
 
 

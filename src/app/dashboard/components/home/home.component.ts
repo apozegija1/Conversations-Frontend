@@ -1,82 +1,74 @@
-import {Component, OnInit} from '@angular/core';
-import {ChartDataSets, ChartOptions} from 'chart.js';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChartDataSets, ChartOptions, ChartType} from 'chart.js';
 import {Color, Label} from 'ng2-charts';
-import {StatisticsService} from '../../../shared/statistics/services/statistics.service';
+import {StatisticsService} from '../../../shared/services/statistics.service';
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {BaseUserInfo} from '../../../shared/classes/base-user-info';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {IOverview} from '../../../shared/models/interfaces/ioverview.interface';
 import {IChartOverview} from '../../../shared/models/interfaces/ichart-overview.interface';
-import {map} from 'rxjs/operators';
-import {IResponse} from '../../../shared/models/interfaces/iresponse.interface';
-
+import {RoleTranslationService} from '../../../shared/services/role-translation.service';
+import {RoleTranslationType} from '../../../shared/models/enums/role-translation-type.enum';
 
 @Component({
   templateUrl: 'home.component.html',
   styleUrls: ['./home.component.scss']
 })
 
-export class HomeComponent extends BaseUserInfo implements OnInit{
+export class HomeComponent extends BaseUserInfo implements OnInit, OnDestroy {
 
   constructor(authService: AuthenticationService,
-              private statisticsService: StatisticsService) {
+              private statisticsService: StatisticsService,
+              private roleTranslationService: RoleTranslationService) {
     super(authService);
   }
 
-  public statisticsData$: Observable<IOverview>;
-  public chartData$: Observable<IChartOverview>;
-  public labels: any = [];
-  public data: any = [];
+  public statisticsData$: Observable<IOverview[]> = new Subject();
+  public labels: string[] = [];
+  public data: number[] = [];
   public currentRoleTitles: any;
-
-  private titlesRemainingRoles = { title1: 'agents', title2: 'calls', title3: 'average_call_duration', title4: 'number_of_calls_by_month' };
-  // tslint:disable-next-line:max-line-length
-  private titlesSuperAgent = { title1: 'users_registered', title2: 'companies_registered', title3: 'users_registered_in_this_year_by_months',
-    title4: 'number_of_users_registered_by_months'};
 
   public lineChartData: ChartDataSets[] = [
       { data: this.data, label: '' },
-    ];
+  ];
   public lineChartLabels: Label[] = this.labels;
   public lineChartOptions: (ChartOptions & { annotation: any }) = {
     annotation: undefined,
     responsive: true
   };
   public lineChartColors: Color[] = [
-      {
-        borderColor: '#6bd098',
-        backgroundColor: '#EC7629',
-      },
-    ];
+    {
+      borderColor: '#6bd098',
+      backgroundColor: '#EC7629',
+    },
+  ];
+
   public lineChartLegend = false;
-  public lineChartType = 'line';
+  public lineChartType: ChartType = 'line';
   public lineChartPlugins = [];
 
-  ngOnInit(){
-
+  ngOnInit() {
     this.setCurrentUser();
-
-    if (this.authService.isCompanyAdmin()) {
-      this.currentRoleTitles = this.titlesRemainingRoles;
-    } else if (this.authService.isUser()) {
-      this.currentRoleTitles = this.titlesRemainingRoles;
-    } else if (this.authService.isAgent()) {
-      this.currentRoleTitles = this.titlesRemainingRoles;
-    } else {
-      this.currentRoleTitles = this.titlesSuperAgent;
-    }
+    this.currentRoleTitles = this.roleTranslationService.getTranslation(RoleTranslationType.Home);
 
     this.statisticsData$ = this.statisticsService.getOverview();
-    this.chartData$ = this.statisticsService.getChartOverview();
-
-    this.chartData$.forEach(item => {
-        item.forEach(data => {
-           this.labels.push(data.month);
-           this.data.push(data.number);
-        });
+    this.subsink.sink = this.statisticsService.getChartOverview()
+      .subscribe((items: IChartOverview[]) => {
+        for (let i = 1; i <= 12; i++) {
+          const item = items.find((chartOverview: IChartOverview) => chartOverview.number === i);
+          if (item != null) {
+            this.labels.push(item.month);
+            this.data.push(item.number);
+          } else {
+            this.labels.push('');
+            this.data.push(0);
+          }
+        }
     });
-
   }
 
+  ngOnDestroy() {
+    this.subsink.unsubscribe();
+  }
 }
 
