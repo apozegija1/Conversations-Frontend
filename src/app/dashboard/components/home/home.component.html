@@ -1,3 +1,61 @@
-<div>
-  Welcome to home page
+<div class="content" fxLayout="row" fxLayoutGap="grid" *ngFor="let stats of (statisticsData$|async)" >
+  <mat-card class="card mat-elevation-z8" fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" >
+    <mat-card-header>
+      <mat-icon mat-card-avatar>people</mat-icon>
+      <mat-card-title>{{currentRoleTitles.title1 | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class = "card-content">
+        {{ stats.numberOfElementsOfEntityOne }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button class = "button">{{"see_more" | translate}}</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="card mat-elevation-z8">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>phone_in_talk</mat-icon>
+      <mat-card-title>{{currentRoleTitles.title2 | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class = "card-content">
+        {{ stats.numberOfElementsOfEntityTwo }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button class = "button">{{"see_more" | translate}}</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-card fxFlex="33" fxFlex.xs="100" fxFlex.sm="33" class="card mat-elevation-z8">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>access_time</mat-icon>
+      <mat-card-title>{{currentRoleTitles.title3 | translate}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class = "card-content">
+        {{ stats.numberOfElementsOfEntityThree }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button class = "button">{{"see_more" | translate}}</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div class = "chart-style">
+  <div>
+    <p class = "chart-title"> {{currentRoleTitles.title4 | translate}} </p>
+  </div>
+  <div>
+    <canvas baseChart id=chartHours width="50%" height="10%"
+      [datasets]="lineChartData"
+      [labels]="lineChartLabels"
+      [options]="lineChartOptions"
+      [colors]="lineChartColors"
+      [legend]="lineChartLegend"
+      [chartType]="lineChartType"
+      [plugins]="lineChartPlugins">
+    </canvas>
+  </div>
 </div>
