@@ -1,9 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {ChartDataSets, ChartOptions} from 'chart.js';
 import {Color, Label} from 'ng2-charts';
-import {StatisticsService} from '../../../statistics/services/statistics.service';
+import {StatisticsService} from '../../../shared/statistics/services/statistics.service';
 import {AuthenticationService} from '../../../auth/services/authentication.service';
 import {BaseUserInfo} from '../../../shared/classes/base-user-info';
+import {Observable} from 'rxjs';
+import {IOverview} from '../../../shared/models/interfaces/ioverview.interface';
+import {IChartOverview} from '../../../shared/models/interfaces/ichart-overview.interface';
+import {map} from 'rxjs/operators';
+import {IResponse} from '../../../shared/models/interfaces/iresponse.interface';
 
 
 @Component({
@@ -18,8 +23,8 @@ export class HomeComponent extends BaseUserInfo implements OnInit{
     super(authService);
   }
 
-  public statisticsData$;
-  public chartData$;
+  public statisticsData$: Observable<IOverview>;
+  public chartData$: Observable<IChartOverview>;
   public labels: any = [];
   public data: any = [];
   public currentRoleTitles: any;
@@ -61,8 +66,8 @@ export class HomeComponent extends BaseUserInfo implements OnInit{
       this.currentRoleTitles = this.titlesSuperAgent;
     }
 
-    this.statisticsData$ = this.statisticsService.getStats();
-    this.chartData$ = this.statisticsService.getStatsForChart();
+    this.statisticsData$ = this.statisticsService.getOverview();
+    this.chartData$ = this.statisticsService.getChartOverview();
 
     this.chartData$.forEach(item => {
         item.forEach(data => {

@@ -11,7 +11,7 @@ import {AuthModule} from './auth/auth.module';
 import {CoreModule} from './core/core.module';
 import {SharedModule} from './shared/shared.module';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StatisticsService} from './statistics/services/statistics.service';
+import {StatisticsService} from './shared/statistics/services/statistics.service';
 
 @NgModule({
   declarations: [

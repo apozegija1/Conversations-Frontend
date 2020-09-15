@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AuthenticationService} from '../../../auth/services/authentication.service';
+import {ApiService} from '../../../core/services/api.service';
+import {Constants} from '../../models/constants';
+import {BaseApiService} from '../../services/base-api.service';
 import {Observable} from 'rxjs';
-import {AuthenticationService} from '../../auth/services/authentication.service';
-import {ApiService} from '../../core/services/api.service';
-import {Constants} from '../../shared/models/constants';
-import {IUser} from '../../users/models/iuser.interface';
-import {BaseApiService} from '../../shared/services/base-api.service';
-import {environment} from '../../../environments/environment';
+import {IOverview} from '../../models/interfaces/ioverview.interface';
+import {IChartOverview} from './/src/app/dashboard/components/home/ichart-overview.interface.ts';
 
 const httpOptions = {
   headers: new HttpHeaders( { 'Content-type': 'application/json' } )
@@ -16,18 +16,16 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class StatisticsService extends BaseApiService<any> {
-  private currentUser: IUser;
 
   constructor(private http: HttpClient, private authService: AuthenticationService, apiService: ApiService) {
     super(apiService, Constants.Api.Statistics);
-    this.currentUser = this.authService.getCurrentUser();
   }
 
-  getStats(){
+  getOverview(): Observable<IOverview>{
     return this.apiService.get(Constants.Api.Statistics + `/overview`);
   }
 
-  getStatsForChart() {
+  getChartOverview(): Observable<IChartOverview> {
     return this.apiService.get(Constants.Api.Statistics + `/chartOverview`);
   }
 }
