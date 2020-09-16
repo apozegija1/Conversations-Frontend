@@ -17,6 +17,8 @@ export class ApiService {
   private static getResponseData<T>(data: IResponse<T>) {
     if (data.status === 'SUCCESS') {
       return data.data;
+    } else {
+      console.log('Could not get data!');
     }
   }
 
