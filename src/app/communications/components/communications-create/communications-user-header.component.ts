@@ -3,6 +3,7 @@ import {VideoPopupComponent} from '../video-popup/video-popup.component';
 import {DialogPopupService} from '../../../shared/services/dialog-popup.service';
 import {TranslateService} from '@ngx-translate/core';
 import {IUserCommunication} from '../../models/iuser-communication.interface';
+import {IPopupData} from '../../../shared/models/interfaces/ipopup-data.interface';
 
 @Component({
   templateUrl: 'communications-user-header.component.html',
@@ -23,8 +24,13 @@ export class CommunicationsUserHeaderComponent implements OnInit {
   }
 
   startVideoCall() {
-    this.dialogPopupService.processPopup(VideoPopupComponent,
-      this.translate.instant('in_video_call'), '', 'finish_call')
+    const popupData: IPopupData = {
+      title: this.translate.instant('in_video_call'),
+      content: '',
+      okDialogTitle: 'finish_call',
+      data: this.selectedConversation.user
+    };
+    this.dialogPopupService.processPopup(VideoPopupComponent, popupData)
       .subscribe((ok: boolean) => {
         if (!ok) {
           return;

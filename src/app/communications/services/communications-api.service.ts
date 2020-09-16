@@ -6,6 +6,7 @@ import {ApiService} from '../../core/services/api.service';
 import {ICommunication} from '../models/icommunication.interface';
 import {Observable} from 'rxjs';
 import {IUserCommunication} from '../models/iuser-communication.interface';
+import {IUser} from '../../users/models/iuser.interface';
 
 @Injectable()
 export class CommunicationsApiService extends BaseApiService<ICommunication> {
@@ -15,5 +16,9 @@ export class CommunicationsApiService extends BaseApiService<ICommunication> {
 
   getAllUserCommunications(): Observable<IUserCommunication[]> {
     return this.apiService.get<IUserCommunication[]>(`${this.baseUri}/users`);
+  }
+
+  public obtainWebRtcToken(user: IUser) {
+    return this.apiService.get<any>(`${this.baseUri}/webrtc/${user.id}`);
   }
 }

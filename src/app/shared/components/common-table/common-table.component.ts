@@ -6,6 +6,7 @@ import {ITableColumn} from '../../models/interfaces/itable-column.interface';
 import {DialogPopupService} from '../../services/dialog-popup.service';
 import {ConfirmationPopupComponent} from '../confirmation-popup/confirmation-popup.component';
 import {TranslateService} from '@ngx-translate/core';
+import {IPopupData} from '../../models/interfaces/ipopup-data.interface';
 
 @Component({
     templateUrl: 'common-table.component.html',
@@ -61,8 +62,12 @@ export class CommonTableComponent implements OnInit {
   }
 
   public delete(element: any) {
-    this.propDialogService.processPopup(ConfirmationPopupComponent,
-      this.translate.instant('delete_confirmation_title'), this.translate.instant('delete_confirmation_content'))
+    const popupData: IPopupData = {
+      title: this.translate.instant('delete_confirmation_title'),
+      content: this.translate.instant('delete_confirmation_content')
+    };
+
+    this.propDialogService.processPopup(ConfirmationPopupComponent, popupData)
       .subscribe((ok: boolean) => {
         if (!ok) { return; }
         this.deleteChange.emit(element);

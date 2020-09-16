@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {InfobipRTC, OutgoingCall} from 'infobip-rtc';
+import {CommunicationsApiService} from '../../services/communications-api.service';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-video-popup',
@@ -8,10 +10,22 @@ import {InfobipRTC, OutgoingCall} from 'infobip-rtc';
 })
 export class VideoPopupComponent implements OnInit {
   private outgoingCall: OutgoingCall;
-  constructor() { }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+              private communicationApiService: CommunicationsApiService) { }
 
   ngOnInit() {
-    const token = this.obtainToken(); // here you call '/webrtc/1/token'
+    this.obtainToken();
+  }
+
+  obtainToken() {
+    this.communicationApiService.obtainWebRtcToken(this.data.customData)
+      .subscribe((data) => {
+        this.startVideoCall(data.token);
+      });
+  }
+
+  startVideoCall(token: string): void {
     const options = { debug: true };
     const infobipRTC = new InfobipRTC(token, options);
 
@@ -38,10 +52,6 @@ export class VideoPopupComponent implements OnInit {
     this.outgoingCall.on('error', (event) => {
       console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
     });
-  }
-
-  obtainToken() {
-    return '';
   }
 
   onHangup() {
