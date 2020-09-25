@@ -82,6 +82,7 @@
   "companies_registered" : "Companies registered",
   "users_registered_in_this_year_by_months" : "Users registered in this year by months",
   "number_of_users_registered_by_months" : "Number of users registered by months",
-  "see_more": "More"
+  "see_more": "More",
+  "sms":"SMS"
 
 }
