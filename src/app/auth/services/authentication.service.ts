@@ -95,6 +95,7 @@ export class AuthenticationService {
     }
 
     private isRole(role: Role): boolean {
-      return this.getCurrentUser().roles.find((r) => r.name === role) != null;
+      const user = this.getCurrentUser();
+      return user ? user.roles.find((r) => r.name === role) != null : false;
     }
 }

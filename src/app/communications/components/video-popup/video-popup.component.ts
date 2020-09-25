@@ -11,8 +11,8 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 export class VideoPopupComponent implements OnInit {
   private outgoingCall: OutgoingCall;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-              private communicationApiService: CommunicationsApiService) { }
+  constructor(private communicationApiService: CommunicationsApiService,
+              @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     this.obtainToken();

@@ -8,7 +8,9 @@ import {Observable} from 'rxjs';
 import {IUserCommunication} from '../models/iuser-communication.interface';
 import {IUser} from '../../users/models/iuser.interface';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root' // Need to be in root as it is used in Md Dialog popup
+})
 export class CommunicationsApiService extends BaseApiService<ICommunication> {
   constructor(apiService: ApiService) {
     super(apiService, Constants.Api.Communications);

@@ -19,12 +19,12 @@
     </mat-card>
   </mat-sidenav>
 
-  <mat-sidenav position="end" mode="side" fxFlex="70" class="users-info-container" opened *ngIf="selectedConversation">
+  <mat-sidenav position="end" mode="side" class="users-info-container" opened *ngIf="selectedConversation">
     <app-communications-users-info [users]="[selectedConversation.user, currentUser]">
     </app-communications-users-info>
   </mat-sidenav>
 
-  <section class="empty-conversation" fxFlex="70" *ngIf="!selectedConversation">
+  <section class="empty-conversation" *ngIf="!selectedConversation">
     <h1 class="mat-display-1">{{'select_communication'|translate}}</h1>
   </section>
 

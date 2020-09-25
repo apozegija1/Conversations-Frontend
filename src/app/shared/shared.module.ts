@@ -31,7 +31,6 @@ const SharedComponents = [
   ConfirmationPopupComponent,
   UserCreateFormComponent,
 
-
   ReactiveAsteriskDirective,
   DebounceClickDirective
 ];
