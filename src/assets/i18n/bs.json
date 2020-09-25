@@ -83,6 +83,13 @@
   "users_registered_in_this_year_by_months" : "Prosjecan broj registrovanih korisnika po mjesecima",
   "number_of_users_registered_by_months" : "Broj registrovanih korisnika po mjesecima",
   "see_more": "Vise",
-  "sms":"SMS"
-
+  "sms":"SMS",
+  "reports_label": "Izvjestaji",
+  "reports_communications_label": "Komunikacije",
+  "reports_users_label": "Korisnici",
+  "date_range": "Unesite opseg datuma",
+  "choose_report": "Izaberite koji izvještaj želite da vidite:",
+  "avg_duration": "Prosjecno trajanje poziva",
+  "comm_count": "Broj komunikacija",
+  "avg_rating": "Prosjecan rating po tipu komunikacije"
 }
