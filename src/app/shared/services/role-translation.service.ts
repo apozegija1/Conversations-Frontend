@@ -6,11 +6,11 @@ import {RoleTranslationType} from '../models/enums/role-translation-type.enum';
   providedIn: 'root'
 })
 export class RoleTranslationService {
-  private titlesCompany = { title1: 'agents', title2: 'calls', title3: 'average_call_duration',
+  private companyTitles = { title1: 'agents', title2: 'calls', title3: 'average_call_duration',
     title4: 'number_of_calls_by_month' };
-  private titlesSuperAgent = { title1: 'users_registered', title2: 'companies_registered',
+  private superAgentTitles = { title1: 'users_registered', title2: 'companies_registered',
     title3: 'users_registered_in_this_year_by_months', title4: 'number_of_users_registered_by_months'};
-  private titlesAgentsAndUsers  = { title1: 'sms', title2: 'calls', title3: 'average_call_duration',
+  private agentsAndUsersTitles  = { title1: 'sms', title2: 'calls', title3: 'average_call_duration',
     title4: 'number_of_calls_by_month' };
 
   private roleTranslations: { [key: string]: any };
@@ -29,19 +29,19 @@ export class RoleTranslationService {
   private init() {
     if (this.authService.isCompanyAdmin()) {
       this.roleTranslations = {
-        [RoleTranslationType.Home]: this.titlesCompany
+        [RoleTranslationType.Home]: this.companyTitles
       };
     } else if (this.authService.isUser()) {
       this.roleTranslations = {
-        [RoleTranslationType.Home]: this.titlesAgentsAndUsers
+        [RoleTranslationType.Home]: this.agentsAndUsersTitles
       };
     } else if (this.authService.isAgent()) {
       this.roleTranslations = {
-        [RoleTranslationType.Home]: this.titlesAgentsAndUsers
+        [RoleTranslationType.Home]: this.agentsAndUsersTitles
       };
     } else {
       this.roleTranslations = {
-        [RoleTranslationType.Home]: this.titlesSuperAgent
+        [RoleTranslationType.Home]: this.superAgentTitles
       };
     }
   }

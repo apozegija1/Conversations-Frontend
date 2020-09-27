@@ -7,7 +7,7 @@ export const ReportsRoutes: Routes = [
   {
     path: 'communications',
     component: ReportsCommunicationsComponent,
-    data: { roles: ReportRouteUtils.getCommunicationsRouteRoles() }
+    data: { roles: ReportRouteUtils.getReportsRouteRoles() }
   }
 ];
 

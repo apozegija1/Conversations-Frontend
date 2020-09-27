@@ -1,7 +1,7 @@
 import {Role} from '../../users/models/role.enum';
 
 export class ReportRouteUtils {
-  public static getCommunicationsRouteRoles(): Role[] {
+  public static getReportsRouteRoles(): Role[] {
     return [Role.CompanyAdmin];
   }
 
