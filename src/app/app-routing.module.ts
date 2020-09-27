@@ -5,6 +5,7 @@ import {DashboardModule} from './dashboard/dashboard.module';
 import {UserRouteUtils} from './users/utils/user-route.utils';
 import {CompanyRouteUtils} from './companies/utils/company-route.utils';
 import {CommunicationRouteUtils} from './communications/utils/communication-route.utils';
+import {ReportRouteUtils} from './reports/utils/report-route.utils';
 
 const routes: Routes = [
   {
@@ -29,6 +30,12 @@ const routes: Routes = [
     loadChildren: () => import('./communications/communications.module').then(m => m.CommunicationsModule),
     canActivate: [AuthGuard],
     data: { roles: CommunicationRouteUtils.getListRouteRoles() }
+  },
+  {
+    path: 'reports',
+    loadChildren: () => import('./reports/reports.module').then(m => m.ReportsModule),
+    canActivate: [AuthGuard],
+    data: { roles: ReportRouteUtils.getReportsRouteRoles() }
   },
   {
     path: 'admin', redirectTo: '/',

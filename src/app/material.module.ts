@@ -23,6 +23,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSortModule} from '@angular/material/sort';
+
 
 const materialModules = [
   MatGridListModule,
@@ -47,7 +49,8 @@ const materialModules = [
   MatTabsModule,
   MatDialogModule,
   MatCheckboxModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatSortModule
 ];
 
 @NgModule({

@@ -16,6 +16,7 @@ import {DashboardNavbarService} from '../../../dashboard/services/dashboard-navb
 import {CompaniesNavbarService} from '../../../companies/services/companies-navbar.service';
 import {CommunicationsNavbarService} from '../../../communications/services/communications-navbar.service';
 import {WebrtcService} from '../../services/webrtc.service';
+import {ReportsNavbarService} from '../../../reports/services/reports-navbar.service';
 
 @Component({
     templateUrl: 'navbar.component.html',
@@ -43,7 +44,8 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
               private authNavbarService: AuthNavbarService,
               private dashboardNavbarService: DashboardNavbarService,
               private companiesNavbarService: CompaniesNavbarService,
-              private communicationsNavbarService: CommunicationsNavbarService) {
+              private communicationsNavbarService: CommunicationsNavbarService,
+              private reportsNavbarService: ReportsNavbarService) {
     super(authService);
   }
 
@@ -89,6 +91,7 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
         this.usersNavbarService.addMenu();
         this.companiesNavbarService.addMenu();
         this.communicationsNavbarService.addMenu();
+        this.reportsNavbarService.addMenu();
         this.authNavbarService.addMenu(this.currentUser);
       }
       this.assignMenu();

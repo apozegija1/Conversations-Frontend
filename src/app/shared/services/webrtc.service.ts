@@ -116,6 +116,7 @@ export class WebrtcService {
       if (connectSuccess) {
         connectSuccess();
       }
+      return;
     }
 
     // Check if user is already connected

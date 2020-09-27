@@ -45,6 +45,8 @@ export class CommonTableComponent implements OnInit {
   public visibleColumns: string[];
   public tableColumns: ITableColumn[] = [];
 
+  public isCreateChangeUsed = false;
+
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private propDialogService: DialogPopupService,
@@ -52,6 +54,7 @@ export class CommonTableComponent implements OnInit {
 
 
   ngOnInit() {
+    this.isCreateChangeUsed = this.createChange.observers.length > 0;
     this.initDataSource();
     if (this.tableConfig == null) {
       throw new Error('Please provide configuration for table so it can render data');

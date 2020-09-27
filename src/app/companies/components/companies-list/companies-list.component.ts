@@ -8,7 +8,6 @@ import {TableUtils} from '../../utils/table.utils';
 import {Router} from '@angular/router';
 import {SubSink} from '../../../shared/classes/sub-sink';
 
-
 @Component({
     templateUrl: './companies-list.component.html',
     styleUrls: ['./companies-list.component.scss'],
@@ -36,7 +35,11 @@ export class CompaniesListComponent implements OnInit {
   }
 
   onDelete(company: ICompany) {
-
+    this.subSink.sink = this.companiesApiService.deleteById(company.id)
+      .subscribe((data) => {
+      // After delete fetch users again
+      this.getCompanies();
+    });
   }
 
   onCreate() {
