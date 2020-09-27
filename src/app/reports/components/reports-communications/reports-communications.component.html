@@ -24,21 +24,8 @@
   </section>
 
 
-  <table *ngIf="report" class="mat-elevation-z8">
-      <thead>
-      <tr>
-        <th>Agent</th>
-        <th>{{titleTranslations.title | translate}}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let item of (avgData$ | async)">
-        <td>{{ item.agent }}</td>
-        <td>{{ item.value }}</td>
-      </tr>
-      </tbody>
-
-  </table>
-
+  <app-common-table  *ngIf="report"
+                    [tableConfig]="reportsTableConfig"
+                    [data]="avgData$|async"></app-common-table>
 
 </div>

@@ -21,8 +21,10 @@ export class RoleTranslationService {
     }
 
     this.authService.getIsUserLoggedIn()
-      .subscribe((data) => {
-      this.init();
+      .subscribe((loggedIn: boolean) => {
+        if (loggedIn) {
+          this.init();
+        }
     });
   }
 

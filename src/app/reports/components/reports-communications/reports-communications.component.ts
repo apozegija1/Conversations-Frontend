@@ -4,7 +4,8 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {formatDate} from '@angular/common';
 import {Observable} from 'rxjs';
 import {IReport} from '../../models/ireport.interface';
-
+import {ITableConfig} from '../../../shared/models/interfaces/itable-config.interface';
+import {TableUtils} from '../../utils/table.utils';
 
 @Component({
   templateUrl: './reports-communications.component.html',
@@ -13,9 +14,9 @@ import {IReport} from '../../models/ireport.interface';
 })
 
 export class ReportsCommunicationsComponent implements OnInit {
+  public reportsTableConfig: ITableConfig;
 
-  constructor(
-    private reportsApiService: ReportsApiService) {}
+  constructor(private reportsApiService: ReportsApiService) {}
 
   range = new FormGroup({
     start: new FormControl(),
@@ -33,6 +34,8 @@ export class ReportsCommunicationsComponent implements OnInit {
 
 
   ngOnInit() {
+    this.titleTranslations = this.titleAvg;
+    this.reportsTableConfig = TableUtils.getTableConfig(this.titleTranslations.title);
     this.getAvgData();
   }
 
@@ -42,7 +45,6 @@ export class ReportsCommunicationsComponent implements OnInit {
   }
 
   getAvgData() {
-      this.titleTranslations = this.titleAvg;
       this.avgData$ = this.reportsApiService.getAverageDuration(
         formatDate(this.range.value.start, 'yyyy-MM-dd hh:mm:ss', 'en_US'),
         formatDate(this.range.value.end, 'yyyy-MM-dd hh:mm:ss', 'en_US'));
