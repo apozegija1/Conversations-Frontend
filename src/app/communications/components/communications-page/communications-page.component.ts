@@ -69,7 +69,7 @@ export class CommunicationsPageComponent extends BaseUserInfo implements OnInit 
       agent
     };
 
-    this.subsink.sink = this.communicationApiService.create(newConversation)
+    this.sink = this.communicationApiService.create(newConversation)
       .subscribe((data) => {
         this.selectedConversation.communications = ArrayUtils
           .insert(this.selectedConversation.communications, newConversation);

@@ -12,6 +12,7 @@ export class Constants {
   static LocalStorageKey = {
     CurrentUser: 'currentUser',
     CurrentAuth: 'currentToken',
+    CurrentWebrtc: 'currentWebrtc',
     LanguageSelected: 'selectedLanguage'
   };
   static Defaults = {

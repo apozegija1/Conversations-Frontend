@@ -18,6 +18,7 @@ import {UserCreateFormComponent} from './components/user-create-form/user-create
 import {ReactiveAsteriskDirective} from './directives/reactive-asterix.directive';
 import {DebounceClickDirective} from './directives/debounce-click.directive';
 import {BaseFormComponent} from './components/base-form/base-form.component';
+import {WebrtcService} from './services/webrtc.service';
 
 const SharedComponents = [
   BaseFormComponent,

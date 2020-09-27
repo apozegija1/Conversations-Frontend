@@ -1,7 +1,7 @@
-<app-confirmation-popup (saveChange)="onHangup()">
-  <video style="margin-left: 8vh" width="700" controls>
-    <source src="http://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
-    <source src="http://media.w3.org/2010/05/sintel/trailer.ogg" type="video/ogg">
-    {{'no_video_support'|translate}}
+<app-confirmation-popup (saveChange)="onHangup()" (componentInit)="confirmationPopupInit($event)">
+  <video id="localVideo" style="margin-left: 8vh" width="200" autoplay>
+  </video>
+
+  <video id="remoteVideo" style="margin-left: 8vh" width="700" autoplay>
   </video>
 </app-confirmation-popup>

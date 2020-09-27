@@ -15,6 +15,7 @@ import {AuthNavbarService} from '../../../auth/services/auth-navbar.service';
 import {DashboardNavbarService} from '../../../dashboard/services/dashboard-navbar.service';
 import {CompaniesNavbarService} from '../../../companies/services/companies-navbar.service';
 import {CommunicationsNavbarService} from '../../../communications/services/communications-navbar.service';
+import {WebrtcService} from '../../services/webrtc.service';
 
 @Component({
     templateUrl: 'navbar.component.html',
@@ -36,6 +37,7 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
               private router: Router,
               private translate: TranslateService,
               private localStorageService: LocalStorageService,
+              private webrtcService: WebrtcService,
               private navbarService: NavbarService,
               private usersNavbarService: UsersNavbarService,
               private authNavbarService: AuthNavbarService,
@@ -46,8 +48,9 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.webrtcService.init();
     // Assign logged in observable and notify if user logged in
-    this.subsink.sink = this.authService.getIsUserLoggedIn()
+    this.sink = this.authService.getIsUserLoggedIn()
       .subscribe((data: boolean) => {
         this.setRoleBasedLinks(data);
         if (data === false) {
@@ -60,7 +63,7 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subsink.unsubscribe();
+    this.unsubscribe();
   }
 
   @HostListener('window:resize', ['$event'])

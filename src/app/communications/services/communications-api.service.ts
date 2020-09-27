@@ -7,6 +7,7 @@ import {ICommunication} from '../models/icommunication.interface';
 import {Observable} from 'rxjs';
 import {IUserCommunication} from '../models/iuser-communication.interface';
 import {IUser} from '../../users/models/iuser.interface';
+import {IWebrtcToken} from '../../shared/models/interfaces/iwebrtc-token.interface';
 
 @Injectable({
   providedIn: 'root' // Need to be in root as it is used in Md Dialog popup
@@ -20,7 +21,7 @@ export class CommunicationsApiService extends BaseApiService<ICommunication> {
     return this.apiService.get<IUserCommunication[]>(`${this.baseUri}/users`);
   }
 
-  public obtainWebRtcToken(user: IUser) {
+  public obtainWebRtcToken(user: IUser): Observable<IWebrtcToken> {
     return this.apiService.get<any>(`${this.baseUri}/webrtc/${user.id}`);
   }
 }

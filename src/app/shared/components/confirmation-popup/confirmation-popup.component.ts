@@ -12,19 +12,29 @@ export class ConfirmationPopupComponent implements OnInit {
 
   @Output() closeChange: EventEmitter<void> = new EventEmitter<void>();
 
+  @Output() componentInit: EventEmitter<any> = new EventEmitter<any>();
+
   constructor(public dialogRef: MatDialogRef<ConfirmationPopupComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ConfirmationModel) { }
 
   ngOnInit() {
+    // Pass values to parent which it can use
+    this.componentInit.emit({
+      close: this.close
+    });
   }
 
   public onNoClick() {
     this.closeChange.emit();
-    this.dialogRef.close(false);
+    this.close(false);
   }
 
   public confirm() {
     this.saveChange.emit();
-    this.dialogRef.close(true);
+    this.close();
+  }
+
+  private close = (ok: boolean = true) => {
+    this.dialogRef.close(ok);
   }
 }
