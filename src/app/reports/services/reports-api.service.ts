@@ -20,12 +20,12 @@ export class ReportsApiService extends BaseApiService<IReport> {
 
   getAverageDuration(start: string, end: string): Observable<IReport[]>{
     this.companyId = this.authenticationService.getCurrentUser().company.id;
-    console.log(Constants.Api.Statistics + `/avgCommunicationDuration?fromDate=${start}&toDate=${end}&companyId=${this.companyId}`);
-    return this.apiService.get(Constants.Api.Statistics + `/avgCommunicationDuration?fromDate=` +
-      start + `&toDate=` + end + `&companyId=` + this.companyId);
+    return this.apiService.get(Constants.Api.Statistics +
+      `/avgCommunicationDuration?fromDate=${start}&toDate=${end}&companyId=${this.companyId}`);
   }
 
   getCommunicationCount(start: string, end: string): Observable<IReport[]>{
-    return this.apiService.get(Constants.Api.Statistics + `/communicationCount?fromDate=${start}&toDate=${end}&companyId=${this.companyId}`);
+    return this.apiService.get(Constants.Api.Statistics +
+      `/communicationCount?fromDate=${start}&toDate=${end}&companyId=${this.companyId}`);
   }
 }
