@@ -1,4 +1,4 @@
-import { RouterModule, Routes } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {CommunicationsUserHeaderComponent} from './components/communications-create/communications-user-header.component';
 import {CommunicationsListComponent} from './components/communications-list/communications-list.component';
 import {VideoPopupComponent} from './components/video-popup/video-popup.component';
@@ -8,6 +8,7 @@ import {CommunicationsSendMessageComponent} from './components/communications-se
 import {CommunicationsPageComponent} from './components/communications-page/communications-page.component';
 import {CommunicationsUsersInfoComponent} from './components/communications-users-info/communications-users-info.component';
 import {NgModule} from '@angular/core';
+import {IncomingCallPopupComponent} from './components/incoming-call-popup/incoming-call-popup.component';
 
 export const CommunicationRoutes: Routes = [
   {
@@ -26,5 +27,5 @@ export class CommunicationsRoutingModule {
 
 export const CommunicationsRoutingComponents = [CommunicationsUserHeaderComponent, CommunicationsPageComponent,
   CommunicationsListComponent, CommunicationsSendMessageComponent, CommunicationsUsersInfoComponent,
-  CommunicationsUsersListComponent, CommunicationsUserHeaderComponent, VideoPopupComponent];
+  CommunicationsUsersListComponent, CommunicationsUserHeaderComponent, VideoPopupComponent, IncomingCallPopupComponent];
 

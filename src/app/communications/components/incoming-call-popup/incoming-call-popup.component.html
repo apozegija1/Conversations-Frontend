@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>{{'incoming_call' | translate}}</h1>
+<div mat-dialog-content>
+  <p>{{'accept_call' | translate}}</p>
+</div>
+<div class = "dialog-actions" mat-dialog-actions>
+  <button class="example-button-container" mat-fab (click)="onYesClick()">
+    <mat-icon>call</mat-icon>
+  </button>
+
+  <button class="example-button-container-decline" mat-fab (click)="onNoClick()">
+    <mat-icon>call_end</mat-icon>
+  </button>
+</div>

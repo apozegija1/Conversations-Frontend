@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, Injectable, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {IUser} from '../../../users/models/iuser.interface';
 import {WebrtcService} from '../../../shared/services/webrtc.service';
@@ -8,6 +8,7 @@ import {WebrtcService} from '../../../shared/services/webrtc.service';
   templateUrl: './video-popup.component.html',
   styleUrls: ['./video-popup.component.css']
 })
+@Injectable()
 export class VideoPopupComponent implements OnInit {
   private closeOnHangup: (ok: boolean) => void;
 

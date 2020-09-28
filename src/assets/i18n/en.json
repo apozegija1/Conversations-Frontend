@@ -92,5 +92,7 @@
   "avg_duration": "Average calls duration",
   "comm_count": "Number of communications",
   "avg_rating": "Average rating by communication type",
-  "agent_label": "Agent"
+  "agent_label": "Agent",
+  "incoming_call": "Incoming call",
+  "accept_call": "Do you want to accept this call?"
 }
