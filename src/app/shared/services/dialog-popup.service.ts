@@ -15,16 +15,14 @@ export class DialogPopupService {
       title: popupData.title,
       content: popupData.content,
       oneBtn: popupData.okDialogTitle != null,
-      oneBtnTitle: popupData.okDialogTitle
+      oneBtnTitle: popupData.okDialogTitle,
+      customData: popupData.data
     };
 
     const dialogRef = this.dialog.open(component, {
-      width: '850px',
+      width: popupData.width ? `${popupData.width}px` : '850px',
       disableClose: true,
-      data: {
-        ...data,
-        customData: popupData.data
-      }
+      data
     });
     return dialogRef.afterClosed();
   }

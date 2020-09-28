@@ -17,6 +17,9 @@ import {CompaniesNavbarService} from '../../../companies/services/companies-navb
 import {CommunicationsNavbarService} from '../../../communications/services/communications-navbar.service';
 import {WebrtcService} from '../../services/webrtc.service';
 import {ReportsNavbarService} from '../../../reports/services/reports-navbar.service';
+import {IPopupData} from '../../models/interfaces/ipopup-data.interface';
+import {IncomingCallPopupComponent} from '../incoming-call-popup/incoming-call-popup.component';
+import {DialogPopupService} from '../../services/dialog-popup.service';
 
 @Component({
     templateUrl: 'navbar.component.html',
@@ -37,6 +40,7 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
   constructor(authService: AuthenticationService,
               private router: Router,
               private translate: TranslateService,
+              private dialogPopupService: DialogPopupService,
               private localStorageService: LocalStorageService,
               private webrtcService: WebrtcService,
               private navbarService: NavbarService,
@@ -51,6 +55,7 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.webrtcService.init();
+    this.listenIncomingCall();
     // Assign logged in observable and notify if user logged in
     this.sink = this.authService.getIsUserLoggedIn()
       .subscribe((data: boolean) => {
@@ -120,5 +125,25 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
 
   private clearSmMenu() {
     this.navbarMenuSmFlat = ([]);
+  }
+
+  private listenIncomingCall() {
+    this.sink = this.webrtcService.getListenToIncomingCall()
+      .subscribe((event) => {
+        const popupData: IPopupData = {
+          width: 300,
+          title: this.translate.instant('incoming_call'),
+          content: 'Do you want to except this call?',
+          okDialogTitle: 'finish_call',
+          data: event
+        };
+
+        this.dialogPopupService.processPopup(IncomingCallPopupComponent, popupData)
+          .subscribe((ok: boolean) => {
+            if (!ok) {
+              return;
+            }
+          });
+      });
   }
 }

@@ -1,11 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {VideoPopupComponent} from '../video-popup/video-popup.component';
+import {RtcVideoPopupComponent} from '../../../shared/components/rtc-video-popup/rtc-video-popup.component';
 import {DialogPopupService} from '../../../shared/services/dialog-popup.service';
 import {TranslateService} from '@ngx-translate/core';
 import {IUserCommunication} from '../../models/iuser-communication.interface';
 import {IPopupData} from '../../../shared/models/interfaces/ipopup-data.interface';
-import {IncomingCallPopupComponent} from '../incoming-call-popup/incoming-call-popup.component';
-import {MatDialog} from '@angular/material/dialog';
+import {IncomingCallPopupComponent} from '../../../shared/components/incoming-call-popup/incoming-call-popup.component';
 
 @Component({
   templateUrl: 'communications-user-header.component.html',
@@ -31,7 +30,7 @@ export class CommunicationsUserHeaderComponent implements OnInit {
       okDialogTitle: 'finish_call',
       data: this.selectedConversation.user
     };
-    this.dialogPopupService.processPopup(VideoPopupComponent, popupData)
+    this.dialogPopupService.processPopup(RtcVideoPopupComponent, popupData)
       .subscribe((ok: boolean) => {
         if (!ok) {
           return;
@@ -39,8 +38,9 @@ export class CommunicationsUserHeaderComponent implements OnInit {
       });
   }
 
-  acceptCall() {
+  /*acceptCall() {
     const popupData: IPopupData = {
+      width: 300,
       title: this.translate.instant('incoming_call'),
       content: 'Do you want to except this call?',
       okDialogTitle: 'finish_call',
@@ -52,5 +52,5 @@ export class CommunicationsUserHeaderComponent implements OnInit {
           return;
         }
       });
-  }
+  }*/
 }

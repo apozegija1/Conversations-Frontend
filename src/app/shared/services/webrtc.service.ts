@@ -6,9 +6,10 @@ import {AuthenticationService} from '../../auth/services/authentication.service'
 import {CommunicationsApiService} from '../../communications/services/communications-api.service';
 import {Constants} from '../models/constants';
 import {IWebrtcToken} from '../models/interfaces/iwebrtc-token.interface';
-import {CallOptions, InfobipRTC, OutgoingCall} from 'infobip-rtc';
+import {CallOptions, IncomingCall, InfobipRTC, OutgoingCall} from 'infobip-rtc';
 import * as moment from 'moment';
 import {RtcConnectionStatus} from '../models/enums/rtc-connection-status.enum';
+import {RtcIncomingCallStatus} from '../models/enums/rtc-incoming-call-status.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +20,11 @@ export class WebrtcService {
   private callHangup = new Subject<any>();
 
   private outgoingCall: OutgoingCall;
+  private incomingCall: IncomingCall;
   private infobipWebRtc: InfobipRTC;
 
   private connectionStatus: RtcConnectionStatus = RtcConnectionStatus.Default;
+  private incomingCallStatus: RtcIncomingCallStatus = RtcIncomingCallStatus.Default;
 
   constructor(private localStorageService: LocalStorageService,
               private authenticationService: AuthenticationService,
@@ -97,17 +100,29 @@ export class WebrtcService {
       this.outgoingCall = null;
       this.notifyCallHangup();
     }
+
+    if (this.incomingCall) {
+      this.incomingCall.hangup();
+      this.incomingCall = null;
+      this.notifyCallHangup();
+    }
   }
 
   setupIncomingCall(): void {
     this.infobipWebRtc.on('incoming-call', (incomingCallEvent) => {
-      const incomingCall = incomingCallEvent.incomingCall;
-      console.log('Received incoming call from: ' + incomingCall.source().identity, incomingCallEvent);
-      this.notifyCallReceived(incomingCall);
-      // incomingCall.on('established', function() {});
-      // incomingCall.on('hangup', function() {});
+      this.incomingCall = incomingCallEvent.incomingCall;
+      console.log('Received incoming call from: ' + this.incomingCall.source().identity, incomingCallEvent);
+      this.notifyCallIncoming(this.incomingCall);
+      this.incomingCall.on('established', (event) => {
+        console.log('We answered on call that we got');
+        this.incomingCallStatus = RtcIncomingCallStatus.Accepted;
+        this.notifyCallEstablished(event);
+      });
 
-      incomingCall.accept(); // or incomingCall.decline();
+      this.incomingCall.on('hangup', () => {
+        this.incomingCallStatus = RtcIncomingCallStatus.Declined;
+        this.notifyCallHangup();
+      });
     });
   }
 
@@ -144,7 +159,7 @@ export class WebrtcService {
     });
 
     this.outgoingCall.on('established', (event) => {
-      console.log('Answered call!');
+      console.log('User that we called answered call!');
       this.notifyCallEstablished(event);
     });
 
@@ -174,7 +189,7 @@ export class WebrtcService {
     this.callHangup.next();
   }
 
-  notifyCallReceived(event: any) {
+  notifyCallIncoming(event: any) {
     this.callReceived.next(event);
   }
 

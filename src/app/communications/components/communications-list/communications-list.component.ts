@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IUserCommunication} from '../../models/iuser-communication.interface';
-
 import {IUser} from '../../../users/models/iuser.interface';
 
 @Component({

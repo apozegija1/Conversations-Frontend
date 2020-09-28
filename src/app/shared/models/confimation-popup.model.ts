@@ -3,4 +3,5 @@ export class ConfirmationModel {
     public content: string;
     public oneBtn: boolean;
     public oneBtnTitle?: string;
+    public customData: any;
 }

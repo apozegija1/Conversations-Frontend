@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'app-confirmation-popup',
   templateUrl: './confirmation-popup.component.html',
-  styleUrls: ['./confirmation-popup.component.css']
+  styleUrls: ['./confirmation-popup.component.scss']
 })
 export class ConfirmationPopupComponent implements OnInit {
   @Output() saveChange: EventEmitter<void> = new EventEmitter<void>();
