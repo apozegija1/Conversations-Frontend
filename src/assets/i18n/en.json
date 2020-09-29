@@ -94,5 +94,8 @@
   "avg_rating": "Average rating by communication type",
   "agent_label": "Agent",
   "incoming_call": "Incoming call",
-  "accept_call": "Do you want to accept this call?"
+  "accept_call": "Do you want to accept this call?",
+  "infobip_rtc_error_0": "Call finished successfully, user closed the call",
+  "infobip_rtc_error_5003": "Call received but no answer",
+  "infobip_rtc_error_5002": "Call received but user currently busy, rejected call"
 }

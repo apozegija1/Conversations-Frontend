@@ -1,9 +1,9 @@
-<app-confirmation-popup (saveChange)="onHangup()" (componentInit)="confirmationPopupInit($event)">
-  <div style="position: relative">
-    <video id="localVideo" class="video-call-box local-video" autoplay>
+<app-confirmation-popup (saveChange)="onHangup()" [closeOnSave]="false" (componentInit)="confirmationPopupInit($event)">
+  <div fxLayout="row" fxLayoutAlign=" start">
+    <video fxFlex="80" id="localVideo" class="video-call-box local-video" autoplay>
     </video>
 
-    <video id="remoteVideo" style="margin-left: 6vh" width="550" autoplay>
+    <video fxFlex="20" id="remoteVideo" class="video-call-box remote-video" autoplay>
     </video>
   </div>
 

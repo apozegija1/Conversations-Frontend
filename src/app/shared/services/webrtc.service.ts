@@ -10,6 +10,14 @@ import {CallOptions, IncomingCall, InfobipRTC, OutgoingCall} from 'infobip-rtc';
 import * as moment from 'moment';
 import {RtcConnectionStatus} from '../models/enums/rtc-connection-status.enum';
 import {RtcIncomingCallStatus} from '../models/enums/rtc-incoming-call-status.enum';
+import {IInfobipHangupStatus} from '../models/interfaces/iinfobip-hangup-status.interface';
+import {InfobipErrorCodes} from '../models/enums/infobip-error-codes.enum';
+import {TranslateService} from '@ngx-translate/core';
+import {InfobipHangupStatus} from '../models/enums/infobip-hangup-status.enum';
+import {IHangupStatus} from '../models/interfaces/ihangup-status.interface';
+import {CommunicationType} from '../../communications/models/communication-type.enum';
+import {IRtcCallReport} from '../models/interfaces/irtc-call-report.interface';
+import {LoadingService} from '../../core/services/loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +25,7 @@ import {RtcIncomingCallStatus} from '../models/enums/rtc-incoming-call-status.en
 export class WebrtcService {
   private callReceived = new Subject<any>();
   private callEstablished = new Subject<any>();
-  private callHangup = new Subject<any>();
+  private callHangup = new Subject<IHangupStatus>();
 
   private outgoingCall: OutgoingCall;
   private incomingCall: IncomingCall;
@@ -25,10 +33,13 @@ export class WebrtcService {
 
   private connectionStatus: RtcConnectionStatus = RtcConnectionStatus.Default;
   private incomingCallStatus: RtcIncomingCallStatus = RtcIncomingCallStatus.Default;
+  private callType: CommunicationType = CommunicationType.Video;
 
   constructor(private localStorageService: LocalStorageService,
               private authenticationService: AuthenticationService,
-              private communicationApiService: CommunicationsApiService) {
+              private communicationApiService: CommunicationsApiService,
+              private translate: TranslateService,
+              private loadingService: LoadingService) {
   }
 
   init(): void {
@@ -90,6 +101,7 @@ export class WebrtcService {
     }
 
     this.connectToService(() => {
+      this.callType = CommunicationType.Video;
       this.callUser(toUser);
     });
   }
@@ -97,31 +109,28 @@ export class WebrtcService {
   hangup() {
     if (this.outgoingCall) {
       this.outgoingCall.hangup();
-      this.outgoingCall = null;
-      this.notifyCallHangup();
     }
 
     if (this.incomingCall) {
       this.incomingCall.hangup();
-      this.incomingCall = null;
-      this.notifyCallHangup();
     }
   }
 
   setupIncomingCall(): void {
-    this.infobipWebRtc.on('incoming-call', (incomingCallEvent) => {
+    this.infobipWebRtc.on(Constants.EventName.IncomingCall, (incomingCallEvent) => {
       this.incomingCall = incomingCallEvent.incomingCall;
       console.log('Received incoming call from: ' + this.incomingCall.source().identity, incomingCallEvent);
       this.notifyCallIncoming(this.incomingCall);
-      this.incomingCall.on('established', (event) => {
+      this.incomingCall.on(Constants.EventName.Established, (event) => {
         console.log('We answered on call that we got');
         this.incomingCallStatus = RtcIncomingCallStatus.Accepted;
         this.notifyCallEstablished(event);
       });
 
-      this.incomingCall.on('hangup', () => {
+      this.incomingCall.on(Constants.EventName.Hangup, (event) => {
         this.incomingCallStatus = RtcIncomingCallStatus.Declined;
-        this.notifyCallHangup();
+        this.handleHangoutStatus(event);
+        this.incomingCall = null;
       });
     });
   }
@@ -143,7 +152,7 @@ export class WebrtcService {
       }
     });
 
-    this.infobipWebRtc.on('disconnected', (event) => {
+    this.infobipWebRtc.on('disconnected', () => {
       console.log('Disconnected!');
       this.connectionStatus = RtcConnectionStatus.Disconnected;
     });
@@ -154,22 +163,27 @@ export class WebrtcService {
   private callUser(toUser: IUser) {
     this.outgoingCall = this.infobipWebRtc.call(toUser.username, CallOptions.builder().setVideo(true).build());
 
-    this.outgoingCall.on('ringing', (event) => {
+    this.outgoingCall.on(Constants.EventName.Ringing, () => {
       console.log(`Call is ringing on ${toUser.username}\'s device!`);
+      this.loadingService.startLoading();
     });
 
-    this.outgoingCall.on('established', (event) => {
+    this.outgoingCall.on(Constants.EventName.Established, (event) => {
       console.log('User that we called answered call!');
       this.notifyCallEstablished(event);
+      this.loadingService.stopLoading();
     });
 
-    this.outgoingCall.on('hangup', (event) => {
+    this.outgoingCall.on(Constants.EventName.Hangup, (event) => {
       console.log('Call is done! Status: ' + JSON.stringify(event.status));
-      this.notifyCallHangup();
+      this.handleHangoutStatus(event);
+      this.outgoingCall = null;
+      this.loadingService.stopLoading();
     });
 
-    this.outgoingCall.on('error', (event) => {
+    this.outgoingCall.on(Constants.EventName.Error, (event) => {
       console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
+      this.loadingService.stopLoading();
     });
   }
 
@@ -185,8 +199,8 @@ export class WebrtcService {
     return this.callHangup.asObservable();
   }
 
-  notifyCallHangup() {
-    this.callHangup.next();
+  notifyCallHangup(status?: IHangupStatus) {
+    this.callHangup.next(status);
   }
 
   notifyCallIncoming(event: any) {
@@ -195,5 +209,56 @@ export class WebrtcService {
 
   notifyCallEstablished(event: any) {
     this.callEstablished.next(event);
+  }
+
+  private handleHangoutStatus(event: any) {
+    const status = this.getHangoutStatus(event.status);
+    this.notifyCallHangup(status);
+  }
+
+  private getHangoutStatus(status: IInfobipHangupStatus): IHangupStatus {
+    let hangupStatus;
+    switch (status.id) {
+      case InfobipErrorCodes.NO_ERROR: {
+        hangupStatus = InfobipHangupStatus.Success;
+        break;
+      }
+      case InfobipErrorCodes.EC_VOICE_NO_ANSWER:
+      case InfobipErrorCodes.EC_VOICE_USER_BUSY: {
+        hangupStatus = InfobipHangupStatus.Error;
+        break;
+      }
+      default: {
+        hangupStatus = InfobipHangupStatus.Error;
+        break;
+      }
+    }
+
+    const statusMessage = this.translate.instant(`infobip_rtc_error_${status.id}`);
+    const rtcReport = this.getOutgoingCallInfo();
+    return {
+      message: statusMessage,
+      status: hangupStatus,
+      type: this.callType,
+      data: rtcReport
+    };
+  }
+
+  private getOutgoingCallInfo(): IRtcCallReport {
+    if (!this.outgoingCall) {
+      return;
+    }
+
+
+    const duration = this.outgoingCall.duration();
+    const startTime = this.outgoingCall.startTime();
+    const establishTime = this.outgoingCall.establishTime();
+    const endTime = this.outgoingCall.endTime();
+    return {
+      duration,
+      startTime,
+      establishTime,
+      endTime
+    };
   }
 }

@@ -94,5 +94,8 @@
   "avg_rating": "Prosjecan rating po tipu komunikacije",
   "agent_label": "Agent",
   "incoming_call": "Imate poziv",
-  "accept_call": "Želite li prihvatiti ovaj poziv?"
+  "accept_call": "Želite li prihvatiti ovaj poziv?",
+  "infobip_rtc_error_0": "Poziv zavrsen uspjesno, korisnik zavrsio poziv",
+  "infobip_rtc_error_5003": "Poziv poslat ali bez odgovora",
+  "infobip_rtc_error_5002": "Poziv poslat, ali korisnik je odbio poziv jer je zauzet"
 }

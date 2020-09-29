@@ -1,7 +1,13 @@
-import {Component, Inject, Injectable, OnInit} from '@angular/core';
+import {Component, Inject, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {IUser} from '../../../users/models/iuser.interface';
 import {WebrtcService} from '../../services/webrtc.service';
+import {Subject} from 'rxjs';
+import {BaseSubscription} from '../../classes/base-subscription';
+import {IHangupStatus} from '../../models/interfaces/ihangup-status.interface';
+import {AlertService} from '../../services/alert.service';
+import {InfobipHangupStatus} from '../../models/enums/infobip-hangup-status.enum';
+import {HangupCloseFn} from '../../models/types/hangup-close-fn.type';
 
 @Component({
   selector: 'app-video-popup',
@@ -9,11 +15,15 @@ import {WebrtcService} from '../../services/webrtc.service';
   styleUrls: ['./rtc-video-popup.component.scss']
 })
 @Injectable()
-export class RtcVideoPopupComponent implements OnInit {
-  private closeOnHangup: (ok: boolean) => void;
+export class RtcVideoPopupComponent extends BaseSubscription implements OnInit, OnDestroy {
+  private closeOnHangup: HangupCloseFn;
+  public isCallEstablished$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private webrtcService: WebrtcService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {}
+              private alertService: AlertService,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+    super();
+  }
 
   ngOnInit() {
     this.listenCallEstablished();
@@ -24,14 +34,19 @@ export class RtcVideoPopupComponent implements OnInit {
     this.listenCallHangup();
   }
 
+  ngOnDestroy() {
+    this.unsubscribe();
+  }
+
   startVideoCall(): void {
     const user: IUser = this.data.customData;
     this.webrtcService.startVideoCall(user);
   }
 
   listenCallEstablished() {
-    this.webrtcService.getListenToCallEstablished()
+    this.sink = this.webrtcService.getListenToCallEstablished()
       .subscribe((event) => {
+        this.isCallEstablished$.next(true);
         const localVideo = document.getElementById('localVideo') as HTMLMediaElement;
         localVideo.srcObject = event.localStream;
         const remoteVideo = document.getElementById('remoteVideo') as HTMLMediaElement;
@@ -40,8 +55,15 @@ export class RtcVideoPopupComponent implements OnInit {
   }
 
   listenCallHangup() {
-    this.webrtcService.getListenToCallHangup().subscribe((data) => {
-      this.closeOnHangup(true);
+    this.sink = this.webrtcService.getListenToCallHangup()
+      .subscribe((hangupStatus: IHangupStatus) => {
+        if (hangupStatus.status === InfobipHangupStatus.Error) {
+          this.alertService.error(hangupStatus.message);
+        } else if (hangupStatus.status === InfobipHangupStatus.Success) {
+          this.alertService.success(hangupStatus.message);
+        }
+
+        this.closeOnHangup(true, hangupStatus);
     });
   }
 

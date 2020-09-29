@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {RtcVideoPopupComponent} from '../../../shared/components/rtc-video-popup/rtc-video-popup.component';
 import {DialogPopupService} from '../../../shared/services/dialog-popup.service';
 import {TranslateService} from '@ngx-translate/core';
 import {IUserCommunication} from '../../models/iuser-communication.interface';
 import {IPopupData} from '../../../shared/models/interfaces/ipopup-data.interface';
-import {IncomingCallPopupComponent} from '../../../shared/components/incoming-call-popup/incoming-call-popup.component';
+import {IDialogCloseData} from '../../../shared/models/interfaces/idialog-close-data.interface';
 
 @Component({
   templateUrl: 'communications-user-header.component.html',
@@ -14,6 +14,8 @@ import {IncomingCallPopupComponent} from '../../../shared/components/incoming-ca
 
 export class CommunicationsUserHeaderComponent implements OnInit {
   @Input() selectedConversation: IUserCommunication;
+
+  @Output() callFinishChange: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(private dialogPopupService: DialogPopupService,
               private translate: TranslateService) {
@@ -30,27 +32,14 @@ export class CommunicationsUserHeaderComponent implements OnInit {
       okDialogTitle: 'finish_call',
       data: this.selectedConversation.user
     };
+
     this.dialogPopupService.processPopup(RtcVideoPopupComponent, popupData)
-      .subscribe((ok: boolean) => {
-        if (!ok) {
+      .subscribe((data: IDialogCloseData) => {
+        if (!data) {
           return;
         }
+
+        this.callFinishChange.emit(data.data);
       });
   }
-
-  /*acceptCall() {
-    const popupData: IPopupData = {
-      width: 300,
-      title: this.translate.instant('incoming_call'),
-      content: 'Do you want to except this call?',
-      okDialogTitle: 'finish_call',
-      data: this.selectedConversation.user
-    };
-    this.dialogPopupService.processPopup(IncomingCallPopupComponent, popupData)
-      .subscribe((ok: boolean) => {
-        if (!ok) {
-          return;
-        }
-      });
-  }*/
 }

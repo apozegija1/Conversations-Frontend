@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Inject, Output, EventEmitter, Input} from '@angular/core';
 import { ConfirmationModel } from '../../models/confimation-popup.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -13,6 +13,8 @@ export class ConfirmationPopupComponent implements OnInit {
   @Output() closeChange: EventEmitter<void> = new EventEmitter<void>();
 
   @Output() componentInit: EventEmitter<any> = new EventEmitter<any>();
+
+  @Input() closeOnSave = true;
 
   constructor(public dialogRef: MatDialogRef<ConfirmationPopupComponent>,
               @Inject(MAT_DIALOG_DATA) public data: ConfirmationModel) { }
@@ -31,10 +33,15 @@ export class ConfirmationPopupComponent implements OnInit {
 
   public confirm() {
     this.saveChange.emit();
-    this.close();
+    if (this.closeOnSave) {
+      this.close();
+    }
   }
 
-  private close = (ok: boolean = true) => {
-    this.dialogRef.close(ok);
+  private close = (ok: boolean = true, data: any = null) => {
+    this.dialogRef.close({
+      ok,
+      data
+    });
   }
 }

@@ -29,13 +29,14 @@
   </section>
 
   <section *ngIf="selectedConversation">
-    <app-communications-user-header [selectedConversation]="selectedConversation"></app-communications-user-header>
+    <app-communications-user-header [selectedConversation]="selectedConversation" (callFinishChange)="sendVideoCommunication($event)">
+    </app-communications-user-header>
 
     <mat-divider></mat-divider>
 
     <app-communications-list [currentUser]="currentUser" [selectedConversation]="selectedConversation"></app-communications-list>
 
     <app-communications-send-message *ngIf="!isReadOnly" class="conversation-input"
-                                     (messageSend)="send($event)"></app-communications-send-message>
+                                     (messageSend)="sendSms($event)"></app-communications-send-message>
   </section>
 </mat-sidenav-container>
