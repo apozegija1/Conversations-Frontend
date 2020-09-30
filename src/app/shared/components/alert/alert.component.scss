@@ -1,9 +1,9 @@
 .alert-danger {
-  background-color: #AE190E; /* Red */
+  background-color: #f44336; /* Red */
 }
 
 .alert-success {
-  background-color: #11AA2B;
+  background-color: #4CAF50;
 }
 
 .alert {
@@ -17,4 +17,8 @@
   width: 100%;
   left: 0;
   z-index: 3;
+}
+
+mat-icon {
+  color: white;
 }

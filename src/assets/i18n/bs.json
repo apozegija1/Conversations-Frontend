@@ -97,5 +97,9 @@
   "accept_call": "Želite li prihvatiti ovaj poziv?",
   "infobip_rtc_error_0": "Poziv zavrsen uspjesno, korisnik zavrsio poziv",
   "infobip_rtc_error_5003": "Poziv poslat ali bez odgovora",
-  "infobip_rtc_error_5002": "Poziv poslat, ali korisnik je odbio poziv jer je zauzet"
+  "infobip_rtc_error_5002": "Poziv poslat, ali korisnik je odbio poziv jer je zauzet",
+  "infobip_rtc_error_5408": "Poziv poslat, ali korisnika nije moguce dobiti, jer je offline",
+  "call_ended_label": "Poziv zavrsen",
+  "call_missed_label": "Poziv propusten",
+  "call_ended_at_label": "Zavrsen u "
 }

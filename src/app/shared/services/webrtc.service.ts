@@ -224,7 +224,8 @@ export class WebrtcService {
         break;
       }
       case InfobipErrorCodes.EC_VOICE_NO_ANSWER:
-      case InfobipErrorCodes.EC_VOICE_USER_BUSY: {
+      case InfobipErrorCodes.EC_VOICE_USER_BUSY:
+      case InfobipErrorCodes.EC_VOICE_ERROR_REQUEST_TIMEOUT: {
         hangupStatus = InfobipHangupStatus.Error;
         break;
       }
