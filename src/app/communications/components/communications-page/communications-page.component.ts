@@ -9,6 +9,7 @@ import {ArrayUtils} from '../../../shared/utils/array.utils';
 import {IUser} from '../../../users/models/iuser.interface';
 import {BehaviorSubject} from 'rxjs';
 import {IHangupStatus} from '../../../shared/models/interfaces/ihangup-status.interface';
+import {ISupportedCommunicationTypes} from '../../models/isupported-communication-types.interface';
 
 @Component({
     templateUrl: './communications-page.component.html',
@@ -21,6 +22,8 @@ export class CommunicationsPageComponent extends BaseUserInfo implements OnInit,
   conversations: IUserCommunication[];
   selectedConversation: IUserCommunication;
 
+  public supportedUserCommunication: ISupportedCommunicationTypes;
+
   public isReadOnly = false;
 
   constructor(authService: AuthenticationService,
@@ -31,6 +34,10 @@ export class CommunicationsPageComponent extends BaseUserInfo implements OnInit,
   ngOnInit() {
     // If user is not agent or regular user then it is company admin and can only see communication, can't replay
     this.isReadOnly = !this.authService.isAgent() && !this.authService.isUser();
+    this.supportedUserCommunication = {
+      isVideoCallSupported: !this.isReadOnly,
+      isSmsSupported: !this.isReadOnly
+    };
     this.communicationApiService.getAllUserCommunications()
       .subscribe((data: IUserCommunication[]) => {
         this.conversations = data;

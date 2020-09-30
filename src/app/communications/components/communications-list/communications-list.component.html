@@ -2,13 +2,14 @@
   <div *ngFor="let conversation of selectedConversation.communications">
     <div class="message-container">
       <span *ngIf="conversation.id != currentUser.id" fxFlex></span>
-      <button *ngIf="conversation.type.type === 'Sms'" class="message-chip" mat-raised-button color="{{conversation.id === currentUser.id ? 'primary' : 'accent'}}">
+      <button *ngIf="conversation.type.type === communicationTypes.Sms" class="message-chip" mat-raised-button
+              color="{{conversation.id === currentUser.id ? 'primary' : 'accent'}}">
         {{conversation.text}}
       </button>
-      <div *ngIf="conversation.type.type === 'Video'" style="margin: 0 10px;">
-        <mat-card fxLayout="row" fxLayoutAlign="space-around center" style="min-width: 300px;padding: 20px;">
+      <div *ngIf="conversation.type.type === communicationTypes.Video" class="video-call-container">
+        <mat-card fxLayout="row" fxLayoutAlign="space-around center" class="video-call-card">
           <div fxFlex="20">
-            <mat-icon style="color: white; background-color: darkgray;padding: 5px;margin-top: 5px;">call_end</mat-icon>
+            <mat-icon class="call-ended-icon">call_end</mat-icon>
           </div>
           <div fxFlex="80">
             <div *ngIf="conversation.endTime != null">
@@ -23,6 +24,10 @@
             <div *ngIf="conversation.endTime == null">
               <p>
                 {{'call_missed_label'|translate}}
+              </p>
+              <p>
+                <span>{{'call_tried_at_label'|translate}} </span>
+                <span>{{conversation.startTime | date: 'short'}}</span>
               </p>
             </div>
 

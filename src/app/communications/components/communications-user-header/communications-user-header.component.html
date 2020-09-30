@@ -3,7 +3,7 @@
     <mat-icon color="primary" matListIcon>forum</mat-icon>
     <span>{{selectedConversation.user.username}}</span>
     <span fxFlex=""></span>
-    <button mat-icon-button (click)="startVideoCall()">
+    <button *ngIf="supportedCommunicationTypes.isVideoCallSupported === true" mat-icon-button (click)="startVideoCall()">
       <mat-icon color="primary" class="icon-scaled-16">video_call</mat-icon>
     </button>
   </p>

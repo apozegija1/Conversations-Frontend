@@ -99,3 +99,19 @@ section .mat-list .mat-list-avatar{
 .active-communication {
   background-color: $accentColor;
 }
+
+.call-ended-icon {
+  color: white;
+  background-color: darkgray;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.video-call-card {
+  min-width: 300px;
+  padding: 20px;
+}
+
+.video-call-container {
+  margin: 0 10px;
+}

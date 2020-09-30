@@ -59,11 +59,14 @@ export class RtcVideoPopupComponent extends BaseSubscription implements OnInit, 
       .subscribe((hangupStatus: IHangupStatus) => {
         if (hangupStatus.status === InfobipHangupStatus.Error) {
           this.alertService.error(hangupStatus.message);
+          // If there was error then we set end time to null to indicate call was not established
+          hangupStatus.data.endTime = null;
         } else if (hangupStatus.status === InfobipHangupStatus.Success) {
           this.alertService.success(hangupStatus.message);
         }
 
         this.closeOnHangup(true, hangupStatus);
+        this.isCallEstablished$.next(false);
     });
   }
 

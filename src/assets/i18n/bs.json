@@ -101,5 +101,6 @@
   "infobip_rtc_error_5408": "Poziv poslat, ali korisnika nije moguce dobiti, jer je offline",
   "call_ended_label": "Poziv zavrsen",
   "call_missed_label": "Poziv propusten",
-  "call_ended_at_label": "Zavrsen u "
+  "call_ended_at_label": "Zavrsen u ",
+  "call_tried_at_label": "Pokusaj poziva u "
 }

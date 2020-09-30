@@ -5,6 +5,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {IUserCommunication} from '../../models/iuser-communication.interface';
 import {IPopupData} from '../../../shared/models/interfaces/ipopup-data.interface';
 import {IDialogCloseData} from '../../../shared/models/interfaces/idialog-close-data.interface';
+import {ISupportedCommunicationTypes} from '../../models/isupported-communication-types.interface';
 
 @Component({
   templateUrl: 'communications-user-header.component.html',
@@ -14,6 +15,8 @@ import {IDialogCloseData} from '../../../shared/models/interfaces/idialog-close-
 
 export class CommunicationsUserHeaderComponent implements OnInit {
   @Input() selectedConversation: IUserCommunication;
+
+  @Input() supportedCommunicationTypes: ISupportedCommunicationTypes;
 
   @Output() callFinishChange: EventEmitter<any> = new EventEmitter<any>();
 

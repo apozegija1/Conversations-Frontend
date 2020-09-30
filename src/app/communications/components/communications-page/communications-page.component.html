@@ -30,6 +30,7 @@
 
   <section *ngIf="selectedConversation">
     <app-communications-user-header [selectedConversation]="selectedConversation"
+                                    [supportedCommunicationTypes]="supportedUserCommunication"
                                     (callFinishChange)="sendVideoCommunication($event)">
     </app-communications-user-header>
 
@@ -38,7 +39,7 @@
     <app-communications-list [currentUser]="currentUser"
                              [selectedConversation]="selectedConversation"></app-communications-list>
 
-    <app-communications-send-message *ngIf="!isReadOnly" class="conversation-input"
+    <app-communications-send-message *ngIf="supportedUserCommunication.isSmsSupported" class="conversation-input"
                                      (messageSend)="sendSms($event)"></app-communications-send-message>
   </section>
 </mat-sidenav-container>
