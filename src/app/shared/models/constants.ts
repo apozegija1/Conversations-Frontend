@@ -26,6 +26,8 @@ export class Constants {
     Hangup: 'hangup',
     IncomingCall: 'incoming-call',
     Ringing: 'ringing',
-    Error: 'error'
+    Error: 'error',
+    Connected: 'connected',
+    Disconnected: 'disconnected'
   };
 }

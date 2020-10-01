@@ -3,20 +3,19 @@ import {FormMode} from '../../models/enums/form-mode.enum';
 import {FormGroup} from '@angular/forms';
 import {SubSink} from '../../classes/sub-sink';
 import {IFormLabel} from '../../models/interfaces/iform-label.interface';
+import {BaseSubscription} from '../../classes/base-subscription';
 
 @Component({
   selector: 'app-base-form',
   template: ``
 })
-export class BaseFormComponent {
+export class BaseFormComponent extends BaseSubscription {
   @Input() formMode: FormMode;
   @Input() id: number;
 
   public isReadonly = false;
 
   public form: FormGroup;
-
-  public subSink = new SubSink();
 
   public formLabel: IFormLabel = {
     btn: '',

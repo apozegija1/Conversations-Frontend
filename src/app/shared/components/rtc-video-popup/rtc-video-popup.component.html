@@ -1,5 +1,7 @@
-<app-confirmation-popup (saveChange)="onHangup()" [closeOnSave]="false" (componentInit)="confirmationPopupInit($event)">
-  <div fxLayout="row" fxLayoutAlign=" start">
+<app-confirmation-popup (saveChange)="onHangup()"
+                        [close$]="closeOnHangup$.asObservable()"
+                        [closeOnSave]="false">
+  <div [hidden]="(isCallEstablished$|async) === false" fxLayout="row" fxLayoutAlign=" start">
     <video fxFlex="80" id="localVideo" class="video-call-box local-video" autoplay>
     </video>
 

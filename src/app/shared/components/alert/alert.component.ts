@@ -1,24 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import { AlertService } from '../../services/alert.service';
 import {IAlert} from '../../models/interfaces/ialert.interface';
+import {BaseSubscription} from '../../classes/base-subscription';
 
 @Component({
     selector: 'app-alert',
     templateUrl: './alert.component.html',
     styleUrls: ['./alert.component.scss']
 })
-export class AlertComponent implements  OnInit {
+export class AlertComponent extends BaseSubscription implements  OnInit, OnDestroy {
     message: IAlert;
 
-    constructor(private alertService: AlertService) {}
+    constructor(private alertService: AlertService) {
+      super();
+    }
 
     public ngOnInit() {
-        this.alertService.getMessage()
+        this.sink = this.alertService.getMessage()
           .subscribe(message => { this.message = message; });
     }
 
-    public dismissMessage() {
+    public ngOnDestroy() {
+      this.unsubscribe();
+    }
+
+  public dismissMessage() {
       this.alertService.clear();
     }
 }

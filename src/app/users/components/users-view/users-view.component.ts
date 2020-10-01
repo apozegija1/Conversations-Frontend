@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BaseViewForm} from '../../../shared/classes/base-view-form';
 
@@ -7,11 +7,12 @@ import {BaseViewForm} from '../../../shared/classes/base-view-form';
   styleUrls: ['./users-view.component.scss']
 })
 
-export class UsersViewComponent extends BaseViewForm implements OnInit {
+export class UsersViewComponent extends BaseViewForm implements OnDestroy {
   constructor(route: ActivatedRoute) {
     super(route);
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 }

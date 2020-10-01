@@ -1,29 +1,39 @@
-import {Component, OnInit, Inject, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, Inject, Output, EventEmitter, Input, OnDestroy} from '@angular/core';
 import { ConfirmationModel } from '../../models/confimation-popup.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {Observable} from 'rxjs';
+import {IDialogCloseData} from '../../models/interfaces/idialog-close-data.interface';
+import {BaseSubscription} from '../../classes/base-subscription';
 
 @Component({
   selector: 'app-confirmation-popup',
   templateUrl: './confirmation-popup.component.html',
   styleUrls: ['./confirmation-popup.component.scss']
 })
-export class ConfirmationPopupComponent implements OnInit {
+export class ConfirmationPopupComponent extends BaseSubscription implements OnInit, OnDestroy {
+  @Input() close$: Observable<IDialogCloseData>;
+
   @Output() saveChange: EventEmitter<void> = new EventEmitter<void>();
 
   @Output() closeChange: EventEmitter<void> = new EventEmitter<void>();
 
-  @Output() componentInit: EventEmitter<any> = new EventEmitter<any>();
-
   @Input() closeOnSave = true;
 
   constructor(public dialogRef: MatDialogRef<ConfirmationPopupComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: ConfirmationModel) { }
+              @Inject(MAT_DIALOG_DATA) public data: ConfirmationModel) {
+    super();
+  }
 
   ngOnInit() {
-    // Pass values to parent which it can use
-    this.componentInit.emit({
-      close: this.close
-    });
+    if (this.close$) {
+      this.sink = this.close$.subscribe((data: IDialogCloseData) => {
+        this.close(data.ok, data.data);
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 
   public onNoClick() {

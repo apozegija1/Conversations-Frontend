@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, Validators} from '@angular/forms';
 import {FormUtils} from '../../../shared/utils/form.utils';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -21,7 +21,7 @@ import {BaseFormComponent} from '../../../shared/components/base-form/base-form.
     styleUrls: ['./users-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersFormComponent extends BaseFormComponent implements OnInit {
+export class UsersFormComponent extends BaseFormComponent implements OnInit, OnDestroy {
   public roles$: Observable<IRole[]>;
   public companies$: Observable<ICompany[]>;
 
@@ -65,17 +65,21 @@ export class UsersFormComponent extends BaseFormComponent implements OnInit {
     this.companies$ = this.companyApiService.getAll()
       .pipe(map((data: ICompany[]) => data));
 
-    this.subSink.sink = this.companies$.subscribe((data) => {
+    this.sink = this.companies$.subscribe((data) => {
       this.setUserCompany();
     });
 
     // If there is id get data for user
     if (this.id) {
-      this.subSink.sink = this.userApiService.getById(this.id)
+      this.sink = this.userApiService.getById(this.id)
         .subscribe((user: IUser) => {
           this.setFormValues(user);
       });
     }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 
   get companyFormField(): AbstractControl {
@@ -100,7 +104,7 @@ export class UsersFormComponent extends BaseFormComponent implements OnInit {
       userCreateOrEdit$ = this.userApiService.create(user);
     }
 
-    userCreateOrEdit$
+    this.sink = userCreateOrEdit$
       .subscribe(
         () => {
           this.alertService.success(this.translateService.instant(this.formLabel.success));

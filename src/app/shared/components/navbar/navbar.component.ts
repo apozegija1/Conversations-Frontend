@@ -20,6 +20,7 @@ import {ReportsNavbarService} from '../../../reports/services/reports-navbar.ser
 import {IPopupData} from '../../models/interfaces/ipopup-data.interface';
 import {IncomingCallPopupComponent} from '../incoming-call-popup/incoming-call-popup.component';
 import {DialogPopupService} from '../../services/dialog-popup.service';
+import {IDialogCloseData} from '../../models/interfaces/idialog-close-data.interface';
 
 @Component({
     templateUrl: 'navbar.component.html',
@@ -138,12 +139,8 @@ export class NavbarComponent extends BaseUserInfo implements OnInit, OnDestroy {
           data: event
         };
 
-        this.dialogPopupService.processPopup(IncomingCallPopupComponent, popupData)
-          .subscribe((ok: boolean) => {
-            if (!ok) {
-              return;
-            }
-          });
+        this.sink = this.dialogPopupService.processPopup(IncomingCallPopupComponent, popupData)
+          .subscribe((data: IDialogCloseData) => {});
       });
   }
 }

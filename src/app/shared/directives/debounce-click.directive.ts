@@ -1,27 +1,29 @@
 import { Directive, OnInit, OnDestroy, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import {BaseSubscription} from '../classes/base-subscription';
 
 @Directive({
   selector: '[appDebounceClick]'
 })
-export class DebounceClickDirective implements OnInit, OnDestroy {
+export class DebounceClickDirective extends BaseSubscription implements OnInit, OnDestroy {
   @Input() debounceTime = 500;
   @Output() debounceClick = new EventEmitter();
 
   private clicks = new Subject();
-  private subscription: Subscription;
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit() {
-    this.subscription = this.clicks
+    this.sink = this.clicks
       .pipe(debounceTime(this.debounceTime))
       .subscribe(e => this.debounceClick.emit(e));
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.unsubscribe();
   }
 
   @HostListener('click', ['$event'])

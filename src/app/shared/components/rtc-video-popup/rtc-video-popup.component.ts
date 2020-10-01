@@ -7,7 +7,7 @@ import {BaseSubscription} from '../../classes/base-subscription';
 import {IHangupStatus} from '../../models/interfaces/ihangup-status.interface';
 import {AlertService} from '../../services/alert.service';
 import {InfobipHangupStatus} from '../../models/enums/infobip-hangup-status.enum';
-import {HangupCloseFn} from '../../models/types/hangup-close-fn.type';
+import {IDialogCloseData} from '../../models/interfaces/idialog-close-data.interface';
 
 @Component({
   selector: 'app-video-popup',
@@ -16,7 +16,7 @@ import {HangupCloseFn} from '../../models/types/hangup-close-fn.type';
 })
 @Injectable()
 export class RtcVideoPopupComponent extends BaseSubscription implements OnInit, OnDestroy {
-  private closeOnHangup: HangupCloseFn;
+  public closeOnHangup$: Subject<IDialogCloseData> = new Subject<IDialogCloseData>();
   public isCallEstablished$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private webrtcService: WebrtcService,
@@ -65,16 +65,15 @@ export class RtcVideoPopupComponent extends BaseSubscription implements OnInit, 
           this.alertService.success(hangupStatus.message);
         }
 
-        this.closeOnHangup(true, hangupStatus);
+        this.closeOnHangup$.next({
+          ok: true,
+          data: hangupStatus
+        });
         this.isCallEstablished$.next(false);
     });
   }
 
   onHangup() {
     this.webrtcService.hangup();
-  }
-
-  confirmationPopupInit(data: any) {
-    this.closeOnHangup = data.close;
   }
 }

@@ -38,7 +38,8 @@ export class CommunicationsPageComponent extends BaseUserInfo implements OnInit,
       isVideoCallSupported: !this.isReadOnly,
       isSmsSupported: !this.isReadOnly
     };
-    this.communicationApiService.getAllUserCommunications()
+
+    this.sink = this.communicationApiService.getAllUserCommunications()
       .subscribe((data: IUserCommunication[]) => {
         this.conversations = data;
         this.conversations$.next(data);

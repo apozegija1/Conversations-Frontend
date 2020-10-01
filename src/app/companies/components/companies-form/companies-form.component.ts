@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
 import {CompanyApiService} from '../../services/company-api.service';
 import {AlertService} from '../../../shared/services/alert.service';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {BaseFormComponent} from '../../../shared/components/base-form/base-form.component';
-import {IUser} from '../../../users/models/iuser.interface';
 import {ICompany} from '../../models/icompany.interface';
 
 @Component({
@@ -14,7 +13,7 @@ import {ICompany} from '../../models/icompany.interface';
   styleUrls: ['./companies-form.component.scss']
 })
 
-export class CompaniesFormComponent extends BaseFormComponent implements OnInit {
+export class CompaniesFormComponent extends BaseFormComponent implements OnInit, OnDestroy {
   constructor(private companyApiService: CompanyApiService,
               private alertService: AlertService,
               private translateService: TranslateService,
@@ -23,36 +22,20 @@ export class CompaniesFormComponent extends BaseFormComponent implements OnInit 
   }
 
   ngOnInit() {
-    if (this.isEditMode) {
-      this.formLabel = {
-        btn: 'edit_label',
-        success: 'company_edited_label_message',
-        title: 'edit_company_label'
-      };
-    } else if (this.isCreateMode) {
-      this.formLabel = {
-        btn: 'create_label',
-        success: 'company_created_label_message',
-        title: 'create_company_label'
-      };
-    } else if (this.isViewMode) {
-      this.formLabel = {
-        btn: null,
-        success: null,
-        title: 'view_company_label'
-      };
-      this.isReadonly = true;
-    }
-
+    this.assignFormLabel();
     this.setFormValues();
 
     // If there is id get data for user
     if (this.id) {
-      this.subSink.sink = this.companyApiService.getById(this.id)
+      this.sink = this.companyApiService.getById(this.id)
         .subscribe((company: ICompany) => {
           this.setFormValues(company);
         });
     }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 
   createOrUpdateCompany() {
@@ -67,7 +50,7 @@ export class CompaniesFormComponent extends BaseFormComponent implements OnInit 
       companyCreateOrEdit$ = this.companyApiService.create(company);
     }
 
-    companyCreateOrEdit$
+    this.sink = companyCreateOrEdit$
       .subscribe(
         () => {
           this.alertService.success(this.translateService.instant(this.formLabel.success));
@@ -88,5 +71,28 @@ export class CompaniesFormComponent extends BaseFormComponent implements OnInit 
       name: [{value: name, disabled: this.isReadonly},  Validators.required],
       address: [{value: address, disabled: this.isReadonly}]
     });
+  }
+
+  private assignFormLabel() {
+    if (this.isEditMode) {
+      this.formLabel = {
+        btn: 'edit_label',
+        success: 'company_edited_label_message',
+        title: 'edit_company_label'
+      };
+    } else if (this.isCreateMode) {
+      this.formLabel = {
+        btn: 'create_label',
+        success: 'company_created_label_message',
+        title: 'create_company_label'
+      };
+    } else if (this.isViewMode) {
+      this.formLabel = {
+        btn: null,
+        success: null,
+        title: 'view_company_label'
+      };
+      this.isReadonly = true;
+    }
   }
 }

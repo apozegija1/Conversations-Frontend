@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {ITableConfig} from '../../models/interfaces/itable-config.interface';
@@ -7,6 +7,8 @@ import {DialogPopupService} from '../../services/dialog-popup.service';
 import {ConfirmationPopupComponent} from '../confirmation-popup/confirmation-popup.component';
 import {TranslateService} from '@ngx-translate/core';
 import {IPopupData} from '../../models/interfaces/ipopup-data.interface';
+import {BaseSubscription} from '../../classes/base-subscription';
+import {IDialogCloseData} from '../../models/interfaces/idialog-close-data.interface';
 
 @Component({
     templateUrl: 'common-table.component.html',
@@ -14,7 +16,7 @@ import {IPopupData} from '../../models/interfaces/ipopup-data.interface';
     styleUrls: ['./common-table.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CommonTableComponent implements OnInit {
+export class CommonTableComponent extends BaseSubscription implements OnInit, OnDestroy {
   @Input() header: string;
 
   @Input() tableConfig: ITableConfig;
@@ -50,7 +52,9 @@ export class CommonTableComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private propDialogService: DialogPopupService,
-              private translate: TranslateService) {}
+              private translate: TranslateService) {
+    super();
+  }
 
 
   ngOnInit() {
@@ -64,15 +68,20 @@ export class CommonTableComponent implements OnInit {
     this.tableColumns = this.tableConfig.columns;
   }
 
+  ngOnDestroy() {
+    this.unsubscribe();
+  }
+
   public delete(element: any) {
     const popupData: IPopupData = {
       title: this.translate.instant('delete_confirmation_title'),
-      content: this.translate.instant('delete_confirmation_content')
+      content: this.translate.instant('delete_confirmation_content'),
+      width: 500
     };
 
-    this.propDialogService.processPopup(ConfirmationPopupComponent, popupData)
-      .subscribe((ok: boolean) => {
-        if (!ok) { return; }
+    this.sink = this.propDialogService.processPopup(ConfirmationPopupComponent, popupData)
+      .subscribe((data: IDialogCloseData) => {
+        if (!data || !data.ok) { return; }
         this.deleteChange.emit(element);
       });
   }

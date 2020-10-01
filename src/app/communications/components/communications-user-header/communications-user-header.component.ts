@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {RtcVideoPopupComponent} from '../../../shared/components/rtc-video-popup/rtc-video-popup.component';
 import {DialogPopupService} from '../../../shared/services/dialog-popup.service';
 import {TranslateService} from '@ngx-translate/core';
@@ -6,6 +6,7 @@ import {IUserCommunication} from '../../models/iuser-communication.interface';
 import {IPopupData} from '../../../shared/models/interfaces/ipopup-data.interface';
 import {IDialogCloseData} from '../../../shared/models/interfaces/idialog-close-data.interface';
 import {ISupportedCommunicationTypes} from '../../models/isupported-communication-types.interface';
+import {BaseSubscription} from '../../../shared/classes/base-subscription';
 
 @Component({
   templateUrl: 'communications-user-header.component.html',
@@ -13,7 +14,7 @@ import {ISupportedCommunicationTypes} from '../../models/isupported-communicatio
   styleUrls: ['./communications-user-header.component.scss']
 })
 
-export class CommunicationsUserHeaderComponent implements OnInit {
+export class CommunicationsUserHeaderComponent extends BaseSubscription implements OnDestroy {
   @Input() selectedConversation: IUserCommunication;
 
   @Input() supportedCommunicationTypes: ISupportedCommunicationTypes;
@@ -22,10 +23,11 @@ export class CommunicationsUserHeaderComponent implements OnInit {
 
   constructor(private dialogPopupService: DialogPopupService,
               private translate: TranslateService) {
+    super();
   }
 
-  ngOnInit() {
-
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 
   startVideoCall() {
@@ -36,7 +38,7 @@ export class CommunicationsUserHeaderComponent implements OnInit {
       data: this.selectedConversation.user
     };
 
-    this.dialogPopupService.processPopup(RtcVideoPopupComponent, popupData)
+    this.sink = this.dialogPopupService.processPopup(RtcVideoPopupComponent, popupData)
       .subscribe((data: IDialogCloseData) => {
         if (!data) {
           return;

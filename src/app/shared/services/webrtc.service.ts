@@ -18,11 +18,12 @@ import {IHangupStatus} from '../models/interfaces/ihangup-status.interface';
 import {CommunicationType} from '../../communications/models/communication-type.enum';
 import {IRtcCallReport} from '../models/interfaces/irtc-call-report.interface';
 import {LoadingService} from '../../core/services/loading.service';
+import {BaseSubscription} from '../classes/base-subscription';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WebrtcService {
+export class WebrtcService extends BaseSubscription {
   private callReceived = new Subject<any>();
   private callEstablished = new Subject<any>();
   private callHangup = new Subject<IHangupStatus>();
@@ -40,6 +41,7 @@ export class WebrtcService {
               private communicationApiService: CommunicationsApiService,
               private translate: TranslateService,
               private loadingService: LoadingService) {
+    super();
   }
 
   init(): void {
@@ -52,11 +54,10 @@ export class WebrtcService {
         this.removeToken();
       } else {
         this.initRtcClient(token.token);
-        return;
       }
     }
 
-    // When user is logged in get token
+    // When user is logged in get token, no need to sink as while app is running it will listen to login logut events
     this.authenticationService.getIsUserLoggedIn()
       .subscribe((loggedIn: boolean) => {
         this.loggedInInit(loggedIn);
@@ -80,7 +81,8 @@ export class WebrtcService {
 
   obtainToken(): void {
     const user: IUser = this.authenticationService.getCurrentUser();
-    this.communicationApiService.obtainWebRtcToken(user)
+    // As token can be obtained multiple times if user logs out and logs in, need to remove this subscription
+    this.sink = this.communicationApiService.obtainWebRtcToken(user)
       .subscribe((data: IWebrtcToken) => {
         this.localStorageService.setItem(Constants.LocalStorageKey.CurrentWebrtc, data);
         this.initRtcClient(data.token);
@@ -93,6 +95,7 @@ export class WebrtcService {
 
   removeToken(): void {
     this.localStorageService.removeItem(Constants.LocalStorageKey.CurrentWebrtc);
+    this.onLogout();
   }
 
   startVideoCall(toUser: IUser): void {
@@ -119,10 +122,8 @@ export class WebrtcService {
   setupIncomingCall(): void {
     this.infobipWebRtc.on(Constants.EventName.IncomingCall, (incomingCallEvent) => {
       this.incomingCall = incomingCallEvent.incomingCall;
-      console.log('Received incoming call from: ' + this.incomingCall.source().identity, incomingCallEvent);
       this.notifyCallIncoming(this.incomingCall);
       this.incomingCall.on(Constants.EventName.Established, (event) => {
-        console.log('We answered on call that we got');
         this.incomingCallStatus = RtcIncomingCallStatus.Accepted;
         this.notifyCallEstablished(event);
       });
@@ -135,6 +136,12 @@ export class WebrtcService {
     });
   }
 
+  onLogout() {
+    // Remove subscriptions related to current user for rtc logic
+    this.disconnect();
+    this.unsubscribe();
+  }
+
   private connectToService(connectSuccess: () => void = null) {
     if (this.connectionStatus === RtcConnectionStatus.Connected) {
       if (connectSuccess) {
@@ -144,16 +151,14 @@ export class WebrtcService {
     }
 
     // Check if user is already connected
-    this.infobipWebRtc.on('connected', (event) => {
-      console.log('Connected with identity: ' + event.identity);
+    this.infobipWebRtc.on(Constants.EventName.Connected, (event) => {
       this.connectionStatus = RtcConnectionStatus.Connected;
       if (connectSuccess) {
         connectSuccess();
       }
     });
 
-    this.infobipWebRtc.on('disconnected', () => {
-      console.log('Disconnected!');
+    this.infobipWebRtc.on(Constants.EventName.Disconnected, () => {
       this.connectionStatus = RtcConnectionStatus.Disconnected;
     });
 
@@ -161,28 +166,38 @@ export class WebrtcService {
   }
 
   private callUser(toUser: IUser) {
-    this.outgoingCall = this.infobipWebRtc.call(toUser.username, CallOptions.builder().setVideo(true).build());
+    try {
+      this.outgoingCall = this.infobipWebRtc.call(toUser.username, CallOptions.builder().setVideo(true).build());
+    } catch (err) {
+      // Try once to reconnect if not able hangup call
+      if (this.connectionStatus !== RtcConnectionStatus.Retrying) {
+        this.connectionStatus = RtcConnectionStatus.Retrying;
+        this.startVideoCall(toUser);
+      } else {
+        this.connectionStatus = RtcConnectionStatus.Default;
+        this.hangup();
+      }
+      this.outgoingCall = null;
+      return;
+    }
 
+    this.loadingService.startLoading();
     this.outgoingCall.on(Constants.EventName.Ringing, () => {
-      console.log(`Call is ringing on ${toUser.username}\'s device!`);
-      this.loadingService.startLoading();
+      //
     });
 
     this.outgoingCall.on(Constants.EventName.Established, (event) => {
-      console.log('User that we called answered call!');
       this.notifyCallEstablished(event);
       this.loadingService.stopLoading();
     });
 
     this.outgoingCall.on(Constants.EventName.Hangup, (event) => {
-      console.log('Call is done! Status: ' + JSON.stringify(event.status));
       this.handleHangoutStatus(event);
       this.outgoingCall = null;
       this.loadingService.stopLoading();
     });
 
     this.outgoingCall.on(Constants.EventName.Error, (event) => {
-      console.log('Oops, something went very wrong! Message: ' + JSON.stringify(event));
       this.loadingService.stopLoading();
     });
   }
@@ -218,6 +233,7 @@ export class WebrtcService {
 
   private getHangoutStatus(status: IInfobipHangupStatus): IHangupStatus {
     let hangupStatus;
+    let statusMessageTranslationKey = `infobip_rtc_error_${status.id}`;
     switch (status.id) {
       case InfobipErrorCodes.NO_ERROR: {
         hangupStatus = InfobipHangupStatus.Success;
@@ -225,12 +241,14 @@ export class WebrtcService {
       }
       case InfobipErrorCodes.EC_VOICE_NO_ANSWER:
       case InfobipErrorCodes.EC_VOICE_USER_BUSY:
-      case InfobipErrorCodes.EC_VOICE_ERROR_REQUEST_TIMEOUT: {
+      case InfobipErrorCodes.EC_VOICE_ERROR_REQUEST_TIMEOUT:
+      case InfobipErrorCodes.EC_CONNECTION_ERROR: {
         hangupStatus = InfobipHangupStatus.Error;
         break;
       }
       default: {
         hangupStatus = InfobipHangupStatus.Error;
+        statusMessageTranslationKey = 'infobip_rtc_error_unknown';
         break;
       }
     }
@@ -261,5 +279,13 @@ export class WebrtcService {
       establishTime,
       endTime
     };
+  }
+
+  private disconnect() {
+    if (this.infobipWebRtc) {
+      this.infobipWebRtc.disconnect();
+      this.outgoingCall = null;
+      this.incomingCall = null;
+    }
   }
 }
