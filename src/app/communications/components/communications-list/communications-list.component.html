@@ -2,9 +2,38 @@
   <div *ngFor="let conversation of selectedConversation.communications">
     <div class="message-container">
       <span *ngIf="conversation.id != currentUser.id" fxFlex></span>
-      <button class="message-chip" mat-raised-button color="{{conversation.id === currentUser.id ? 'primary' : 'accent'}}">
+      <button *ngIf="conversation.type.type === communicationTypes.Sms" class="message-chip" mat-raised-button
+              color="{{conversation.id === currentUser.id ? 'primary' : 'accent'}}">
         {{conversation.text}}
       </button>
+      <div *ngIf="conversation.type.type === communicationTypes.Video" class="video-call-container">
+        <mat-card fxLayout="row" fxLayoutAlign="space-around center" class="video-call-card">
+          <div fxFlex="20">
+            <mat-icon class="call-ended-icon">call_end</mat-icon>
+          </div>
+          <div fxFlex="80">
+            <div *ngIf="conversation.endTime != null">
+              <p>
+                {{'call_ended_label'|translate}}
+              </p>
+              <p>
+                <span>{{'call_ended_at_label'|translate}} </span>
+                <span>{{conversation.endTime | date: 'short'}}</span>
+              </p>
+            </div>
+            <div *ngIf="conversation.endTime == null">
+              <p>
+                {{'call_missed_label'|translate}}
+              </p>
+              <p>
+                <span>{{'call_tried_at_label'|translate}} </span>
+                <span>{{conversation.startTime | date: 'short'}}</span>
+              </p>
+            </div>
+
+          </div>
+        </mat-card>
+      </div>
     </div>
   </div>
 </mat-list>

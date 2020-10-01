@@ -52,7 +52,7 @@ export class HomeComponent extends BaseUserInfo implements OnInit, OnDestroy {
     this.currentRoleTitles = this.roleTranslationService.getTranslation(RoleTranslationType.Home);
 
     this.statisticsData$ = this.statisticsService.getOverview();
-    this.subsink.sink = this.statisticsService.getChartOverview()
+    this.sink = this.statisticsService.getChartOverview()
       .subscribe((items: IChartOverview[]) => {
         for (let i = 1; i <= 12; i++) {
           const item = items.find((chartOverview: IChartOverview) => chartOverview.number === i);
@@ -68,7 +68,7 @@ export class HomeComponent extends BaseUserInfo implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subsink.unsubscribe();
+    this.unsubscribe();
   }
 }
 

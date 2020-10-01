@@ -12,29 +12,34 @@
 
           <app-communications-user-list [conversations]="conversations$|async"
                                         [selectedConversation]="selectedConversation"
-                                        (conversationSelected)="selectConversation($event)"></app-communications-user-list>
+                                        (conversationSelected)="selectConversation($event)">
+          </app-communications-user-list>
         </mat-tab>
       </mat-tab-group>
     </mat-card>
   </mat-sidenav>
 
-  <mat-sidenav position="end" mode="side" fxFlex="70" class="users-info-container" opened *ngIf="selectedConversation">
+  <mat-sidenav position="end" mode="side" class="users-info-container" opened *ngIf="selectedConversation">
     <app-communications-users-info [users]="[selectedConversation.user, currentUser]">
     </app-communications-users-info>
   </mat-sidenav>
 
-  <section class="empty-conversation" fxFlex="70" *ngIf="!selectedConversation">
+  <section class="empty-conversation" *ngIf="!selectedConversation">
     <h1 class="mat-display-1">{{'select_communication'|translate}}</h1>
   </section>
 
   <section *ngIf="selectedConversation">
-    <app-communications-user-header [selectedConversation]="selectedConversation"></app-communications-user-header>
+    <app-communications-user-header [selectedConversation]="selectedConversation"
+                                    [supportedCommunicationTypes]="supportedUserCommunication"
+                                    (callFinishChange)="sendVideoCommunication($event)">
+    </app-communications-user-header>
 
     <mat-divider></mat-divider>
 
-    <app-communications-list [currentUser]="currentUser" [selectedConversation]="selectedConversation"></app-communications-list>
+    <app-communications-list [currentUser]="currentUser"
+                             [selectedConversation]="selectedConversation"></app-communications-list>
 
-    <app-communications-send-message *ngIf="!isReadOnly" class="conversation-input"
-                                     (messageSend)="send($event)"></app-communications-send-message>
+    <app-communications-send-message *ngIf="supportedUserCommunication.isSmsSupported" class="conversation-input"
+                                     (messageSend)="sendSms($event)"></app-communications-send-message>
   </section>
 </mat-sidenav-container>

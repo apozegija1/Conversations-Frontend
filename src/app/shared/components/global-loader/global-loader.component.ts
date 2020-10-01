@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 
 import {LoadingService} from '../../../core/services/loading.service';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {delay} from 'rxjs/operators';
 
 @Component({
     selector: 'app-global-loader',
     templateUrl: './global-loader.component.html',
-    styleUrls: ['./global-loader.component.scss']
+    styleUrls: ['./global-loader.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GlobalLoaderComponent implements  OnInit {
-    loading$: Observable<boolean>;
+    loading$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(private processManager: LoadingService) { }
 
     public ngOnInit() {
-      this.loading$ = this.processManager.isLoading$();
+      // Needed to add delay to avoid change detection after check error
+      this.loading$ = this.processManager.isLoading$().pipe(delay(0));
     }
 }

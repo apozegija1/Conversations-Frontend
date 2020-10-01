@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {IUserCommunication} from '../../models/iuser-communication.interface';
-
 import {IUser} from '../../../users/models/iuser.interface';
+import {EnumUtils} from '../../../shared/utils/enum.utils';
 
 @Component({
   templateUrl: './communications-list.component.html',
@@ -9,16 +9,10 @@ import {IUser} from '../../../users/models/iuser.interface';
   styleUrls: ['./communications-list.component.scss']
 })
 
-export class CommunicationsListComponent implements OnInit {
+export class CommunicationsListComponent  {
   @Input() selectedConversation: IUserCommunication;
 
   @Input() currentUser: IUser;
 
-  constructor() {
-
-  }
-
-  ngOnInit() {
-
-  }
+  public communicationTypes = EnumUtils.getCommunicationTypeConstants();
 }

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {SharedModule} from '../shared/shared.module';
 import {CommunicationsRoutingComponents, CommunicationsRoutingModule} from './communications-routing.module';
-import {CommunicationsApiService} from './services/communications-api.service';
 import {UsersModule} from '../users/users.module';
 
 @NgModule({
@@ -10,7 +9,7 @@ import {UsersModule} from '../users/users.module';
     CommunicationsRoutingModule,
     UsersModule
   ],
-  providers: [CommunicationsApiService],
+  providers: [],
   declarations: [...CommunicationsRoutingComponents]
 })
 export class CommunicationsModule { }

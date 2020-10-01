@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {ConfirmationModel} from '../models/confimation-popup.model';
+import {IPopupData} from '../models/interfaces/ipopup-data.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -9,17 +10,17 @@ export class DialogPopupService {
 
   constructor(private dialog: MatDialog) { }
 
-  public processPopup(component: any, title: string,
-                      content: string, okDialogTitle?: string): any {
+  public processPopup(component: any, popupData: IPopupData): any {
     const data: ConfirmationModel = {
-      title,
-      content,
-      oneBtn: okDialogTitle != null,
-      oneBtnTitle: okDialogTitle
+      title: popupData.title,
+      content: popupData.content,
+      oneBtn: popupData.okDialogTitle != null,
+      oneBtnTitle: popupData.okDialogTitle,
+      customData: popupData.data
     };
 
     const dialogRef = this.dialog.open(component, {
-      width: '850px',
+      width: popupData.width ? `${popupData.width}px` : '850px',
       disableClose: true,
       data
     });

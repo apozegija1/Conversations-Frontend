@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {ITableConfig} from '../../../shared/models/interfaces/itable-config.interface';
 import {CompanyApiService} from '../../services/company-api.service';
 import {BehaviorSubject} from 'rxjs';
@@ -6,7 +6,7 @@ import {ICompany} from '../../models/icompany.interface';
 import {IPageable} from '../../../shared/models/interfaces/ipageable.interface';
 import {TableUtils} from '../../utils/table.utils';
 import {Router} from '@angular/router';
-import {SubSink} from '../../../shared/classes/sub-sink';
+import {BaseSubscription} from '../../../shared/classes/base-subscription';
 
 @Component({
     templateUrl: './companies-list.component.html',
@@ -14,16 +14,21 @@ import {SubSink} from '../../../shared/classes/sub-sink';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CompaniesListComponent implements OnInit {
+export class CompaniesListComponent extends BaseSubscription implements OnInit, OnDestroy {
   public companiesTableConfig: ITableConfig = TableUtils.getTableConfig();
   public companies$: BehaviorSubject<ICompany[]> = new BehaviorSubject([]);
-  private subSink = new SubSink();
 
   constructor(private companiesApiService: CompanyApiService,
-              private router: Router) {}
+              private router: Router) {
+    super();
+  }
 
   ngOnInit() {
     this.getCompanies();
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 
   onView(company: ICompany) {
@@ -35,7 +40,7 @@ export class CompaniesListComponent implements OnInit {
   }
 
   onDelete(company: ICompany) {
-    this.subSink.sink = this.companiesApiService.deleteById(company.id)
+    this.sink = this.companiesApiService.deleteById(company.id)
       .subscribe((data) => {
       // After delete fetch users again
       this.getCompanies();
@@ -47,7 +52,7 @@ export class CompaniesListComponent implements OnInit {
   }
 
   private getCompanies() {
-    this.subSink.sink = this.companiesApiService.get()
+    this.sink = this.companiesApiService.get()
       .subscribe(((data: IPageable<ICompany[]>) => {
         this.companies$.next(data.content);
         return data.content;

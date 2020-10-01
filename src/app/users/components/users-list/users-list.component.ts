@@ -6,7 +6,9 @@ import {IPageable} from '../../../shared/models/interfaces/ipageable.interface';
 import {BehaviorSubject} from 'rxjs';
 import {TableUtils} from '../../utils/table.utils';
 import {Router} from '@angular/router';
-import {SubSink} from '../../../shared/classes/sub-sink';
+import {BaseSubscription} from '../../../shared/classes/base-subscription';
+import {AuthenticationService} from '../../../auth/services/authentication.service';
+import {BaseUserInfo} from '../../../shared/classes/base-user-info';
 
 @Component({
     templateUrl: './users-list.component.html',
@@ -14,24 +16,30 @@ import {SubSink} from '../../../shared/classes/sub-sink';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class UsersListComponent implements OnInit, OnDestroy {
+export class UsersListComponent extends BaseUserInfo implements OnInit, OnDestroy {
   public users$: BehaviorSubject<IUser[]> = new BehaviorSubject([]);
   public userTableConfig: ITableConfig = TableUtils.getTableConfig();
-  private subSink = new SubSink();
 
   constructor(private userApiService: UserApiService,
-              private router: Router) {}
+              authService: AuthenticationService,
+              private router: Router) {
+    super(authService);
+  }
 
   ngOnInit() {
     this.getUsers();
   }
 
   ngOnDestroy() {
-    this.subSink.unsubscribe();
+    this.unsubscribe();
   }
 
   onDelete(user: IUser) {
-    this.subSink.sink = this.userApiService.deleteById(user.id)
+    if (this.currentUser.id === user.id) {
+      return;
+    }
+
+    this.sink = this.userApiService.deleteById(user.id)
       .subscribe((data) => {
         // After delete fetch users again
         this.getUsers();
@@ -52,7 +60,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
 
   private getUsers() {
     // Directly assigning this request result to users$ takes to much time on second assignment
-     this.subSink.sink = this.userApiService.get()
+     this.sink = this.userApiService.get()
       .subscribe(((data: IPageable<IUser[]>) => {
         this.users$.next(data.content);
         return data.content;

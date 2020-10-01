@@ -101,5 +101,7 @@ section .mat-list .mat-list-avatar{
 }
 
 .users-info-container {
-  width: 10%
+  width: 10%;
+  height: 100%;
+  max-height: 100%;
 }

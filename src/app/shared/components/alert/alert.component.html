@@ -1,9 +1,9 @@
-<div *ngIf="message" [ngClass]="{ 'alert': message, 'alert-success': message.type === 'success',
+<div *ngIf="message" [ngClass]="{ 'alert': true, 'alert-success': message.type === 'success',
   'alert-danger': message.type === 'error' }">
   <span fxFlex="90">{{message.text}}</span>
   <span fxFlex></span>
   <button mat-button (click)="dismissMessage()">
-    <mat-icon color="primary" >highlight_off</mat-icon>
+    <mat-icon>highlight_off</mat-icon>
   </button>
 
 </div>

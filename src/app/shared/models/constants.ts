@@ -12,6 +12,7 @@ export class Constants {
   static LocalStorageKey = {
     CurrentUser: 'currentUser',
     CurrentAuth: 'currentToken',
+    CurrentWebrtc: 'currentWebrtc',
     LanguageSelected: 'selectedLanguage'
   };
   static Defaults = {
@@ -19,5 +20,14 @@ export class Constants {
   };
   static Menu = {
     defaultTopMenuName: 'topbar'
+  };
+  static EventName = {
+    Established: 'established',
+    Hangup: 'hangup',
+    IncomingCall: 'incoming-call',
+    Ringing: 'ringing',
+    Error: 'error',
+    Connected: 'connected',
+    Disconnected: 'disconnected'
   };
 }

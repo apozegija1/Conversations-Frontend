@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BaseViewForm} from '../../../shared/classes/base-view-form';
 
@@ -8,12 +8,12 @@ import {BaseViewForm} from '../../../shared/classes/base-view-form';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CompaniesViewComponent extends BaseViewForm implements OnInit {
+export class CompaniesViewComponent extends BaseViewForm implements OnDestroy {
   constructor(route: ActivatedRoute) {
     super(route);
   }
 
-  ngOnInit() {
-
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 }

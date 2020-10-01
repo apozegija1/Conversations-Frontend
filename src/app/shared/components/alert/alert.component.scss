@@ -1,13 +1,23 @@
 .alert-danger {
-  background-color: #AE190E; /* Red */
+  background-color: #f44336; /* Red */
 }
+
 .alert-success {
-  background-color: #11AA2B;
+  background-color: #4CAF50;
 }
-.alert{
-  padding: 15px;
+
+.alert {
+  padding: 10px 5px 10px 25px;
+  border-radius: 5px;
   color: white;
-  font-size: 15pt;
-  margin-bottom: 15px;
+  font-size: 14pt;
   text-align: center;
+  position: absolute;
+  top: 65px;
+  right: 0;
+  z-index: 3;
+}
+
+mat-icon {
+  color: white;
 }
